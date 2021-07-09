@@ -1,0 +1,20 @@
+
+<div class="text-center h1 text-danger">Register</div>
+<div class="container">
+    <form method="POST" class="form-register" style="color: white">
+      {{form.hidden_tag()}}
+      {{form.nombre.label()}}
+      {{form.nombre(class="form-control",placeholder="Nombre") }}
+      {{form.email.label()}}
+      {{form.email(class="form-control",placeholder="Correo") }}
+      {{form.telefono.label()}}
+      {{form.telefono(class="form-control",placeholder="Telefono") }}
+      {{form.contrasenia.label()}}
+      {{form.contrasenia(class="form-control",placeholder="Contraseña") }}
+      {{form.contrasenia2.label()}}
+      {{form.contrasenia2(class="form-control",placeholder="Repita Contraseña") }}
+      {{form.submit(class="btn btn-lg btn-block btn-primary")}} 
+
+      <p><input type=submit value="Register" class="btn btn-info" ></p>
+    </form>
+</div>

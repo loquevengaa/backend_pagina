@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>jodaaa</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css">
+</head>
+
+<style type="text/css">
+	body {
+		background-color: rgb(220,220,220);
+		font-family: arial;
+		min-height: 100%;
+	}	
+
+	html, body {
+	    margin: 0;
+	    height: 100%;
+	}
+
+	.container {
+		min-height: 100%;
+	}
+
+	.productos-grid {
+		display: grid;
+		grid-template-columns: repeat( auto-fill, minmax(250px,1fr));
+		max-width: 1000px;
+		margin: auto;
+		padding-top: 75px;
+	}
+
+	.producto {
+		background-color: white;
+		margin: 5px;
+		border-radius: 3px;
+		position: relative;
+	}
+	.producto:hover {
+		-webkit-box-shadow: 0 0 10px #888;
+        box-shadow: 0 0 10px #888;
+        transition: 0.2s;
+	}
+
+	.img {
+		width: 100%;
+		display: block;
+		margin-left: auto;
+		margin-right: auto;
+		border-top-left-radius: 2px;
+		border-top-right-radius: 2px;
+	}
+
+	.img-container {
+		position:  relative;
+	}
+
+	.info {
+		height: 150px;
+	}
+
+	.titulo {
+		border-top: 1px solid #EBEBEB;
+		padding: 2.5px;
+		text-align: center;
+	  display: flex;
+	  justify-content: center;
+	  align-items: center;
+	  height: 42.8px;
+	  font-size: 15px;
+	  color: gray;
+	}
+
+
+	.precio {
+		font-weight: bold;
+		color: black;
+		padding: 2.5px;
+		text-align: center;
+	}
+
+	.agregar {
+		text-align: center;
+		padding: 2.5px;
+		margin-top: 3px;
+	}
+
+	.cantidades{
+		margin: auto;
+		display: grid;
+		grid-template-columns: 1fr 1fr 1fr;
+		align-items: center;
+		text-align: center;
+		max-width: 110px;
+	}
+	.cantidad {
+		width: 24px;
+		height: 24px;
+	}
+	.botoncantidadmas {
+		width: 30px;
+		height: 30px;
+		background-color: rgb(0,166,80);
+		border-radius: 2px;
+		color: white;
+		font-weight: bold;
+		border: none;
+		cursor: pointer;
+		color: white;
+		font-size: 20px;
+		padding: 4px;
+	}
+
+	.botoncantidadmenos{
+		width: 30px;
+		height: 30px;
+		background-color: red;
+		border-radius: 2px;
+		color: white;
+		font-weight: bolder;
+		border: none;
+		cursor: pointer;
+		color: white;
+		font-size: 20px;
+		padding: 4px;
+	}
+	.boton-agregar {
+		background-color: rgba(0, 0, 0, 0.5);
+		border-radius: 2px;
+		border: none;
+		color: white;
+		height: 30px;
+		font-weight: bold;
+		cursor: pointer;
+	}
+	.cantidades {
+		text-align: center;
+	}
+
+	.botoncantidadmas:hover, 
+	.botoncantidadmenos:hover {
+		 background-color: rgba(0, 0, 0, 0.5);
+		 transition: 0.5s;
+	}
+	.boton-agregar:hover {
+		-webkit-box-shadow: 0 0 10px #888;
+    box-shadow: 0 0 10px #888;
+		background-color: rgb(0,166,80);
+		transition: 0.4s;
+	}
+	.precioanterior {
+		color: rgba(0, 0, 0, 0.5);
+		text-decoration: line-through;
+		font-size: 14px;
+	}
+	.descuento {
+		max-width: 22px;
+		text-align: center;
+		color: rgb(0,166,80);
+		font-weight: bold;
+		position: absolute;
+		font-size: 20px;
+		top: 5px;
+		right: 5px;
+		padding-left: 5px;
+		padding-right: 5px;
+		border: 3px solid rgb(0,166,80);
+		border-radius: 2px;
+		background-color: rgba(255, 255, 255, 0.6);
+	}
+	.off {
+		font-size: 12px;
+		font-weight: normal;
+	}
+	.nav-k {
+			display: grid;
+			grid-template-columns: 2fr 4fr 2fr 0.5fr;
+			height: 50px;
+			width: 100%;
+			background-color: #FFF159;
+			text-align: center;
+			align-items: center;
+			margin: auto;
+			position: fixed;
+			z-index: 200;
+		}
+
+	.comocomprar {
+		font-weight: bold;
+		color: black;
+	}
+	.logo {
+		text-decoration:none;
+		color: black;
+		font-size: 25px;
+	}
+	.carrito{
+		font-weight: bold;
+		color: rgb(0,0,0);
+		font-size: 25px;
+	}
+	.form {
+		height: 25px;
+		width: 70%;
+	}
+	.botonsearch{
+		font-weight: bold;
+		color: rgb(0,0,0);
+		font-size: 22px;
+		position: absolute;
+		margin-left: -40px;
+		margin-top: 3px;
+		background-color: rgba(0, 0, 0, 0);
+		border: none;
+	}
+	.categorias {
+		display: grid;
+		grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+		height: 25px;
+		background-color: #FFF159F0;
+		text-align: center;
+		align-items: center;
+		font-size: 13px;
+		max-width: 1000px;
+		margin-top: 50px;
+		position: fixed;
+		width: 100%;
+		z-index: 199;
+		left: 50%;
+    transform: translate(-50%, 0);
+	}
+	.categoria {
+		height: 100%;
+		display: flex;
+	  justify-content: center;
+	  align-items: center;
+	}
+	.categoria:hover {
+		font-weight: bold;
+		font-size: 14px;
+		transition: 0.15s;
+		cursor: pointer;
+	}
+	.rellena {
+		position: fixed;
+		width: 100%; 
+		background-color: #FFF159;
+		height: 75px;
+		z-index: -1;
+	}
+	.sin-stock {
+    filter: alpha(opacity = 0);
+    position:absolute;
+    display:block;
+    z-index:20;
+    background-color:rgba(0, 0, 0, 0.25);
+    width: 100%;
+    height: 100%;
+    border-radius: 2px;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+	}
+
+	.sin-stock-tag {
+		background-color:rgba(0, 0, 0, 0.5);
+		color: white;
+		width: 80px; 
+		height: 30px;
+		border: 1px solid white;
+		border-radius: 2px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	div .active {
+		font-weight: bold;
+		font-size: 13px;
+	}
+
+	footer {
+		height: 75px;
+		background-color: white;
+		width: 100%;
+	}
+
+	@media (max-width: 550px) {
+		.productos-grid {
+			grid-template-columns: 1fr 1fr;
+			gap: 0px;
+			padding-top: 95px;
+		}
+		.producto {
+			margin: 1px 1px 0px 1px;
+			border-radius: 0px;
+		}
+
+		.img {
+			border-radius: 0px;
+		}
+
+		.nav-k {
+			grid-template-columns: 1fr 3fr 1fr 0.75fr;
+			height: 50px;
+		}
+		.logo {
+			font-size: 18px;
+		}
+		.comocomprar {
+			font-size: 12px;
+		}
+		.form{
+			width: 90%;
+		}
+		.categorias {
+		grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+		height: 45px;
+		position: absolute;
+	  }
+	  .sin-stock {
+    border-radius: 0px;
+	  }
+	  .rellena{
+	  	display: none;
+	  }
+	}
+</style>
+
+<body>
+
+<div class="rellena"></div>
+
+<nav class="nav-k">
+      <div class="logo">
+        <a class="logo" href="/"><b>LOGO</b></a>
+      </div>
+
+      <div class="buscador">
+        <form  name="name" method="get" action="/search" autocomplete="on">
+          <nobr><input type="text" name="name" placeholder="Buscar Productos..." class="form"/>
+          <button class="botonsearch" type="submit"><i class="bi-search"></i></button></nobr>
+        </form>
+      </div>
+
+      <div class="comocomprar">
+        <span>¿Como Comprar?</span>
+      </div>
+
+      <div class="carrito">
+        <i class="bi bi-cart-plus-fill"></i>
+      </div>
+</nav>
+
+<div class="categorias">
+	<div class="categoria" data-filter="Aperitivo"><span >Aperitivo</span></div>
+	<div class="categoria" data-filter="Gaseosa"><span >Gaseosa</span></div>
+	<div class="categoria" data-filter="Jugo"><span >Jugo</span></div>
+	<div class="categoria" data-filter="Energizante"><span >Energizante</span></div>
+	<div class="categoria" data-filter="Vodka"><span >Vodka</span></div>
+	<div class="categoria" data-filter="Gin"><span >Gin</span></div>
+	<div class="categoria" data-filter="Cerveza"><span >Cerveza</span></div>
+	<div class="categoria" data-filter="Vino"><span >Vino</span></div>
+	<div class="categoria" data-filter="Whisky"><span >Whisky</span></div>
+	<div class="categoria " data-filter="Ver Todo"><span >Ver Todo</span></div>
+</div>
+
+<div class="container">
+	<div class="productos-grid">
+	{%for i in range(d)%}
+	<div class="producto {{df['categoria'][i]}}">
+		{% if df['stock'][i]==0 %}
+		<div class="sin-stock">
+			<div class="sin-stock-tag">Sin Stock</div>
+		</div>
+		{% endif %}
+		<div class="img-container">
+			<img class="img" src="/static/media/fernet.png">
+			{% if df['oferta'][i]!=0 %}
+			<div class="descuento">
+				<span>{{df['oferta'][i]}}</span>
+				<span class="off">OFF</span>
+			</div>
+			{% endif %}
+		</div>
+<<<<<<< HEAD:tienda/templates/home.html
+		<div class="cantidades">
+			<button class="botoncantidadmenos">-</button>
+			<input class="cantidad" type="text" id="fname" name="cantidad">
+			<button class="botoncantidadmas">+</button>
+		</div>
+		<div class="agregar">
+			<button type="submit" class="boton-agregar">AGREGAR</button>
+=======
+		<div class="info">
+			<div class="titulo">{{df['nombre'][i]}}</div>
+			<div class="precio">
+				{% if df['oferta'][i]==0 %}
+				<span>${{df['precio'][i]}}</span>
+				{% else %}
+				<span class="precioanterior">${{df['precio'][i]}}</span>
+				<span>${{df['preciofinal'][i]}}</span>			
+				{% endif %}
+			</div>
+			<div class="cantidades">
+				<button class="botoncantidadmenos"><i class="bi bi-dash"></i></button>
+				<input class="cantidad" type="text" id="{{df['id'][i]}}" name="cantidad">
+				<button class="botoncantidadmas"><i class="bi bi-plus"></i></button>
+			</div>
+			<div class="agregar">
+				{% if df['stock'][i]==0 %}
+				<button class="boton-agregar">AGREGAR</button>
+				{% else %}
+				<button class="boton-agregar">AGREGAR</button>
+				{% endif %}
+			</div>
+>>>>>>> 706131a7475406d15d8c6397dcb4f7fc78c0c1ab:templates/home.html
+		</div>
+	</div>
+	{%endfor%}
+	</div>
+</div>
+
+<footer>
+	
+</footer>
+
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+	const inicial = '{{cat}}';
+
+	if (inicial!='null')
+	{
+		$('.producto').not('.'+inicial).hide();
+	}
+
+	$(document).ready(function(){
+		$('.categoria').click(function(){
+			const value = $(this).attr('data-filter');
+			if (value == 'Ver Todo'){
+				$('.producto').show();
+			}
+			else{
+				$('.producto').filter('.'+value).show();
+				$('.producto').not('.'+value).hide();
+				
+			}
+	})
+	$('.categoria').click(function(){
+		$(this).addClass('active').siblings().removeClass('active')
+	})
+})
+</script>
+
+</body>
+</html>

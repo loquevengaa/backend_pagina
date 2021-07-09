@@ -1,0 +1,7 @@
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category,messages in messages %}
+            <p>{{messages}}</p>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
