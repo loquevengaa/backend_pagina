@@ -15,6 +15,7 @@ class Usuarios(db.Model,UserMixin):
     telefono=db.Column(db.Integer(),nullable=True)
     contrasenia_cifrada=db.Column(db.String(100))
     cantidad_pedidos=db.Column(db.Integer(),nullable=True)
+    admin = db.Column(db.Boolean, default=False)
 
 
     @property

@@ -13,6 +13,7 @@ login_required es para prohibir que la gente agregue cosas al carrito hasta que 
 y se usa arriba de la funcion de esta manera
 @login_required
 """
+
 @app.route('/set_cookie')
 def set_cookie():
     redirect_to_index = redirect('/')
@@ -28,15 +29,6 @@ def set_cookie():
 @app.route('/')
 @app.route('/home',methods=['GET','POST'])#aca se muestran lo productos
 def tienda_page():
-    agregar_al_carrito=ComprarProductoForm()
-    if request.method == 'POST':
-        producto=request.form.get('id')
-        cantidad=request.form.get('cantidad')
-        producto=Productos.query.filter_by(id=producto).first()
-        if producto:
-            #aca iria la logica del carrito
-            pass
-
     items= Productos.query.all()
     return render_template('home.html.html',items=items,carrito=agregar_al_carrito)
 
