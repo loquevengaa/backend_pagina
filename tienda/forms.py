@@ -15,25 +15,25 @@ class RegisterForm(FlaskForm):
         if telefono:
             raise ValidationError('El numero ya existe')
             
-    nombre =StringField(label='Nombre',velidators=[Length(min= 2, max= 50),DataRequired()])
-    email =StringField(label='Correo',velidators=[Email(),DataRequired()])
-    telefono=IntegerField(label='Telefono',velidators=[Length(min=7),DataRequired()])
-    contrasenia=PasswordField(label='Contraseña',velidators=[Length(min=6),DataRequired()])
+    nombre =StringField(label='Nombre',validators=[Length(min= 2, max= 50),DataRequired()])
+    email =StringField(label='Correo',validators=[Email(),DataRequired()])
+    telefono=IntegerField(label='Telefono',validators=[Length(min=7),DataRequired()])
+    contrasenia=PasswordField(label='Contraseña',validators=[Length(min=6),DataRequired()])
     contrasenia2=PasswordField(label='Repita Contraseña',validators=[EqualTo('contrasenia'),DataRequired()])
     submit=SubmitField(label='Registrarme') 
 
 
 class LoginForm(FlaskForm):
-    email =StringField(label='Correo',velidators=[Email(),DataRequired()])
-    contrasenia=PasswordField(label='Contraseña',velidators=[Length(min=6),DataRequired()])
+    email =StringField(label='Correo',validators=[Email(),DataRequired()])
+    contrasenia=PasswordField(label='Contraseña',validators=[Length(min=6),DataRequired()])
     submit=SubmitField(label='Ingresar') 
 
 
 
 
 class ComprarProductoForm(FlaskForm):
-    id=IntegerField(label='id',velidators=[DataRequired()])
-    cantidad=IntegerField(label='cantidad',velidators=[DataRequired()])
+    id=IntegerField(label='id')
+    cantidad=IntegerField(label='cantidad',validators=[DataRequired()])
     submit=SubmitField(label='Agregar al carrito')
 
 

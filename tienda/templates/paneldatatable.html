@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>test</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css">
+</head>
+<body>
+
+	<style type="text/css">
+		.img {
+			max-width: 65px;
+			max-height: 65px;
+		}
+
+		.numero {
+		display: grid;
+		grid-template-columns: 2fr 1fr 2fr;
+		align-items: center;
+	}
+	.numero input {
+		width: 75%;
+	}
+
+	</style>
+
+
+	<div class="n-producto">
+		<form action="/panel/agregar" method="POST" enctype="multipart/form-data">
+			<input type="file" accept=".jpg, .jpeg, .png" name="n-image">
+			<input class="texto" type="text" name="n-nombre" required="required">
+			<select name="n-categoria" required="required">
+				{% for j in ('Aperitivo','Gaseosa','Vino','Energizante','Whisky','Jugo','Gin','Cerveza') %}
+				<option type="text" value="{{j}}">{{j}}</option>
+				{% endfor %}
+			</select>
+			<input type="number" name="n-stock" min="0" value="0">
+			<input type="number" name="n-precio" step="0.01" min="0" required="required">
+			<input type="number" name="n-oferta" value="0" min="0">
+			<input type="submit" value="Agregar">
+		</form>
+	</div>
+
+	<table id="example" class="display" style="max-width: 1200px;">
+        <thead>
+            <tr>
+            	<th></th>
+                <th>Imagen</th>
+                <th>Nombre</th>
+                <th>Categoria</th>
+                <th>Stock</th>
+                <th>Precio</th>
+                <th>Oferta</th>
+                <th>Precio</th>
+                <th>Eliminar</th>
+            </tr>
+        </thead>
+        <tbody>
+        	{%for i in items %}
+           <tr>
+
+           	<td></td>
+
+             <td>
+             	<div>
+	             	<div><img class="img" src="/static/media/productos/{{i.imagen}}"></div>
+					<div>
+					<form action="/panel" method="POST" enctype="multipart/form-data">
+						<label for="file{{i.id}}">Modificar</label>
+						<input onchange="this.form.submit();" type="file" id="file{{i.id}}" hidden="hidden" accept=".jpg, .jpeg, .png" name="image">
+						<input type="hidden" name="indice" value="{{i.id}}">
+						<input type="hidden" name="tipo" value="cambiaimagen">
+					</form>
+					</div>
+				</div>	
+             </td>
+
+             <td>
+             	<div class="nombre">
+					<form action="/panel" method="POST">
+						<span hidden="hidden">{{i.nombre}}</span>
+						<input class="inputnombre" type="text" name="nombre" value="{{i.nombre}}">
+						<input type="hidden" name="indice" value="{{i.id}}">
+						<input type="hidden" name="tipo" value="cambianombre">
+					</form>
+				</div>
+             </td>
+
+             <td>
+             	<div class="categoria">
+					<form action="/panel" method="POST">
+						<select name="categoria" class="inputcategoria" onchange="this.form.submit();">
+							<option type="text" name="categoria" value="{{i.categoria}}">{{i.categoria}}</option>
+							{% for j in ('Aperitivo','Gaseosa','Vino','Energizante','Whisky','Jugo','Gin','Cerveza') %}
+								{% if j != i.categoria %}
+									<option type="text" value="{{j}}">{{j}}</option>
+								{% endif %}
+							{% endfor %}
+						</select>			
+						<input type="hidden" name="indice" value="{{i.id}}">
+						<input type="hidden" name="tipo" value="cambiacategoria">
+					</form>
+				</div>
+             </td>
+
+             <td>
+             	<div class="numero">							
+					<div><b>{{i.stock}}</b></div>
+					<div>+</div>
+					<form action="/panel" method="POST" name="cambiastock" style="text-align: center;">
+					
+					<input type="number" name="cantidad" placeholder="0" class="form">
+					<input type="hidden" name="indice" value="{{i.id}}">
+					<input type="hidden" name="tipo" value="cambiastock">
+					
+					</form>
+				</div>
+             </td>
+
+             <td>
+             	<div class="precio">
+             		<span hidden="hidden">{{i.precio}}</span>
+					<form action="/panel" method="POST">
+					<nobr><label for="precio"><b>$</b></label>
+					<input type="number" name="precio" value="{{i.precio}}" step="0.01" min="0"></nobr>
+					<input type="hidden" name="indice" value="{{i.id}}">
+					<input type="hidden" name="tipo" value="cambiaprecio">
+					</form>
+				</div>
+             </td>
+
+             <td>
+             	<div class="oferta">
+             		<span hidden="hidden">{{i.oferta}}</span>
+					<form action="/panel" method="POST">
+						<input type="number" name="oferta" value="{{i.oferta}}" class="form" max="100" min="0">
+						<input type="hidden" name="indice" value="{{i.id}}">
+					<input type="hidden" name="tipo" value="cambiaoferta">
+					</form>
+				</div>
+             </td>
+
+             <td>
+             	<div><b>${{i.precioFinal}}</b></div>
+             </td>
+
+             <td>
+             	<div class="eliminar">
+					<form action="/panel" method="POST">
+						<button type="submit" name="eliminar" value="eliminar">X</button>
+						<input type="hidden" name="indice" value="{{i.id}}">
+						<input type="hidden" name="tipo" value="eliminar">
+					</form>
+				</div>
+             </td>
+           </tr>
+           {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+            	<th></th> 
+                <th>Imagen</th>
+                <th>Nombre</th>
+                <th>Categoria</th>
+                <th>Stock</th>
+                <th>Precio</th>
+                <th>Oferta</th>
+                <th>Precio</th>
+                <th>Eliminar</th>
+            </tr>
+        </tfoot>
+    </table>
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+<script src="//cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.js"></script>
+
+<script>
+    if ( window.history.replaceState ) {
+        window.history.replaceState( null, null, window.location.href );
+    }
+</script>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+    $('#example').DataTable({
+    	responsive: true,
+		bProcessing: true,
+		deferRender: true,
+        stateSave: true,
+        stateDuration: 120
+    });
+} );
+</script>
+
+</body>
+</html>

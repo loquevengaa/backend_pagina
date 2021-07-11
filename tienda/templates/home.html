@@ -367,54 +367,45 @@
 
 <div class="container">
 	<div class="productos-grid">
-	{%for i in range(d)%}
-	<div class="producto {{df['categoria'][i]}}">
-		{% if df['stock'][i]==0 %}
+	{%for item in items %}
+	<div class="producto {{item.categoria}}">
+		{% if item.stock == 0%}
 		<div class="sin-stock">
 			<div class="sin-stock-tag">Sin Stock</div>
 		</div>
 		{% endif %}
 		<div class="img-container">
-			<img class="img" src="/static/media/fernet.png">
-			{% if df['oferta'][i]!=0 %}
+			<img class="img" src="/static/media/{{item.imagen}}">
+			{% if item.oferta!=0 %}
 			<div class="descuento">
-				<span>{{df['oferta'][i]}}</span>
+				<span>{{item.oferta}}</span>
 				<span class="off">OFF</span>
 			</div>
 			{% endif %}
 		</div>
-<<<<<<< HEAD:tienda/templates/home.html
-		<div class="cantidades">
-			<button class="botoncantidadmenos">-</button>
-			<input class="cantidad" type="text" id="fname" name="cantidad">
-			<button class="botoncantidadmas">+</button>
-		</div>
-		<div class="agregar">
-			<button type="submit" class="boton-agregar">AGREGAR</button>
-=======
+
 		<div class="info">
-			<div class="titulo">{{df['nombre'][i]}}</div>
+			<div class="titulo">{{item.nombre}}</div>
 			<div class="precio">
-				{% if df['oferta'][i]==0 %}
-				<span>${{df['precio'][i]}}</span>
+				{% if item.oferta ==0 %}
+				<span>${{item.precio}}</span>
 				{% else %}
-				<span class="precioanterior">${{df['precio'][i]}}</span>
-				<span>${{df['preciofinal'][i]}}</span>			
+				<span class="precioanterior">${{item.precio}}</span>
+				<span>${{item.precioFinal}}</span>			
 				{% endif %}
 			</div>
 			<div class="cantidades">
 				<button class="botoncantidadmenos"><i class="bi bi-dash"></i></button>
-				<input class="cantidad" type="text" id="{{df['id'][i]}}" name="cantidad">
+				<input class="cantidad" type="text" id="{{item.id}}" name="cantidad">
 				<button class="botoncantidadmas"><i class="bi bi-plus"></i></button>
 			</div>
 			<div class="agregar">
-				{% if df['stock'][i]==0 %}
+				{% if item.stock ==0 %}
 				<button class="boton-agregar">AGREGAR</button>
 				{% else %}
 				<button class="boton-agregar">AGREGAR</button>
 				{% endif %}
 			</div>
->>>>>>> 706131a7475406d15d8c6397dcb4f7fc78c0c1ab:templates/home.html
 		</div>
 	</div>
 	{%endfor%}
