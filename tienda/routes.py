@@ -1,3 +1,4 @@
+from warnings import catch_warnings
 from flask.helpers import flash
 from tienda import app
 import json
@@ -30,10 +31,7 @@ def set_cookie():
 
 
 basedir = os.path.abspath(os.path.dirname(__file__))
-
-
-app.config['UPLOADED_PHOTOS_DEST'] = os.path.join(basedir, 'tienda/static/media/productos/')
-
+app.config['UPLOADED_PHOTOS_DEST'] = os.path.join(basedir, 'static/media/productos/')
 photos = UploadSet('photos', IMAGES)
 configure_uploads(app, photos)
 patch_request_class(app)
@@ -94,7 +92,7 @@ def panel():
             print(img_name)
             if img_name!='default.png':
                 try:
-                    os.remove('tienda/static/media/productos/'+img_name)#
+                    os.remove('tienda/static/media/productos'+img_name)#tienda\static\media\productos
                 except Exception as e:
                     pass       
 
@@ -103,20 +101,12 @@ def panel():
             extension = request.files['image'].filename.split('.')
             photos.save(request.files.get('image'),name=now+'.')
 
-
             producto.imagen = now+'.'+extension[1]
 
         db.session.commit()
     else:
         print('GET METHOD RECEIVED')
-            
-    return render_template('paneldatatable.html',items=items) 
-
-
-
-
-
-
+    return render_template('paneldatatable.html',items=Productos.query.all() ) 
 
 @app.route('/panel/agregar', methods=['GET','POST'])
 def agregar():
@@ -128,25 +118,26 @@ def agregar():
         oferta = int(request.form['n-oferta'])
         precioFinal=precio*float(oferta/100)
 
-        now = str(datetime.now());now = now.replace('-','');now = now.replace(' ','')
-        now = now.replace(':','');now = now.replace('.','')
-        extension = request.files['n-image'].filename.split('.')
-        photos.save(request.files.get('image'),name=now+'.')
-
-        
-        imgnombre = now+'.'+extension[1]
+        try:
+            now = str(datetime.now());now = now.replace('-','');now = now.replace(' ','')
+            now = now.replace(':','');now = now.replace('.','')
+            extension = request.files['n-image'].filename.split('.')
+            photos.save(request.files.get('n-image'),name=now+'.')
+            imgnombre = now+'.'+extension[1]
 
        
 
-        producto=Productos(nombre=nombre,
+            producto=Productos(nombre=nombre,
                            categoria=categoria,
                            precio=precio,
                            stock=stock,
                            oferta=oferta,
                            precioFinal=precioFinal,
                            imagen=imgnombre)
-        db.session.add(producto)
-        db.session.commit()
+            db.session.add(producto)
+            db.session.commit()
+        except:
+            raise Exception
         return redirect(url_for('panel'))
 
 

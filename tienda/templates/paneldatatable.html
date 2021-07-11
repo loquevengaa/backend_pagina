@@ -24,6 +24,10 @@
 		width: 75%;
 	}
 
+	.contenido {
+		max-width: 1200px;
+		margin: auto;
+	}
 	</style>
 
 
@@ -42,8 +46,8 @@
 			<input type="submit" value="Agregar">
 		</form>
 	</div>
-
-	<table id="example" class="display" style="max-width: 1200px;">
+	<div class="contenido">
+	<table id="example" class="display" style="width:100%;">
         <thead>
             <tr>
             	<th></th>
@@ -172,6 +176,7 @@
             </tr>
         </tfoot>
     </table>
+</div>
 
 
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
@@ -189,9 +194,7 @@
     $('#example').DataTable({
     	responsive: true,
 		bProcessing: true,
-		deferRender: true,
-        stateSave: true,
-        stateDuration: 120
+		stateSave: true
     });
 } );
 </script>
