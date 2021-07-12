@@ -1,7 +1,7 @@
 from sqlalchemy.orm import relationship
 from tienda import db ,bcrypt,login_manager
 from flask_login import UserMixin
-
+from werkzeug.security import generate_password_hash,check_password_hash
 @login_manager.user_loader
 def load_user(user_id):
     return Usuarios.query.get(int(user_id))
@@ -15,12 +15,25 @@ class Usuarios(db.Model):
     nombre= db.Column(db.String(100))
     email= db.Column(db.String(100),unique=True)
     telefono=db.Column(db.Integer(),nullable=True)
-    contrasenia=db.Column(db.String(100))
+    contrasenia_hash=db.Column(db.String(100))
     cantidad_pedidos=db.Column(db.Integer(),nullable=True)
     admin = db.Column(db.Boolean, default=False)
     chofer= db.Column(db.Boolean, default=False)
+
+    
     def __repr__(self):
-        return f'Email:{self.email}'
+        return (u'<{self.__class__.__name__}: {self.id}>'.format(self=self))
+
+    @property
+    def contrasenia_hash(self):
+        raise AttributeError('password is not a readable attribute')
+
+    @contrasenia_hash.setter
+    def password(self, password):
+        self.contrasenia_hash = generate_password_hash(password)
+
+    def verify_password(self, password):
+        return check_password_hash(self.contrasenia_hash, password)
 """
 
 class EntregasChoferes(db.Model):

@@ -156,7 +156,9 @@ def tienda_page():
 @app.route('/registro',methods=['GET','POST'])
 def pagina_registro():
     form=RegisterForm()
+    print("validate on submite")
     if form.validate_on_submit():
+        print("entro ñieri")
         usuario_nuevo=Usuarios(
             nombre=form.nombre.data,
             email=form.email.data,

@@ -17,7 +17,7 @@ class RegisterForm(FlaskForm):
             
     nombre =StringField(label='Nombre',validators=[Length(min= 2, max= 50),DataRequired()])
     email =StringField(label='Correo',validators=[Email(),DataRequired()])
-    telefono=IntegerField(label='Telefono',validators=[Length(min=7),DataRequired()])
+    telefono=IntegerField(label='Telefono',validators=[DataRequired()])
     contrasenia=PasswordField(label='Contraseña',validators=[Length(min=6),DataRequired()])
     contrasenia2=PasswordField(label='Repita Contraseña',validators=[EqualTo('contrasenia'),DataRequired()])
     submit=SubmitField(label='Registrarme') 

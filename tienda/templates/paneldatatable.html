@@ -47,7 +47,7 @@
 		</form>
 	</div>
 	<div class="contenido">
-	<table id="example" class="display" style="width:100%;">
+	<table id="example" hidden class="display" style="width:100%;">
         <thead>
             <tr>
             	<th></th>
@@ -194,8 +194,16 @@
     $('#example').DataTable({
     	responsive: true,
 		bProcessing: true,
-		stateSave: true
+		stateSave: true,
+
+		"initComplete": function(settings, json) {
+     $('#example').show();
+     }
+
     });
+
+	
+
 } );
 </script>
 
