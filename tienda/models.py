@@ -8,32 +8,26 @@ def load_user(user_id):
 
 
 
-
-
-class Usuarios(db.Model):
+class Usuarios(db.Model,UserMixin):
     id=db.Column(db.Integer, primary_key=True)
     nombre= db.Column(db.String(100))
     email= db.Column(db.String(100),unique=True)
     telefono=db.Column(db.Integer(),nullable=True)
-    contrasenia_hash=db.Column(db.String(100))
+    contrasenia_cifrada=db.Column(db.String(100))
     cantidad_pedidos=db.Column(db.Integer(),nullable=True)
     admin = db.Column(db.Boolean, default=False)
-    chofer= db.Column(db.Boolean, default=False)
-
-    
-    def __repr__(self):
-        return (u'<{self.__class__.__name__}: {self.id}>'.format(self=self))
-
     @property
-    def contrasenia_hash(self):
-        raise AttributeError('password is not a readable attribute')
-
-    @contrasenia_hash.setter
-    def password(self, password):
-        self.contrasenia_hash = generate_password_hash(password)
-
-    def verify_password(self, password):
-        return check_password_hash(self.contrasenia_hash, password)
+    def contrasenia(self):
+        return self.contrasenia
+    
+    @contrasenia.setter
+    def contrasenia(self,plain_text_password):
+        self.contrasenia_cifrada=bcrypt.generate_password_hash(plain_text_password).decode('utf-8')
+    def check_contrasenia(self,contrasenia_ingresada):
+        return bcrypt.check_password_hash(self.contrasenia_cifrada,contrasenia_ingresada)
+      
+    def __repr__(self):
+        return f'Email:{self.email}'
 """
 
 class EntregasChoferes(db.Model):

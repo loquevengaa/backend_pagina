@@ -164,7 +164,9 @@ def pagina_registro():
             email=form.email.data,
             contrasenia=form.contrasenia.data,
             telefono=form.telefono.data,
-            cantidad_pedidos=0
+            cantidad_pedidos=0,
+            admin=False,
+            chofer=False
         )
         db.session.add(usuario_nuevo)
         db.session.commit()
@@ -201,7 +203,7 @@ def login_page():
 def logout_page():
     logout_user()
     flash('Sesion cerrada con exito',category='info')
-    return redirect(url_for('home_page'))
+    return redirect(url_for('tienda_page'))
 
 
 
