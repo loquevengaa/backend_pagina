@@ -2,14 +2,14 @@ from tienda import app,db
 from flask import render_template,redirect,url_for,request, make_response
 from flask_login import current_user,login_required
 from tienda.models import Productos
-from tienda.carrito.forms import ComprarProductoForm
+from tienda.carrito.forms import FormCarrito
 
 import json
 
 @app.route('/carrito/add/<id>',methods=["get","post"])
 def carrito_add(id):
 	art=Productos.query.get(id)	
-	form=ComprarProductoForm()
+	form=FormCarrito()
 	form.id.data=id
 	if form.validate_on_submit():
 		if art.stock>=int(form.cantidad.data):
