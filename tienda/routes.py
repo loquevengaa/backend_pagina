@@ -8,7 +8,7 @@ from tienda.forms import ComprarProductoForm
 from tienda import db
 
 
-from sqlalchemy import update
+
 """ 
 login_required es para prohibir que la gente agregue cosas al carrito hasta que se registren
 y se usa arriba de la funcion de esta manera
@@ -46,8 +46,6 @@ def categoria(categoria):
 
 @app.route('/panel', methods = ['POST','GET'])
 def panel():
-    items= Productos.query.all()
-    d=len(df)
     if request.method == 'POST':
         indice = int(request.form['indice'])
         tipo = request.form['tipo']
