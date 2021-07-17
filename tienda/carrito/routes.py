@@ -1,13 +1,12 @@
-from tienda import app
+from tienda import app,db
 from flask import render_template,redirect,url_for,request, make_response
 from flask_login import current_user,login_required
 from tienda.models import Productos
-from tienda.forms import ComprarProductoForm
+from tienda.carrito.forms import ComprarProductoForm
 
 import json
 
 @app.route('/carrito/add/<id>',methods=["get","post"])
-@login_required
 def carrito_add(id):
 	art=Productos.query.get(id)	
 	form=ComprarProductoForm()
@@ -36,7 +35,6 @@ def carrito_add(id):
 
 
 @app.route('/carrito')
-@login_required
 def carrito():
 	try:
 		datos = json.loads(request.cookies.get(str(current_user.id)))
@@ -65,7 +63,6 @@ def contar_carrito():
 		return {'num_articulos':len(datos)}
 
 app.route('/carrito_delete/<id>')
-@login_required
 def carrito_delete(id):
 	try:
 		datos = json.loads(request.cookies.get(str(current_user.id)))
@@ -77,4 +74,21 @@ def carrito_delete(id):
 			new_datos.append(dato)
 	resp = make_response(redirect(url_for('carrito')))
 	resp.set_cookie(str(current_user.id),json.dumps(new_datos))
+	return resp
+
+
+@app.route('/pedido')
+@login_required
+def pedido():
+	try:
+		datos = json.loads(request.cookies.get(str(current_user.id)))
+	except:
+		datos = []
+	total=0
+	for articulo in datos:
+		total=total+Productos.query.get(articulo["id"]).precio_final()*articulo["cantidad"]
+		Productos.query.get(articulo["id"]).stock-=articulo["cantidad"]
+		db.session.commit()
+	resp = make_response(render_template("pedido.html",total=total))
+	resp.set_cookie(str(current_user.id),"",expires=0)
 	return resp

@@ -1,9 +1,9 @@
 from tienda import app,db
 
-from tienda.usuario.forms import RegisterForm,LoginForm
+from tienda.usuario.forms import RegisterForm,LoginForm,FormUsuario,FormChangePassword
 from tienda.models import Usuarios
-from flask import flash,render_template,redirect,url_for
-from flask_login import login_user,logout_user
+from flask import flash,render_template,redirect,url_for,abort,request
+from flask_login import login_user,logout_user,login_required,current_user
 
 
 @app.route('/registro',methods=['GET','POST'])
@@ -63,3 +63,34 @@ def logout_page():
     flash('Sesion cerrada con exito',category='info')
     return redirect(url_for('tienda_page'))
 
+@app.route('/perfil/<username>', methods=["get","post"])
+def perfil(username):
+	user=Usuarios.query.filter_by(username=username).first()
+	if user is None:
+		abort(404)	
+
+	form=FormUsuario(request.form,obj=user)
+	del form.password	
+	if form.validate_on_submit():
+		form.populate_obj(user)
+		db.session.commit()
+		return redirect(url_for("inicio"))	
+
+	return render_template("usuarios_new.html",form=form,perfil=True)
+
+
+
+@app.route('/changepassword/<username>', methods=["get","post"])
+@login_required
+def changepassword(username):
+	user=Usuarios.query.filter_by(username=username).first()
+	if user is None:
+		abort(404)	
+
+	form=FormChangePassword()
+	if form.validate_on_submit():
+		form.populate_obj(user)
+		db.session.commit()
+		return redirect(url_for("inicio"))	
+
+	return render_template("changepassword.html",form=form)

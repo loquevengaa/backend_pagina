@@ -1,10 +1,10 @@
 
 from tienda import app
 
-from flask import render_template,redirect,url_for,request
-
+from flask import render_template,redirect,url_for,request,abort
+from flask_login import current_user,login_required,login_user,LoginManager
 from tienda.models import Productos
-from tienda.forms import ComprarProductoForm
+from tienda.carrito.forms import ComprarProductoForm
 from tienda import db
 
 
@@ -26,7 +26,9 @@ def set_cookie():
     response.set_cookie('carrito',value=[])
     return response
 
-
+@app.errorhandler(404)
+def page_not_found(error):
+    return render_template("error.html", error="Página no encontrada..."), 404
 
 
 basedir = os.path.abspath(os.path.dirname(__file__))
@@ -45,7 +47,10 @@ def categoria(categoria):
     return render_template('home.html',df=df,d=d,cat=categoria)
 
 @app.route('/panel', methods = ['POST','GET'])
+@login_required
 def panel():
+    if not current_user.is_admin():
+        abort(404)
     if request.method == 'POST':
         indice = int(request.form['indice'])
         tipo = request.form['tipo']
@@ -108,7 +113,10 @@ def panel():
 
 
 @app.route('/panel/agregar', methods=['GET','POST'])
+@login_required
 def agregar():
+    if not current_user.is_admin():
+        abort(404)
     if request.method == 'POST':
         nombre = request.form['n-nombre']
         categoria = request.form['n-categoria']

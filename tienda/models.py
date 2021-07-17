@@ -16,6 +16,8 @@ class Usuarios(db.Model,UserMixin):
     contrasenia_cifrada=db.Column(db.String(100))
     cantidad_pedidos=db.Column(db.Integer(),nullable=True)
     admin = db.Column(db.Boolean, default=False)
+    chofer = db.Column(db.Boolean, default=False)
+    
     @property
     def contrasenia(self):
         return self.contrasenia
@@ -28,17 +30,26 @@ class Usuarios(db.Model,UserMixin):
       
     def __repr__(self):
         return f'Email:{self.email}'
-"""
 
-class EntregasChoferes(db.Model):
-    id=db.Column(db.Integer(),primary_key=True)
-    id_chofer=db.Column(db.Integer(),db.ForeignKey('usuarios.id'))
-    chofer=relationship("Usuarios")
-    id_cliente=db.Column(db.Integer(),db.ForeignKey('usuarios.id'))
-    cliente=relationship("Usuarios")
-    id_factura=db.Column(db.Integer(),nullable=False)
-    condicion=db.Column(db.String(length=50))
-"""
+    def is_authenticated(self):
+        return True
+
+    def is_active(self):
+        return True
+
+    def is_anonymous(self):
+        return False
+
+    def get_id(self):
+        return str(self.id)
+
+    def is_admin(self):
+        return self.admin
+
+    def is_chofer(self):
+        return self.chofer
+
+
 
 class Pedidos(db.Model):
     id=db.Column(db.Integer(),primary_key=True)
