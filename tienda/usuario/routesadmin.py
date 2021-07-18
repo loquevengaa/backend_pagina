@@ -3,7 +3,7 @@ from tienda import app
 
 from flask import render_template,redirect,url_for,request,abort
 from flask_login import current_user,login_required,login_user,LoginManager
-from tienda.models import Productos
+from tienda.models import Productos,Usuarios
 from tienda.carrito.forms import FormCarrito
 from tienda import db
 
@@ -25,12 +25,12 @@ def set_cookie():
     response = app.make_response(redirect_to_index )  
     response.set_cookie('carrito',value=[])
     return response
-
+"""
 @app.errorhandler(404)
 def page_not_found(error):
     return render_template("error.html", error="Página no encontrada..."), 404
 
-
+"""
 basedir = os.path.abspath(os.path.dirname(__file__))
 app.config['UPLOADED_PHOTOS_DEST'] = os.path.join(basedir, 'static/media/productos/')
 photos = UploadSet('photos', IMAGES)
@@ -136,6 +136,4 @@ def agregar():
         except:
             raise Exception
         return redirect(url_for('panel'))
-
-
 

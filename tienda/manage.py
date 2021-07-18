@@ -15,7 +15,8 @@ def create_admin():
                "password": getpass("Password:"),
                "nombre": input("Nombre completo:"),
                "email": input("Email:"),
-               "admin": True}
+               "admin": True,
+               "chofer":False}
     usu = Usuarios(**usuario)
     db.session.add(usu)
     db.session.commit()

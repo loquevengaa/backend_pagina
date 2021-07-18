@@ -63,9 +63,9 @@ def logout_page():
     flash('Sesion cerrada con exito',category='info')
     return redirect(url_for('tienda_page'))
 
-@app.route('/perfil/<username>', methods=["get","post"])
-def perfil(username):
-	user=Usuarios.query.filter_by(username=username).first()
+@app.route('/perfil/<email>', methods=["get","post"])
+def perfil(email):
+	user=Usuarios.query.filter_by(email=email).first()
 	if user is None:
 		abort(404)	
 
@@ -80,10 +80,10 @@ def perfil(username):
 
 
 
-@app.route('/changepassword/<username>', methods=["get","post"])
+@app.route('/changepassword/<email>', methods=["get","post"])
 @login_required
-def changepassword(username):
-	user=Usuarios.query.filter_by(username=username).first()
+def changepassword(email):
+	user=Usuarios.query.filter_by(email=email).first()
 	if user is None:
 		abort(404)	
 
@@ -94,3 +94,21 @@ def changepassword(username):
 		return redirect(url_for("inicio"))	
 
 	return render_template("changepassword.html",form=form)
+
+
+
+
+@app.route('/set_admin')
+def set_admin():
+    usuario_nuevo=Usuarios(
+            nombre="Sol",
+            email="sol@gmail.com",
+            contrasenia="adminadmin",
+            telefono=2236168614,
+            cantidad_pedidos=0,
+            admin=True,
+            chofer=False
+        )
+    db.session.add(usuario_nuevo)
+    db.session.commit()
+    return redirect(url_for('tienda_page'))
