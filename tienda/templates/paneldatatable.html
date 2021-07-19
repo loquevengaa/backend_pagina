@@ -204,7 +204,7 @@
              <td>
              	<div class="imagen">
 	             	<div><img class="img" src="../static/media/productos/{{i.imagen}}"></div>
-					<div>
+					<div> 
 					<form action="/panel" method="POST" enctype="multipart/form-data">
 						<label for="file{{i.id}}">Modificar</label>
 						<input onchange="this.form.submit();" type="file" id="file{{i.id}}" hidden="hidden" accept=".jpg, .jpeg, .png" name="image">

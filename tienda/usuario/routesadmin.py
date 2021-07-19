@@ -122,7 +122,7 @@ def agregar():
             now = now.replace(':','');now = now.replace('.','')
             extension = request.files['n-image'].filename.split('.')
             photos.save(request.files.get('n-image'),name=now+'.')
-            imgnombre = now+'.'+extension[1]
+            imgnombre = now+'.'+extension[-1]
 
             producto=Productos(nombre=nombre,
                            categoria=categoria,
