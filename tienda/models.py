@@ -1,6 +1,7 @@
 from sqlalchemy.orm import relationship
 from tienda import db ,bcrypt,login_manager
 from flask_login import UserMixin
+from sqlalchemy_json import NestedMutableJson
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -55,11 +56,7 @@ class Pedidos(db.Model):
     id=db.Column(db.Integer(),primary_key=True)
     id_cliente=db.Column(db.Integer(),db.ForeignKey('usuarios.id'),nullable=False)
     cliente=relationship("Usuarios")
-    id_producto=db.Column(db.Integer(),db.ForeignKey('productos.id'),nullable=False)
-    producto=relationship("Productos")
-    id_factura=db.Column(db.Integer(),nullable=False)
-    precio=db.Column(db.Float(),nullable=False)
-    cantidad=db.Column(db.Integer(),nullable=False)
+    datos_pedido= db.Column(NestedMutableJson)
     
 class Productos(db.Model):
     id=db.Column(db.Integer(),primary_key=True)
