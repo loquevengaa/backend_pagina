@@ -96,7 +96,7 @@ def panel():
             extension = request.files['image'].filename.split('.')
             photos.save(request.files.get('image'),name=now+'.')
 
-            producto.imagen = now+'.'+extension[1]
+            producto.imagen = now+'.'+extension[-1]
 
         db.session.commit()
     else:
