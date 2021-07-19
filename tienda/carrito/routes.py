@@ -9,29 +9,35 @@ import json
 @app.route('/carrito/add',methods=["get","post"])
 def carrito_add():
 	form = FormCarrito()
-	art = Productos.query.get(request.form["id"])
-    if art:
-        form.id.data = id
-        form.cantidad.data=cant
-        if form.validate_on_submit():
-            if art.stock >= int(form.cantidad.data):
-                try:
-                    datos = json.loads(request.cookies.get(str(current_user.id)))
-                except:
-                    datos = []
-                actualizar = False
-                for dato in datos:
-                    if dato["id"] == id:
-                        dato["cantidad"] = form.cantidad.data
-                        actualizar = True
-                if not actualizar:
-                    datos.append({"id": form.id.data,
-                                "cantidad": form.cantidad.data})
-                resp = make_response(redirect(url_for('inicio')))
-                resp.set_cookie(str(current_user.id), json.dumps(datos))
-                return resp
-            form.cantidad.errors.append("No hay artículos suficientes.")
-    return render_template('home.html',items=Productos.query.all(),carrito=agregar_al_carrito)
+	print("Agrego producto")
+	print(form.id.data)
+	print(form.cantidad.data)
+	if form.validate_on_submit():
+		art = Productos.query.filter_by(id=form.id.data).first()
+		if art:
+			cantidad=art.stock
+			if cantidad:
+				try:
+					datos = json.loads(request.cookies.get(str(current_user.id)))
+				except:
+					datos = []
+				actualizar = False
+				for dato in datos:
+					if dato["id"] == id:
+						dato["cantidad"] = form.cantidad.data
+						actualizar = True
+					if not actualizar:
+						datos.append({"id": form.id.data,
+									"cantidad": form.cantidad.data})
+					resp = make_response(redirect(url_for('inicio')))
+					resp.set_cookie(str(current_user.id), json.dumps(datos))
+					return resp
+
+			else:
+				form.cantidad.errors.append("No hay artículos suficientes.")
+		else:
+			form.id.errors.append("No existe producto")
+	return render_template('home.html',items=Productos.query.all(),carrito=form)
 
 
 

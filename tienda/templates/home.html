@@ -31,15 +31,16 @@
           {% endif %}
         </div>
         <div class="cantidades">
-          <button class="botoncantidadmenos"><i class="bi bi-dash"></i></button>
-
+       <!--   <button class="botoncantidadmenos"><i class="bi bi-dash"></i></button>-->
           <form id="agregar" action="{{url_for('carrito_add')}}" method="POST">
-            <input name="cantidad" class="cantidad" type="number">
+            <!--<input name="cantidad" class="cantidad" type="number">-->
             {{carrito.cantidad.label()}}
             {{carrito.cantidad(class="form-control") }}
+            {{carrito.id.label()}}
+            {{carrito.id(class="form-control")}}
           </form>
 
-          <button class="botoncantidadmas"><i class="bi bi-plus"></i></button>
+         <!-- <button class="botoncantidadmas"><i class="bi bi-plus"></i></button>-->
         </div>
         <div class="agregar">
           {% if item.stock ==0 %}
