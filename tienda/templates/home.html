@@ -32,14 +32,20 @@
         </div>
         <div class="cantidades">
           <button class="botoncantidadmenos"><i class="bi bi-dash"></i></button>
-          <input class="cantidad" type="text" id="{{item.id}}" name="cantidad">
+
+          <form id="agregar" action="{{url_for('carrito_add')}}" method="POST">
+            <input name="cantidad" class="cantidad" type="number">
+            {{carrito.cantidad.label()}}
+            {{carrito.cantidad(class="form-control") }}
+          </form>
+
           <button class="botoncantidadmas"><i class="bi bi-plus"></i></button>
         </div>
         <div class="agregar">
           {% if item.stock ==0 %}
           <button class="boton-agregar">AGREGAR</button>
           {% else %}
-          <button class="boton-agregar">AGREGAR</button>
+          <button class="boton-agregar" type="submit" form="agregar">AGREGAR</button>
           {% endif %}
         </div>
       </div>
