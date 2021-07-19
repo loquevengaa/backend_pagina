@@ -1,43 +1,44 @@
+from tienda.routes import tienda_page
 from tienda import app,db
 from flask import render_template,redirect,url_for,request, make_response
 from flask_login import current_user,login_required
 from tienda.models import Productos
 from tienda.carrito.forms import FormCarrito
-
 import json
 
 @app.route('/carrito/add',methods=["get","post"])
 def carrito_add():
-	form = FormCarrito()
-	print("Agrego producto")
-	print(form.id.data)
-	print(form.cantidad.data)
-	if form.validate_on_submit():
-		art = Productos.query.filter_by(id=form.id.data).first()
+	if request.method == 'POST':
+		print("Agrego producto")
+		id=request.form['indice']
+		print(id)
+		cantidad=request.form['cantidad']
+		print(cantidad)
+		art = Productos.query.filter_by(id=id).first()
 		if art:
-			cantidad=art.stock
-			if cantidad:
-				try:
-					datos = json.loads(request.cookies.get(str(current_user.id)))
-				except:
-					datos = []
-				actualizar = False
-				for dato in datos:
-					if dato["id"] == id:
-						dato["cantidad"] = form.cantidad.data
-						actualizar = True
-					if not actualizar:
-						datos.append({"id": form.id.data,
-									"cantidad": form.cantidad.data})
-					resp = make_response(redirect(url_for('inicio')))
-					resp.set_cookie(str(current_user.id), json.dumps(datos))
-					return resp
-
-			else:
-				form.cantidad.errors.append("No hay artículos suficientes.")
+				print(art.nombre)
+				cantidad=art.stock
+				if cantidad:
+					try:
+						datos = json.loads(request.cookies.get(str(current_user.id)))
+					except:
+						datos = []
+					actualizar = False
+					for dato in datos:
+						if dato["id"] == id:
+							dato["cantidad"] =dato["cantidad"]+ cantidad
+							actualizar = True
+						if not actualizar:
+							datos.append({"id": id,
+										"cantidad": cantidad})
+						resp = make_response(redirect(url_for('inicio')))
+						resp.set_cookie(str(current_user.id), json.dumps(datos))
+						return resp
+				else:
+					pass
 		else:
-			form.id.errors.append("No existe producto")
-	return render_template('home.html',items=Productos.query.all(),carrito=form)
+			pass
+	return redirect(url_for('tienda_page'))#render_template('home.html',items=Productos.query.all(),carrito=form)
 
 
 
