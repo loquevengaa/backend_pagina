@@ -1,8 +1,4 @@
-{% extends 'layout-cliente.html' %}
-
-{% block content %}
-
-<div class="productos-grid">
+    <div class="productos-grid">
     {%for item in items %}
     <div class="producto {{item.categoria}}">
       {% if item.stock == 0%}
@@ -45,6 +41,4 @@
       </div>
     </div>
     {%endfor%}
- </div>
-
-{% endblock content %}
+    </div>

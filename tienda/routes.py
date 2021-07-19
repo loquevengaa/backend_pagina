@@ -8,6 +8,13 @@ from flask import render_template
 def tienda_page():
 	agregar_al_carrito=FormCarrito()
 	items= Productos.query.all()
-	return render_template('home.html',items=items,carrito=agregar_al_carrito,cat='null')
+	return render_template('home.html',items=items,carrito=agregar_al_carrito)
+
+
+@app.route('/categoria/<categoria>',methods=['GET','POST'])#aca se muestran lo productos
+def categorias(categoria):
+	agregar_al_carrito=FormCarrito()
+	items= Productos.query.filter_by(categoria=categoria)
+	return render_template('home.html',items=items,carrito=agregar_al_carrito)
 
 

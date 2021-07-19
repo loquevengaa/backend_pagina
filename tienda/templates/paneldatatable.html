@@ -9,30 +9,141 @@
 </head>
 <body>
 
-	<style type="text/css">
-		.img {
-			max-width: 65px;
-			max-height: 65px;
-		}
+<style type="text/css">
+	body {
+		background-color: rgb(245,245,245);
+		font-family: arial;
+		min-height: 100%;
+		font-size: 14px;
+	}	
 
-		.numero {
-		display: grid;
-		grid-template-columns: 2fr 1fr 2fr;
-		align-items: center;
+	html, body {
+	    margin: 0;
+	    height: 100%;
+	}
+
+	.img {
+		max-width: 65px;
+		max-height: 65px;
+	}
+
+	.nombre input {
+		width: 100%;
+	}
+
+	.numero {
+	display: grid;
+	grid-template-columns: 2fr 1fr 2fr;
+	max-width: 150px;
 	}
 	.numero input {
-		width: 75%;
+		max-width: 50px;
 	}
 
 	.contenido {
 		max-width: 1200px;
 		margin: auto;
 	}
+
+	.n-producto form, .n-combo form {
+		display: grid;
+		grid-template-columns: 2fr 2fr 1fr 0.5fr 1fr 0.5fr 0.5fr;
+		text-align: center;
+		align-items: center;
+		font-weight: bold;
+		max-width: 1200px;
+		margin: auto;
+		margin-bottom: 30px;
+	}
+
+	.n-producto input, .n-combo input {
+		width: 75%;
+		text-align: center;
+		margin: auto;
+	}
+
+	.n-producto select, .n-combo select {
+		width: 75%;
+		text-align: center;
+		margin: auto;
+	}
+
+	#show {
+		margin-bottom: 15px;
+	}
+
+	.active {
+		background-color: lightblue;
+	}
+
+	.eliminar form{
+		text-align: center;
+	}
+
+	.eliminar button {
+		background-color: red;
+		color: white;
+		font-weight: bold;
+		border: 2px solid grey;
+		border-radius: 2px;
+		cursor: pointer;
+	}
+
+	th {
+		font-size: 15px;
+	}
+
+	td {
+		text-align: center;
+		font-weight: bold;
+	}
+
+	td input, td select {
+		font-weight: bold;
+	}
+
+
+	.precio input {
+		max-width: 75px;
+	}
+
+	.oferta input {
+		max-width: 50px;
+	}
+
+	.imagen label {
+		border: 1px solid black;
+		padding: 1px;
+		font-weight: normal;
+		border-radius: 2px;
+		background-color: lightblue;
+		cursor: pointer;
+		font-size: 14px;
+	}
+
+	@media (max-width: 550px) {
+		.n-producto form {
+			display: grid;
+			grid-template-columns: repeat( auto-fill, minmax(250px,1fr));
+		}
+	}
+
 	</style>
 
+	
+	<div class="contenido">
 
-	<div class="n-producto">
+		<button id="show">Agregar Producto</button> <button id="combo">Agregar Combo</button>
+
+	<div class="n-combo" style="display: none;">
 		<form action="/panel/agregar" method="POST" enctype="multipart/form-data">
+			<span>Imagen</span>
+			<span>Nombre</span>
+			<span>Categoria</span>
+			<span>Stock</span>
+			<span>Precio</span>
+			<span>Oferta</span>
+			<span></span>
 			<input type="file" accept=".jpg, .jpeg, .png" name="n-image">
 			<input class="texto" type="text" name="n-nombre" required="required">
 			<select name="n-categoria" required="required">
@@ -46,8 +157,31 @@
 			<input type="submit" value="Agregar">
 		</form>
 	</div>
-	<div class="contenido">
-	<table id="example" hidden class="display" style="width:100%;">
+
+
+	<div class="n-producto" style="display: none;">
+		<form action="/panel/agregar" method="POST" enctype="multipart/form-data">
+			<span>Imagen</span>
+			<span>Nombre</span>
+			<span>Categoria</span>
+			<span>Stock</span>
+			<span>Precio</span>
+			<span>Oferta</span>
+			<span></span>
+			<input type="file" accept=".jpg, .jpeg, .png" name="n-image">
+			<input class="texto" type="text" name="n-nombre" required="required">
+			<select name="n-categoria" required="required">
+				{% for j in ('Aperitivo','Gaseosa','Vino','Energizante','Whisky','Jugo','Gin','Cerveza') %}
+				<option type="text" value="{{j}}">{{j}}</option>
+				{% endfor %}
+			</select>
+			<input type="number" name="n-stock" min="0" value="0">
+			<input type="number" name="n-precio" step="0.01" min="0" required="required">
+			<input type="number" name="n-oferta" value="0" min="0">
+			<input type="submit" value="Agregar">
+		</form>
+	</div>
+	<table id="example" hidden="hidden" class="display" style="width:100%;">
         <thead>
             <tr>
             	<th></th>
@@ -57,7 +191,7 @@
                 <th>Stock</th>
                 <th>Precio</th>
                 <th>Oferta</th>
-                <th>Precio</th>
+                <th>Precio Final</th>
                 <th>Eliminar</th>
             </tr>
         </thead>
@@ -68,7 +202,7 @@
            	<td></td>
 
              <td>
-             	<div>
+             	<div class="imagen">
 	             	<div><img class="img" src="/static/media/productos/{{i.imagen}}"></div>
 					<div>
 					<form action="/panel" method="POST" enctype="multipart/form-data">
@@ -171,7 +305,7 @@
                 <th>Stock</th>
                 <th>Precio</th>
                 <th>Oferta</th>
-                <th>Precio</th>
+                <th>Precio Final</th>
                 <th>Eliminar</th>
             </tr>
         </tfoot>
@@ -189,12 +323,65 @@
     }
 </script>
 
+<script>
+$(document).ready(function(){
+
+    $('#show').click(function() {
+      $('.n-producto').toggle(200);
+
+      if ( $(this).hasClass('active') ) {
+      	$(this).removeClass('active')
+      } else {
+      	$(this).addClass('active')
+      	if ( $('#combo').hasClass('active') ) {
+      		$('.n-combo').toggle(200);
+      		$('#combo').removeClass('active')
+      	}
+      }  
+
+    });
+
+    $('#combo').click(function() {
+      $('.n-combo').toggle(200);
+      if ( $(this).hasClass('active') ) {
+      	$(this).removeClass('active')
+      } else {
+
+      	$(this).addClass('active')
+
+      	if ( $('#show').hasClass('active') ) {
+      		$('.n-producto').toggle(200);
+      		$('#show').removeClass('active')
+      	}
+      }     
+    });
+});
+</script>
+
 <script type="text/javascript">
 	$(document).ready(function() {
     $('#example').DataTable({
     	responsive: true,
 		bProcessing: true,
 		stateSave: true,
+		stateDuration: 60,
+		columnDefs: [
+		{orderable: false, targets: [0,1,8]}
+		],
+		language: {
+			search: 'Buscar:',
+			zeroRecords: 'No se encontraron registros.',
+			lengthMenu: "Mostrar _MENU_ registros",
+			infoEmpty: "Mostrando registros del 0 al 0 de un total de 0 registros",
+    		infoFiltered: "(filtrado de un total de _MAX_ registros)",
+    		info: "Mostrando de _START_ a _END_ de _TOTAL_ registros",
+			paginate: {
+		        first: "Primero",
+		        last: "Último",
+		        next: "Siguiente",
+		        previous: "Anterior"
+		    },
+		},
 
 		"initComplete": function(settings, json) {
      $('#example').show();

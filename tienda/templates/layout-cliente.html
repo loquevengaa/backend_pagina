@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title></title>
+
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
+  <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css">
+
+</head>
+<body>
+    <div class="container">
+
+      <div class="nav-up-container">
+          <div class="nav-up">
+          <div class="logo">LOGO</div>
+          <div class="busqueda">
+            <input type="search" class="input" 
+            placeholder=" Buscar productos">
+            <div class="searchbtn"><i class="fas fa-search"></i></div>
+          </div>
+          <div class="carrito">
+            <i class="bi bi-cart-plus-fill"></i>
+            <div class="menu">
+              <i class='bx bx-menu' id="btnmenu"></i>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      
+
+      
+      <div class="nav-down">
+        <div>
+          <a href="/">
+           <object data="../static/media/iconos/price-tag.svg"></object>
+           <span class="links_name">Ofertas y Combos</span>
+         </a>
+        </div>
+        <div class="categoria" data-filter="Aperitivo">
+          <a href="/categoria/Aperitivo">
+         <object data="../static/media/iconos/fernet.svg" > </object>
+         <span class="links_name">Aperitivos</span>
+       </a>
+        </div>
+        <div class="categoria" data-filter="Cerveza">
+          <a href="/categoria/Cerveza">
+          <object data="../static/media/iconos/beer.svg"> </object>
+          <span class="links_name">Cervezas</span>
+        </a>
+        </div>
+        <div class="categoria" data-filter="Energizante">
+          <a href="/categoria/Energizante">
+         <object data="../static/media/iconos/energy-drink.svg"> </object>
+         <span class="links_name">Energizantes</span>
+       </a>
+        </div>
+        <div class="categoria" data-filter="Gaseosa">
+          <a href="/categoria/Gaseosa">
+         <object data="../static/media/iconos/soft-drink.svg"> </object>
+         <span class="links_name">Gaseosas</span>
+       </a>
+        </div>
+        <div class="categoria" data-filter="Gin">
+          <a href="/categoria/Gin">
+         <object data="../static/media/iconos/gin-tonic.svg"> </object>
+         <span class="links_name">Gins</span>
+       </a>
+        </div>
+        <div class="categoria" data-filter="Jugo">
+           <a href="/categoria/Jugo">
+         <object data="../static/media/iconos/juice-box.svg"> </object>
+         <span class="links_name">Jugos</span>
+       </a>
+        </div>
+        <div class="categoria" data-filter="Vino">
+           <a href="/categoria/Vino">
+         <object data="../static/media/iconos/wine.svg"> </object>
+         <span class="links_name">Vinos</span>
+       </a>
+        </div>
+        <div class="categoria" data-filter="Vodka">
+           <a href="Vodka">
+         <object data="../static/media/iconos/vodka.svg"> </object>
+         <span class="links_name">Vodkas</span>
+       </a>
+        </div>
+        <div class="categoria" data-filter="Whisky">
+           <a href="Whisky">
+         <object data="../static/media/iconos/whisky.svg"> </object>
+         <span class="links_name">Whiskies</span>
+       </a>
+        </div>
+      </div>
+      
+    </div>
+
+  <div>{% block content %}
+  {% endblock content %}</div>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+
+  $( document ).ready(function() {
+
+      $("#btnmenu").on("click",function(){
+        if ($(".nav-down").hasClass('mostrar')) {
+            $(".nav-down").removeClass('mostrar');
+            menuBtnChange();
+        } else {
+            $(".nav-down").addClass('mostrar');
+            menuBtnChange();
+          };
+
+
+      function menuBtnChange() {
+         if($(".nav-down").hasClass("mostrar")){
+           $("#btnmenu").addClass("bx-x-circle").removeClass("bx-menu");
+         } else {
+          $("#btnmenu").addClass("bx-menu").removeClass("bx-x-circle");
+         }
+        }
+      });
+
+  }); 
+
+</script>
+
+</body>
+<footer>  
+</footer>
+</html>
