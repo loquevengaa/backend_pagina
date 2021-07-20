@@ -2,12 +2,13 @@ from tienda import app,db
 from flask import render_template,redirect,url_for,request, make_response
 from flask_login import current_user,login_required
 from tienda.models import Productos
-from tienda.carrito.forms import FormCarrito
+
 
 import json
 
 @app.route('/carrito/add',methods=["GET","POST"])
 def carrito_add():
+	print(current_user)
 	if request.method=='POST':
 		indice = int(request.form['indice'])
 		cantidad = int(request.form['cantidad'])
