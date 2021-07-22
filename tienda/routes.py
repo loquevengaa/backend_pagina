@@ -12,9 +12,7 @@ login_manager.login_view="login"
 
 @login_manager.user_loader
 def load_user(user_id):
-	print(user_id)
 	aux=Usuarios.query.get(int(user_id))
-	print(aux)
 	return aux
 
 
@@ -22,8 +20,7 @@ def load_user(user_id):
 
 @app.route('/')
 @app.route('/home',methods=['POST','GET'])#aca se muestran lo productos
-def tienda_page():
-	
+def tienda_page():	
 	items= Productos.query.all()
 	return render_template('home.html',items=items)
 

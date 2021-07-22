@@ -9,31 +9,34 @@ import json
 @app.route('/carrito/add',methods=['GET','POST'])
 @login_required
 def carrito_add():
-	print(current_user)
+	print(current_user.nombre)
 	if request.method=='POST':
-		indice = int(request.form['indice'])
+		indice = (request.form['indice'])
+		print(indice)
 		cantidad = int(request.form['cantidad'])
-		art=Productos.query.filter_by(id=indice).first()
-		if art is not None:
-			return redirect(request.referrer) #No hay articulo
-			
+		art=Productos.query.get(indice)
+		print(art)
+		if art is None:
+			print("Articulo no existe")
+			return redirect(request.referrer) #No hay articulo		
 		if art.stock <= 0:
+			print("No stock")
 			return redirect(request.referrer) #No hay stock
 		try:
 			datos = json.loads(request.cookies.get(str(current_user.get_id())))					
 		except:
 			datos=[]
-			actualizar = False
-			for dato in datos:
-				if dato["id"] == indice:
-					dato["cantidad"] +=cantidad
-					actualizar = True
-			if not actualizar:
-				datos.append({"id": indice,"cantidad":cantidad})					 						 
-			resp=make_response(redirect(url_for('tienda_page')))
-			resp.set_cookie(str(current_user.get_id()), json.dumps(datos))
-			print("se cargan los datos en la cookie")
-			return resp.redirect.referrer()
+		actualizar = False
+		for dato in datos:
+			if dato["id"] == indice:
+				dato["cantidad"] +=cantidad
+				actualizar = True
+		if not actualizar:
+			datos.append({"id": indice,"cantidad":cantidad})
+			print(datos)					 						 
+		resp=make_response(redirect(url_for('tienda_page')))
+		resp.set_cookie(str(current_user.get_id()), json.dumps(datos))
+		return resp
 	return redirect(request.referrer)
 
 
