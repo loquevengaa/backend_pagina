@@ -33,7 +33,7 @@
         <div class="cantidades">
           <button class="botoncantidadmenos"><i class="bi bi-dash"></i></button>
 
-          <form action="#" method="POST">
+          <form action="/carrito/add" method="POST">
             <input name="cantidad" class="cantidad" type="number" min="1" max="{{item.stock}}" value="1">
             <input type="hidden" name="indice" value="{{item.id}}">
             <button class="boton-agregar" type="submit">AGREGAR</button>

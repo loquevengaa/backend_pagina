@@ -6,31 +6,34 @@ from tienda.models import Productos
 
 import json
 
-@app.route('/carrito/add',methods=["GET","POST"])
+@app.route('/carrito/add',methods=['GET','POST'])
+@login_required
 def carrito_add():
 	print(current_user)
 	if request.method=='POST':
 		indice = int(request.form['indice'])
 		cantidad = int(request.form['cantidad'])
-		art=Productos.query.get(request.form["id"])
-		if art:
-			if art.stock:
-				try:
-					datos = json.loads(request.cookies.get(str(current_user.id)))
-				except:
-					datos=[]
-				actualizar = False
-				for dato in datos:
-					if dato["id"] == id:
-						dato["cantidad"] =dato["cantidad"] +cantidad
+		art=Productos.query.filter_by(id=indice).first()
+		if art is not None:
+			return redirect(request.referrer) #No hay articulo
+			
+		if art.stock <= 0:
+			return redirect(request.referrer) #No hay stock
+		try:
+			datos = json.loads(request.cookies.get(str(current_user.get_id())))					
+		except:
+			datos=[]
+			actualizar = False
+			for dato in datos:
+				if dato["id"] == indice:
+					dato["cantidad"] +=cantidad
 					actualizar = True
-					if not actualizar:
-						datos.append({"id": indice,"cantidad":cantidad})					 
-			else:
-				pass #No hay stock
-		else:
-			pass #no exite articulo
-		return make_response(redirect(url_for('tienda_page'))).set_cookie(str(current_user.id), json.dumps(datos))	
+			if not actualizar:
+				datos.append({"id": indice,"cantidad":cantidad})					 						 
+			resp=make_response(redirect(url_for('tienda_page')))
+			resp.set_cookie(str(current_user.get_id()), json.dumps(datos))
+			print("se cargan los datos en la cookie")
+			return resp.redirect.referrer()
 	return redirect(request.referrer)
 
 
@@ -54,16 +57,6 @@ def carrito():
 	return render_template("carrito.html",articulos=articulos,total=total)
 
 
-
-@app.context_processor
-def contar_carrito():
-	if not current_user.is_authenticated:
-		return {'num_articulos':0}
-	if request.cookies.get(str(current_user.id))==None:
-		return {'num_articulos':0}
-	else:
-		datos = json.loads(request.cookies.get(str(current_user.id)))
-		return {'num_articulos':len(datos)}
 
 app.route('/carrito_delete/<id>')
 def carrito_delete(id):

@@ -1,8 +1,10 @@
-from tienda import app,db
+from tienda import app
 from tienda.models import Productos,Usuarios
-
-from flask import render_template, request, redirect
+import json
+from flask import render_template, request, redirect,make_response,url_for
 from flask_login import current_user,LoginManager
+
+
 login_manager = LoginManager(app)
 login_manager.login_view="login"
 
@@ -26,25 +28,34 @@ def tienda_page():
 	return render_template('home.html',items=items)
 
 
-@app.route('/categoria/<categoria>',methods=['POST','GET'])#aca se muestran lo productos
+@app.route('/categoria/<categoria>',methods=['GET','POST'])#aca se muestran lo productos
 def categorias(categoria):
 
 	items= Productos.query.filter_by(categoria=categoria)
-
-
-	if request.method=='POST':
-		indice = int(request.form['indice'])
-		cantidad = int(request.form['cantidad'])
-		print(indice)
-		print(cantidad)
-		print(current_user)
-		return redirect(request.referrer)
-
-
 	return render_template('home.html',items=items)
+
+	#	return redirect(request.referrer)
+
+
 
 
 
 @app.errorhandler(404)
 def page_not_found(error):
     return render_template("error.html", error="Página no encontrada..."), 404
+
+
+
+@app.context_processor
+def contar_carrito():
+	try:
+		if request.cookies.get(str(current_user.get_id())) is None:
+			return {'num_articulos': 0}
+		else:
+			#print("no se rompio")
+			datos = json.loads(request.cookies.get(str(current_user.get_id())))
+			#print(datos)
+			return {'num_articulos': len(datos)}
+	except:
+			#print("se rompio")
+			return {'num_articulos': 0}

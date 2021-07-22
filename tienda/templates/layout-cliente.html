@@ -24,13 +24,14 @@
           </div>
               {% if current_user.is_authenticated %}
                 <a class="navbar-brand " href="/perfil/{{current_user.email}}">{{current_user.nombre}}</a>
-                <a class="navbar-brand " href="/logout"> {{current_user.username}} (Salir)</a>
+                <a class="navbar-brand " href="/logout">(Salir)</a>
               {% else %}
                 <a class="navbar-brand " href="/login">Login</a>
                 <a class="navbar-brand " href="/registro">Registro</a>
               {% endif %}
           <div class="carrito">
             <i class="bi bi-cart-plus-fill"></i>
+            <a class="navbar-brand " href="/carrito"> Carrito<span>{{num_articulos}}</span> </a>
             <div class="menu">
               <i class='bx bx-menu' id="btnmenu"></i>
             </div>
