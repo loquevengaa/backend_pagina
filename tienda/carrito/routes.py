@@ -1,13 +1,14 @@
+from tienda.routes import tienda_page
 from tienda import app,db
 from flask import render_template,redirect,url_for,request, make_response
 from flask_login import current_user,login_required
 from tienda.models import Productos
 
-
 import json
 
 @app.route('/carrito/add',methods=['GET','POST'])
 def carrito_add():
+
 	if request.method=='POST':
 		indice = (request.form['indice'])
 		print(indice)
@@ -36,6 +37,7 @@ def carrito_add():
 		resp.set_cookie("carrito", json.dumps(datos)) #str(current_user.get_id()
 		return resp
 	return redirect(request.referrer)
+
 
 
 
