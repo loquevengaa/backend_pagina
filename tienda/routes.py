@@ -42,17 +42,3 @@ def page_not_found(error):
     return render_template("error.html", error="Página no encontrada..."), 404
 
 
-
-@app.context_processor
-def contar_carrito():
-	try:
-		if request.cookies.get(str(current_user.get_id())) is None:
-			return {'num_articulos': 0}
-		else:
-			#print("no se rompio")
-			datos = json.loads(request.cookies.get(str(current_user.get_id())))
-			#print(datos)
-			return {'num_articulos': len(datos)}
-	except:
-			#print("se rompio")
-			return {'num_articulos': 0}

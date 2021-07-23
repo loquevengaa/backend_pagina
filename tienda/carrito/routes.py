@@ -7,9 +7,7 @@ from tienda.models import Productos
 import json
 
 @app.route('/carrito/add',methods=['GET','POST'])
-@login_required
 def carrito_add():
-	print(current_user.nombre)
 	if request.method=='POST':
 		indice = (request.form['indice'])
 		print(indice)
@@ -23,7 +21,7 @@ def carrito_add():
 			print("No stock")
 			return redirect(request.referrer) #No hay stock
 		try:
-			datos = json.loads(request.cookies.get(str(current_user.get_id())))					
+			datos = json.loads(request.cookies.get("carrito"))	 #str(current_user.get_id()			
 		except:
 			datos=[]
 		actualizar = False
@@ -34,8 +32,8 @@ def carrito_add():
 		if not actualizar:
 			datos.append({"id": indice,"cantidad":cantidad})
 			print(datos)					 						 
-		resp=make_response(redirect(url_for('tienda_page')))
-		resp.set_cookie(str(current_user.get_id()), json.dumps(datos))
+		resp=make_response(redirect(request.referrer))
+		resp.set_cookie("carrito", json.dumps(datos)) #str(current_user.get_id()
 		return resp
 	return redirect(request.referrer)
 
@@ -91,3 +89,22 @@ def pedido():
 	resp = make_response(render_template("pedido.html",total=total))
 	resp.set_cookie(str(current_user.id),"",expires=0)
 	return resp
+
+
+
+
+
+
+@app.context_processor
+def contar_carrito():
+	try:
+		if request.cookies.get("carrito") is None:
+			return {'num_articulos': 0}
+		else:
+			#print("no se rompio")
+			datos = json.loads(request.cookies.get("carrito"))
+			#print(datos)
+			return {'num_articulos': len(datos)}
+	except:
+			#print("se rompio")
+			return {'num_articulos': 0}
