@@ -8,24 +8,29 @@ from flask_login import login_user,logout_user,login_required,current_user
 
 @app.route('/registro',methods=['GET','POST'])
 def pagina_registro():
+    if current_user.is_authenticated:
+        return redirect(url_for("tienda_page"))
     form=RegisterForm()
     print("validate on submite")
     if form.validate_on_submit():
         print("entro ñieri")
-        usuario_nuevo=Usuarios(
-            nombre=form.nombre.data,
-            email=form.email.data,
-            contrasenia=form.contrasenia.data,
-            telefono=form.telefono.data,
-            cantidad_pedidos=0,
-            admin=False,
-            chofer=False
-        )
-        db.session.add(usuario_nuevo)
-        db.session.commit()
-        login_user(usuario_nuevo)
-        flash(f"Cuenta creada sactifatoriamente! estas logeado",category='success')
-        return redirect(url_for('tienda_page'))
+        existe_usuario = Usuarios.query.filter_by(email=form.email.data).first()
+        if existe_usuario is None:
+            usuario_nuevo=Usuarios(
+                nombre=form.nombre.data,
+                email=form.email.data,
+                contrasenia=form.contrasenia.data,
+                telefono=form.telefono.data,
+                cantidad_pedidos=0,
+                admin=False,
+                chofer=False
+            )
+            db.session.add(usuario_nuevo)
+            db.session.commit()
+            login_user(usuario_nuevo)
+            flash(f"Cuenta creada sactifatoriamente! estas logeado",category='success')
+            return redirect(url_for('tienda_page'))
+        form.username.errors.append("Correo de usuario ya existe.")
     else:
         flash(f'Error al crear el usuario ',category='danger')
 
@@ -37,6 +42,8 @@ def pagina_registro():
 
 @app.route('/login',methods=['GET','POST'])
 def login_page():
+    if current_user.is_authenticated:
+        return redirect(url_for("tienda_page"))
     form=LoginForm()
     if form.validate_on_submit():
         usuario_a_validar= Usuarios.query.filter_by(email=form.email.data).first()
@@ -74,9 +81,9 @@ def perfil(email):
 	if form.validate_on_submit():
 		form.populate_obj(user)
 		db.session.commit()
-		return redirect(url_for("inicio"))	
+		return redirect(url_for("tienda_page"))	
 
-	return render_template("usuarios_new.html",form=form,perfil=True)
+	return render_template("usuarios.html",form=form,perfil=True)
 
 
 
