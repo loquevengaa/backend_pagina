@@ -33,27 +33,36 @@
 
 	</style>
 
-	{% for articulo in articulos %}
-	<div class="box">
-		<div><img src="../static/media/productos/{{articulo[0]}}"></div>
-		<div>{{articulo[1]}}</div>
-		<div>(-) {{articulo[2]}} (+)</div>
-		<div>{{articulo[3]}}</div>
-		<div><button>X</button></div>
-	</div>
-	{% endfor %}
 
-	<div>PRECIO FINAL: {{totalfinal}}</div>
+	{% if d!=0 %}
 
-	<div><button>FINALIZAR COMPRA</button></div>
+		{% for articulo in articulos %}
+		<div class="box">
+			<div><img src="../static/media/productos/{{articulo[0]}}"></div>
+			<div>{{articulo[1]}}</div>
+			<div>(-) {{articulo[2]}} (+)</div>
+			<div>{{articulo[3]}}</div>
+			<div>
+				<form action="/carrito_delete/{{articulo[4][0]}}">
+					<button type="submit">X</button>
+				</form>
+			</div>
+		</div>
+		{% endfor %}
 
-	<div class="pedidos">
-	<div>id de pedido</div>
-	<div>monto</div>
-	<div>email</div>
-	<div>direccion</div>
-	<div>22350128973  <a target="_blank" rel="noopener noreferrer" href="https://api.whatsapp.com/send?phone=5492235062720&text=Hola%20!%20esta%20es%20una%20prueba%20xd%20"><button>enviar</button></a></div>
-	<div>pendiente</div>
+		<div>PRECIO FINAL: {{totalfinal}}</div>
+
+		<div><button>FINALIZAR COMPRA</button></div>
+		<div><a href="/"><button>SEGUIR COMPRANDO</button></a></div>
+	{% else %}
+
+		<div>SU CARRITO ESTA VACIOO</div>
+		<div><a href="/"><button>SEGUIR COMPRANDO</button></a></div>
+
+	{% endif %}
+
+	
+
 </div>
 
 </body>
