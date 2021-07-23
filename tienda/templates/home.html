@@ -30,16 +30,16 @@
           <span>${{item.precioFinal}}</span>      
           {% endif %}
         </div>
+
         <div class="cantidades">
          <form action="/carrito/add" method="POST">
           <input name="cantidad" class="cantidad" type="number" min="1" max="{{item.stock}}">
           <input type="hidden" name="indice" value="{{item.id}}">
           <button class="boton-agregar" type="submit">AGREGAR</button>
-        </form>
-          
-        </div>
+        </form>        
+        </div>       
        </div>
-      </div>
+
     </div>
     {%endfor%}
  </div>

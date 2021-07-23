@@ -1,4 +1,3 @@
-
 from tienda import app
 
 from flask import render_template,redirect,url_for,request,abort
@@ -32,7 +31,7 @@ def page_not_found(error):
 
 """
 basedir = os.path.abspath(os.path.dirname(__file__))
-app.config['UPLOADED_PHOTOS_DEST'] = os.path.join(basedir, 'static/media/productos/')
+app.config['UPLOADED_PHOTOS_DEST'] = os.path.join(basedir, '../static/media/productos/')
 photos = UploadSet('photos', IMAGES)
 configure_uploads(app, photos)
 patch_request_class(app)
@@ -87,8 +86,9 @@ def panel():
             print(img_name)
             if img_name!='default.png':
                 try:
-                    os.remove('tienda/static/media/productos'+img_name)#tienda\static\media\productos
+                    os.remove('tienda/static/media/productos/'+img_name)#tienda\static\media\productos
                 except Exception as e:
+                    print('algo pasooooooooooo')
                     pass       
 
             now = str(datetime.now());now = now.replace('-','');now = now.replace(' ','')
@@ -134,6 +134,6 @@ def agregar():
             db.session.add(producto)
             db.session.commit()
         except:
-            raise Exception
+            pass
         return redirect(url_for('panel'))
 

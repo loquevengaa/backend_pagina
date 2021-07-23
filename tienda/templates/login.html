@@ -1,22 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Ingresar</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
 
-<div class="container">
-<div class="col-md-4"></div>
-<div class="col-md-4">
+    <style type="text/css">
+      body,html {
+        margin: 0;
+        height: 100%;
+        background: rgb(220,220,220);
+      }
+      .container {
+        width: 600px;
+        margin: auto;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .form-login {
+        text-align: center;
+        background: red;
+        border-radius: 5px;
+        padding: 10px;
+        background: #522546;
+        color: white;
+      }
+
+      .form-login div {
+        padding: 15px;
+      }
+
+    </style>
+
+  <div class="container">
+    <div class="form-login">
       <form class="form-signin" method="post">
       {% for field, errors in form.errors.items() %}
         <div class="alert alert-danger">
           {{ form[field].label }}: {{ ', '.join(errors) }}
         </div>
       {% endfor %}
-        <h2 class="form-signin-heading">Login</h2>
+        <h2 class="form-signin-heading">Ingresar</h2>
+        <div>
         {{ form.csrf_token }}
         {{form.email.label()}}
         {{form.email(class="form-control")}}
-        
+        </div>
+        <div>
         {{form.contrasenia.label()}}
-        {{form.contrasenia(class="form-control")}}
+        {{form.contrasenia(class="form-control")}}      
+        </div>
         {{form.submit(class="btn btn-lg btn-primary btn-block")}}
       </form>
-</div>
-<div class="col-md-4"></div>
-    </div> <!-- /container -->
+    </div>
+  </div> <!-- /container -->
+
+</body>
+</html>
+
+
+
+
+
+
