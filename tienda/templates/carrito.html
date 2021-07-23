@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>asd</title>
+</head>
+<body>
+
+	<style type="text/css">
+		.box {
+			max-width: 500px;
+			display: grid;
+			grid-template-columns: 1fr 3fr 1fr 1fr 1fr;
+			align-items: center;
+		}
+
+		.box button {
+			background: red;
+			color: white;
+			border-radius: 5px;
+			font-weight: bold;
+		}
+
+		.box img {
+			max-width: 50px;
+		}
+
+		.pedidos {
+			max-width: 800px;
+			display: grid;
+			grid-template-columns: repeat(6, 1fr);
+		}
+
+	</style>
+
+	{% for articulo in articulos %}
+	<div class="box">
+		<div><img src="../static/media/productos/{{articulo[0]}}"></div>
+		<div>{{articulo[1]}}</div>
+		<div>(-) {{articulo[2]}} (+)</div>
+		<div>{{articulo[3]}}</div>
+		<div><button>X</button></div>
+	</div>
+	{% endfor %}
+
+	<div>PRECIO FINAL: {{totalfinal}}</div>
+
+	<div><button>FINALIZAR COMPRA</button></div>
+
+	<div class="pedidos">
+	<div>id de pedido</div>
+	<div>monto</div>
+	<div>email</div>
+	<div>direccion</div>
+	<div>22350128973  <a target="_blank" rel="noopener noreferrer" href="https://api.whatsapp.com/send?phone=5492235062720&text=Hola%20!%20esta%20es%20una%20prueba%20xd%20"><button>enviar</button></a></div>
+	<div>pendiente</div>
+</div>
+
+</body>
+</html>

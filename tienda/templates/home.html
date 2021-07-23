@@ -30,18 +30,7 @@
           <span>${{item.precioFinal}}</span>      
           {% endif %}
         </div>
-
         <div class="cantidades">
-<<<<<<< HEAD
-         <form action="/carrito/add" method="POST">
-          <input name="cantidad" class="cantidad" type="number" min="1" max="{{item.stock}}">
-          <input type="hidden" name="indice" value="{{item.id}}">
-          <button class="boton-agregar" type="submit">AGREGAR</button>
-        </form>        
-        </div>       
-       </div>
-
-=======
 
           <button class="botoncantidadmenos"><i class="bi bi-dash"></i></button>
 
@@ -55,7 +44,6 @@
         </div>
 
       </div>
->>>>>>> bf68b44dda713fe371040f35b5ce92232697421f
     </div>
     {%endfor%}
  </div>

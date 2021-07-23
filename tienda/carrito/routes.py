@@ -46,25 +46,32 @@ def carrito_add():
 @app.route('/carrito')
 def carrito():
 	try:
-		datos = json.loads(request.cookies.get(str(current_user.id)))
+		datos = json.loads(request.cookies.get("carrito"))
 	except:
 		datos = []
+	imagen=[]
 	articulos=[]
 	cantidades=[]
-	total=0
+	total=[]
+	totalfinal=0
 	for articulo in datos:
-		articulos.append(Productos.query.get(articulo["id"]))
+		art = Productos.query.get(articulo["id"])
+
+		imagen.append(art.imagen)
+		articulos.append(art.nombre)
 		cantidades.append(articulo["cantidad"])
-		total=total+Productos.query.get(articulo["id"]).precio_final()*articulo["cantidad"]
-	articulos=zip(articulos,cantidades)
-	return render_template("carrito.html",articulos=articulos,total=total)
+		aux = art.precioFinal*articulo["cantidad"]
+		total.append(aux)
+		totalfinal=totalfinal+aux
+	articulos=zip(imagen,articulos,cantidades,total)
+	return render_template("carrito.html",articulos=articulos,totalfinal=totalfinal)
 
 
 
-app.route('/carrito_delete/<id>')
+@app.route('/carrito_delete/<id>')
 def carrito_delete(id):
 	try:
-		datos = json.loads(request.cookies.get(str(current_user.id)))
+		datos = json.loads(request.cookies.get("carrito"))
 	except:
 		datos = []
 	new_datos=[]
@@ -72,7 +79,7 @@ def carrito_delete(id):
 		if dato["id"]!=id:
 			new_datos.append(dato)
 	resp = make_response(redirect(url_for('carrito')))
-	resp.set_cookie(str(current_user.id),json.dumps(new_datos))
+	resp.set_cookie("carrito",json.dumps(new_datos))
 	return resp
 
 
@@ -80,7 +87,7 @@ def carrito_delete(id):
 @login_required
 def pedido():
 	try:
-		datos = json.loads(request.cookies.get(str(current_user.id)))
+		datos = json.loads(request.cookies.get("carrito"))
 	except:
 		datos = []
 	total=0
@@ -89,7 +96,7 @@ def pedido():
 		Productos.query.get(articulo["id"]).stock-=articulo["cantidad"]
 		db.session.commit()
 	resp = make_response(render_template("pedido.html",total=total))
-	resp.set_cookie(str(current_user.id),"",expires=0)
+	resp.set_cookie("carrito","",expires=0)
 	return resp
 
 

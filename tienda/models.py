@@ -69,4 +69,4 @@ class Productos(db.Model):
     imagen=db.Column(db.String(),nullable=False)
 
     def __repr__(self):
-        return f'Producto {self.nombre}'
+        return f'{self.nombre}'

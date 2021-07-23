@@ -15,32 +15,22 @@
     <div class="container">
 
       <div class="nav-up-container">
-          <div class="nav-up">
-          <div class="logo">LOGO</div>
+        <div class="nav-up">
+        <div class="logo">LOGO</div>
           <div class="busqueda">
             <input type="search" class="input" 
             placeholder=" Buscar productos">
             <div class="searchbtn"><i class="fas fa-search"></i></div>
           </div>
-              {% if current_user.is_authenticated %}
-                <a class="navbar-brand " href="/perfil/{{current_user.email}}">{{current_user.nombre}}</a>
-                <a class="navbar-brand " href="/logout">(Salir)</a>
-              {% else %}
-                <a class="navbar-brand " href="/login">Login</a>
-                <a class="navbar-brand " href="/registro">Registro</a>
-              {% endif %}
-          <div class="carrito">
-            <i class="bi bi-cart-plus-fill"></i>
-            <a class="navbar-brand " href="/carrito"> Carrito<span>{{num_articulos}}</span> </a>
-            <div class="menu">
-              <i class='bx bx-menu' id="btnmenu"></i>
-            </div>
-          </div>
 
+          <div class="carrito">
+            <a class="navbar-brand " href="/carrito"><i class="bi bi-cart-plus-fill"></i><span>({{num_articulos}})</span></a>
+          <div class="menu">
+            <i class='bx bx-menu' id="btnmenu"></i>
+          </div>
+          </div>
         </div>
       </div>
-      
-
       
       <div class="nav-down">
         <div>
@@ -107,8 +97,7 @@
       
     </div>
 
-  <div>{% block content %}
-  {% endblock content %}</div>
+  <div>{% block content %}{% endblock content %}</div>
 
 
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>

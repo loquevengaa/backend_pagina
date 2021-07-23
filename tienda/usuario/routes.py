@@ -41,7 +41,7 @@ def pagina_registro():
 
 
 @app.route('/login',methods=['GET','POST'])
-def login_page():
+def login():
     if current_user.is_authenticated:
         return redirect(url_for("tienda_page"))
     form=LoginForm()
@@ -52,7 +52,7 @@ def login_page():
         ):
             login_user(usuario_a_validar)
             flash(f'Ingreso exitoso! {usuario_a_validar.nombre}',category='success')
-            return redirect(url_for('tienda_page'))
+            return redirect(url_for('panel'))
         else:
             flash('Correo y contraseña no coinciden!! intente otra vez',category='danger')
 
