@@ -3,7 +3,7 @@ from tienda import app
 from flask import render_template,redirect,url_for,request,abort
 from flask_login import current_user,login_required,login_user,LoginManager
 from tienda.models import Productos,Usuarios
-from tienda.carrito.forms import FormCarrito
+
 from tienda import db
 
 
@@ -96,7 +96,7 @@ def panel():
             extension = request.files['image'].filename.split('.')
             photos.save(request.files.get('image'),name=now+'.')
 
-            producto.imagen = now+'.'+extension[1]
+            producto.imagen = now+'.'+extension[-1]
 
         db.session.commit()
     else:
@@ -122,7 +122,7 @@ def agregar():
             now = now.replace(':','');now = now.replace('.','')
             extension = request.files['n-image'].filename.split('.')
             photos.save(request.files.get('n-image'),name=now+'.')
-            imgnombre = now+'.'+extension[1]
+            imgnombre = now+'.'+extension[-1]
 
             producto=Productos(nombre=nombre,
                            categoria=categoria,
