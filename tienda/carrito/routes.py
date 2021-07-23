@@ -55,14 +55,17 @@ def carrito():
 	total=[]
 	totalfinal=0
 	for articulo in datos:
-		art = Productos.query.get(articulo["id"])
-
-		imagen.append(art.imagen)
-		articulos.append(art.nombre)
-		cantidades.append(articulo["cantidad"])
-		aux = art.precioFinal*articulo["cantidad"]
-		total.append(aux)
-		totalfinal=totalfinal+aux
+		try:
+			art = Productos.query.get(articulo["id"])
+			imagen.append(art.imagen)
+			articulos.append(art.nombre)
+			cantidades.append(articulo["cantidad"])
+			aux = art.precioFinal*articulo["cantidad"]
+			total.append(aux)
+			totalfinal=totalfinal+aux
+		except:
+			pass
+		
 	articulos=zip(imagen,articulos,cantidades,total)
 	return render_template("carrito.html",articulos=articulos,totalfinal=totalfinal)
 
