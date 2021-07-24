@@ -28,8 +28,37 @@ def tienda_page():
 @app.route('/categoria/<categoria>',methods=['GET','POST'])#aca se muestran lo productos
 def categorias(categoria):
 
+	try:
+		datos = json.loads(request.cookies.get("carrito"))
+	except:
+		datos = []
+
+	imagen=[]
+	articulos=[]
+	cantidades=[]
+	total=[]
+	pid=[]
+	totalfinal=0
+	for articulo in datos:
+		try:
+			art = Productos.query.get(articulo["id"])
+			
+			pid.append([articulo["id"]])
+			imagen.append(art.imagen)
+			articulos.append(art.nombre)
+			cantidades.append(articulo["cantidad"])
+			aux = art.precioFinal*articulo["cantidad"]
+			total.append(aux)
+			totalfinal=totalfinal+aux
+		except:
+			pass
+	d = len(imagen)	
+	articulos=zip(imagen,articulos,cantidades,total,pid)
+
+
 	items= Productos.query.filter_by(categoria=categoria)
-	return render_template('home.html',items=items)
+	
+	return render_template('home.html',items=items,articulos=articulos,totalfinal=totalfinal,d=d)
 
 	#	return redirect(request.referrer)
 

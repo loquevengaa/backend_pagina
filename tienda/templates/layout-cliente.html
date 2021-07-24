@@ -25,7 +25,7 @@
 
           <div class="carrito">
             <div>
-              <a href="/carrito"><i class="bi bi-cart-plus-fill"></i>{{num_articulos}}</a> 
+              <a href="#" class="boton-carrito"><i class="bi bi-cart-plus-fill"></i>{{num_articulos}}</a> 
             </div>
           <div class="menu">
             <i class='bx bx-menu' id="btnmenu"></i>
@@ -38,7 +38,7 @@
         <div>
           <a href="/categoria/ofertas">
            <object data="../static/media/iconos/price-tag.svg"></object>
-           <span class="links_name">Ofertas y Combos</span>
+           <span class="links_name"><nobr>Ofertas y Combos</nobr></span>
          </a>
         </div>
         <div class="categoria" data-filter="Aperitivo">
@@ -101,6 +101,32 @@
 
   <div>{% block content %}{% endblock content %}</div>
 
+
+<div class="mostrar-carrito">
+  {% if d!=0 %}
+    {% for articulo in articulos %}
+    <div class="box">
+      <div><img src="../static/media/productos/{{articulo[0]}}"></div>
+      <div>{{articulo[1]}}</div>
+      <div>(-) {{articulo[2]}} (+)</div>
+      <div>${{articulo[3]}}</div>
+    <div>
+      <form action="/carrito_delete/{{articulo[4][0]}}">
+        <button type="submit">X</button>
+      </form>
+    </div>
+    </div>
+    {% endfor %}
+    <div>PRECIO FINAL: ${{totalfinal}}</div>
+    <div><a href="/pedido">FINALIZAR COMPRA</a><button class="boton-carrito">CERRAR</button></div>
+    
+    {% else %}
+    <div>SU CARRITO ESTA VACIOO</div>
+    <button class="boton-carrito">CERRAR</button>
+  {% endif %}
+  </div> 
+</div>
+
   
 
 
@@ -108,7 +134,25 @@
 
 <script type="text/javascript">
 
+  $(window).scroll(function() {
+    sessionStorage.scrollTop = $(this).scrollTop();
+  });
+
+  $(document).ready(function() {
+    if (sessionStorage.scrollTop != "undefined") {
+      $(window).scrollTop(sessionStorage.scrollTop);
+    }
+  });
+
   $( document ).ready(function() {
+
+      $(".boton-carrito").on("click",function(){
+        if ($(".mostrar-carrito").hasClass('mostrar')) {
+            $(".mostrar-carrito").removeClass('mostrar');
+        } else {
+            $(".mostrar-carrito").addClass('mostrar');
+          };
+        });
 
       $("#btnmenu").on("click",function(){
         if ($(".nav-down").hasClass('mostrar')) {
