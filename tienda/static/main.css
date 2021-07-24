@@ -256,14 +256,6 @@ body {
     margin-top: 3px;
   }
 
-  .cantidades{
-    margin: auto;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    align-items: center;
-    text-align: center;
-    max-width: 110px;
-  }
   .cantidad {
     width: 50px;
     height: 24px;
@@ -271,7 +263,7 @@ body {
   .botoncantidadmas {
     width: 30px;
     height: 30px;
-    background-color: rgb(0,166,80);
+    background-color: #88304E;
     border-radius: 2px;
     color: white;
     font-weight: bold;
@@ -282,10 +274,20 @@ body {
     padding: 4px;
   }
 
+  .botones-cantidad {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+  }
+
+  .botones-cantidad input {
+    margin-right: 5px;
+    margin-left: 5px;
+  }
+
   .botoncantidadmenos{
     width: 30px;
     height: 30px;
-    background-color: red;
+    background-color: #88304E;
     border-radius: 2px;
     color: white;
     font-weight: bolder;
@@ -296,7 +298,7 @@ body {
     padding: 4px;
   }
   .boton-agregar {
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: #522546;
     border-radius: 2px;
     border: none;
     color: white;
@@ -310,13 +312,13 @@ body {
 
   .botoncantidadmas:hover, 
   .botoncantidadmenos:hover {
-     background-color: rgba(0, 0, 0, 0.5);
+     background-color: #E23E57;
      transition: 0.5s;
   }
   .boton-agregar:hover {
     -webkit-box-shadow: 0 0 10px #888;
     box-shadow: 0 0 10px #888;
-    background-color: rgb(0,166,80);
+    background-color: #E23E57;
     transition: 0.4s;
   }
   .precioanterior {
@@ -394,3 +396,76 @@ body {
     border-radius: 0px;
     }
   }
+
+  .cantidades {
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+
+input[type="number"] {
+  -webkit-appearance: textfield;
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+}
+
+.number-input {
+    display: inline-flex;
+}
+
+.number-input,
+.number-input * {
+
+}
+
+.number-input input {
+  height: 25px;
+}
+
+.number-input button {
+    outline:none;
+    -webkit-appearance: none;
+    background-color: #88304E;
+    border: none;
+    align-items: center;
+    justify-content: center;
+    width: 35px;
+    cursor: pointer;
+    margin: 0;
+    position: relative;
+    padding:0;
+}
+
+.number-input button:before,
+.number-input button:after {
+    display: inline-block;
+    position: absolute;
+    content: '';
+    width: 0.5rem;
+    height: 2px;
+    background-color: white;
+    transform: translate(-50%, -50%);
+}
+.number-input button.plus:after {
+    transform: translate(-50%, -50%) rotate(90deg);
+}
+
+.number-input input[type=number] {
+    font-family: sans-serif;
+    max-width: 4.5rem;
+    padding: 1px;
+    border:0;
+    text-align: center;
+    outline:none;
+}
+.number-input{
+    border: 2px solid #522546;
+    border-radius: 2px;
+}

@@ -2,6 +2,8 @@
 
 {% block content %}
 
+
+
 <div class="productos-grid">
     {%for item in items %}
     <div class="producto {{item.categoria}}">
@@ -31,18 +33,16 @@
           {% endif %}
         </div>
         <div class="cantidades">
-
-          <button class="botoncantidadmenos"><i class="bi bi-dash"></i></button>
-
-          <form action="/carrito/add" method="POST">
-            <input name="cantidad" class="cantidad" type="number" min="1" max="{{item.stock}}" value="1">
-            <input type="hidden" name="indice" value="{{item.id}}">
-            <button class="boton-agregar" type="submit">AGREGAR</button>
-          </form>
-
-          <button class="botoncantidadmas"><i class="bi bi-plus"></i></button>
-        </div>
-
+        <form action="/carrito/add" method="POST">
+          <div class="number-input">
+            <button type="button"  onclick="this.parentNode.querySelector('input[type=number]').stepDown()" ></button>
+            <input class="quantity bg-light" min="1" max="{{item.stock}}" name="cantidad" value="1" type="number">
+            <button type="button" onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus"></button>
+          </div>
+          <button class="boton-agregar" type="submit">AGREGAR</button>
+          <input type="hidden" name="indice" value="{{item.id}}">
+        </form>
+      </div>
       </div>
     </div>
     {%endfor%}
