@@ -1,11 +1,14 @@
-from sqlalchemy.orm import relationship
+
 from tienda import db ,bcrypt,login_manager
 from flask_login import UserMixin
 from sqlalchemy_json import NestedMutableJson
-
+import pandas as pd
 @login_manager.user_loader
 def load_user(user_id):
     return Usuarios.query.get(int(user_id))
+
+
+df=pd.read_excel('tienda\productos.xlsx')
 
 
 
@@ -54,13 +57,21 @@ class Usuarios(db.Model,UserMixin):
 
 class Pedidos(db.Model):
     id=db.Column(db.Integer(),primary_key=True)
-    id_cliente=db.Column(db.Integer(),db.ForeignKey('usuarios.id'),nullable=False)
-    cliente=relationship("Usuarios")
+    direccion=db.Column(db.String(length=100),nullable=False)
+    nombre=db.Column(db.String(length=100),nullable=False)
+    telefono=db.Column(db.Integer(),nullable=True)
+    mail= db.Column(db.String(100),unique=True)
+    fechaHoraPedido=db.Column(db.Date)
+    fechaHoraEntrega=db.Column(db.Date)
+    estado=db.Column(db.String(length=50),nullable=False)
+    chofer=db.Column(db.Integer())
+    descripcion=db.Column(db.String(length=500),nullable=False)
     datos_pedido= db.Column(NestedMutableJson)
+
     
 class Productos(db.Model):
     id=db.Column(db.Integer(),primary_key=True)
-    nombre=db.Column(db.String(length=500),nullable=False,unique=True)
+    nombre=db.Column(db.String(length=500),nullable=False)
     categoria=db.Column(db.String(length=100),nullable=False)
     precio=db.Column(db.Float(),nullable=False)
     stock=db.Column(db.Integer(),nullable=False)
@@ -70,3 +81,22 @@ class Productos(db.Model):
 
     def __repr__(self):
         return f'{self.nombre}'
+
+"""
+db.drop_all()
+db.create_all()
+
+
+for i in range(len(df)):
+    producto=Productos(nombre=str(df['nombre'][i]),
+                       categoria=df['categoria'][i],
+                       precio=int(df['precio'][i]),
+                       stock=int(df['stock'][i]),
+                       oferta=int(df['oferta'][i]),
+                       precioFinal=int(df['precioFinal'][i]),
+                       imagen=df['imagen'][i])
+    db.session.add(producto)
+    db.session.commit()
+    
+
+"""

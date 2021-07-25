@@ -1,9 +1,9 @@
-from tienda.routes import tienda_page
+from tienda.carrito.forms import PedidoForm
 from tienda import app,db
-from flask import render_template,redirect,url_for,request, make_response
-from flask_login import current_user,login_required
-from tienda.models import Productos
+from flask import render_template,redirect,request, make_response
+from tienda.models import Productos,Pedidos
 
+import time
 import json
 
 @app.route('/carrito/add',methods=['GET','POST'])
@@ -93,17 +93,35 @@ def carrito_delete(id):
 
 @app.route('/pedido')
 def pedido():
-	try:
-		datos = json.loads(request.cookies.get("carrito"))
-	except:
-		datos = []
-	total=0
-	for articulo in datos:
-		total=total+Productos.query.get(articulo["id"]).precioFinal*articulo["cantidad"]
-		#Productos.query.get(articulo["id"]).stock-=articulo["cantidad"]
-		#db.session.commit()
-	resp = make_response(render_template("finalizar-pedido.html"))
-	resp.set_cookie("carrito","",expires=0)
+	form=PedidoForm()
+	if form.validate_on_submit():
+		try:
+			cookies=request.cookies.get("carrito")
+			datos = json.loads(cookies)
+		except:
+			datos = []
+		total=0
+		for articulo in datos:
+			total=total+Productos.query.get(articulo["id"]).precioFinal*articulo["cantidad"]
+			
+			#Productos.query.get(articulo["id"]).stock-=articulo["cantidad"]
+			#db.session.commit()
+		nuevoPedido=Pedidos(direccion=form.direccion.data,
+							nombre=form.nombre.data,
+							telefono=form.telefono.data,
+							mail=form.mail.data,
+							medioDePago=form.medioDePago.data,
+							fechaHoraPedido=time.strftime("%d/%m/%y %H:%M"),
+							fechaHoraEntrega=None,
+							estado="En Espera",
+							chofer=None,
+							descripcion=form.descripcion.data,
+							datos_pedido=cookies
+							)
+		db.session.add(nuevoPedido)
+		db.session.commit()
+		resp = make_response(render_template("finalizar-pedido.html"))
+		resp.set_cookie("carrito","",expires=0)
 	return resp
 
 
