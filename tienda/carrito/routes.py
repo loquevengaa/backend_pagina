@@ -109,7 +109,7 @@ def pedido():
 		nuevoPedido=Pedidos(direccion=form.direccion.data,
 							nombre=form.nombre.data,
 							telefono=form.telefono.data,
-							mail=form.mail.data,
+							email=form.mail.data,
 							medioDePago=form.medioDePago.data,
 							fechaHoraPedido=time.strftime("%d/%m/%y %H:%M"),
 							fechaHoraEntrega=None,
@@ -120,9 +120,12 @@ def pedido():
 							)
 		db.session.add(nuevoPedido)
 		db.session.commit()
-		resp = make_response(render_template("finalizar-pedido.html"))
+		resp = make_response(redirect('tienda_page'))
 		resp.set_cookie("carrito","",expires=0)
+	else:
+		resp = make_response(render_template("finalizar-pedido.html",form=form))	
 	return resp
+
 
 
 

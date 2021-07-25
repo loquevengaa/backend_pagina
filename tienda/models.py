@@ -60,7 +60,7 @@ class Pedidos(db.Model):
     direccion=db.Column(db.String(length=100),nullable=False)
     nombre=db.Column(db.String(length=100),nullable=False)
     telefono=db.Column(db.Integer(),nullable=True)
-    mail= db.Column(db.String(100),unique=True)
+    email= db.Column(db.String(100))
     fechaHoraPedido=db.Column(db.Date)
     fechaHoraEntrega=db.Column(db.Date)
     estado=db.Column(db.String(length=50),nullable=False)
