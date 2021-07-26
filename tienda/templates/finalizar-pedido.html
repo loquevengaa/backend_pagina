@@ -31,10 +31,41 @@
 
  <div class="ingresa-datos">
  	<form>
- 		<label for="name"></label>
- 		<input type="text" name="nombre">
- 		<input type="" name="">
-
+ 	 <div>
+    {{form.nombre.label()}}
+    {{form.nombre(class="form-control")}}
+   </div>
+   <div>
+     {{form.dirreccion.label()}}
+     {{form.dirreccion(class="form-control")}}
+   </div>
+   <div>
+     {{form.telefono.label()}}
+     {{form.telefono(class="form-control")}}
+   </div>
+   <div>
+     {{form.email.label()}}
+     {{form.email(class="form-control")}}
+   </div>
+   <div>
+     {{form.telefono.label()}}
+     {{form.telefono(class="form-control")}}
+   </div>
+   <div>
+     {{form.descripcion.label()}}
+     {{form.descripcion(class="form-control")}}
+   </div>
+   <div>
+     {{form.medioDePago.label()}}
+     {{form.medioDePago(class="form-control")}}
+   </div>
+   <form action="/" method="POST">
+    <!-- {{form.recaptcha}}-->
+    </form>
+    <div>
+      {{form.submit.label()}}
+      {{form.submit(class="form-control")}}
+    </div>
  	</form>
  </div>
 
