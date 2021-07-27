@@ -99,4 +99,16 @@ for i in range(len(df)):
     db.session.commit()
     
 
+
+usuario=Usuarios(nombre= "tincho",
+
+    email= "tincho@gmail.com",
+    telefono=123456789,
+    contrasenia_cifrada="adminadmin",
+    cantidad_pedidos=0,
+    admin = True,
+    chofer = False
+)
+db.session.add(usuario)
+db.session.commit()
 """
