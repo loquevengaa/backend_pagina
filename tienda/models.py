@@ -83,10 +83,10 @@ class Productos(db.Model):
 db.drop_all()
 db.create_all()
 
-
+df = pd.read_excel("tienda\cosas.xlsx")
 for i in range(len(df)):
-    producto=Productos(nombre=str(df['nombre'][i]),
-                       categoria=df['categoria'][i],
+    producto=Productos(nombre=str(df['nombre'][i]).title(),
+                       categoria=str(df['categoria'][i]).title(),
                        precio=int(df['precio'][i]),
                        stock=int(df['stock'][i]),
                        oferta=int(df['oferta'][i]),
@@ -96,16 +96,4 @@ for i in range(len(df)):
     db.session.commit()
     
 
-
-usuario=Usuarios(nombre= "tincho",
-
-    email= "tincho@gmail.com",
-    telefono=123456789,
-    contrasenia_cifrada="adminadmin",
-    cantidad_pedidos=0,
-    admin = True,
-    chofer = False
-)
-db.session.add(usuario)
-db.session.commit()
 """
