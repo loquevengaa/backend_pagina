@@ -1,6 +1,6 @@
 from tienda import db ,bcrypt,login_manager
 from flask_login import UserMixin
-from sqlalchemy_json import NestedMutableJson
+import sqlalchemy.types as types
 import pandas as pd
 
 @login_manager.user_loader
@@ -57,13 +57,13 @@ class Pedidos(db.Model):
     nombre=db.Column(db.String(length=100),nullable=False)
     telefono=db.Column(db.Integer(),nullable=True)
     email= db.Column(db.String(100))
-    fechaHoraPedido=db.Column(db.Date)
-    fechaHoraEntrega=db.Column(db.Date)
+    fechaHoraPedido=db.Column(db.String(100))
+    fechaHoraEntrega=db.Column(db.String(100))
     estado=db.Column(db.String(length=50),nullable=False)
     chofer=db.Column(db.Integer())
     descripcion=db.Column(db.String(length=500),nullable=False)
     formaPago=db.Column(db.String(length=100),nullable=False)
-    datos_pedido= db.Column(NestedMutableJson)
+    datos_pedido= db.Column(types.JSON())
 
     
 class Productos(db.Model):
