@@ -1,4 +1,3 @@
-
 from tienda import db ,bcrypt,login_manager
 from flask_login import UserMixin
 from sqlalchemy_json import NestedMutableJson
