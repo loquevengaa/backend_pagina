@@ -63,6 +63,7 @@ class Pedidos(db.Model):
     estado=db.Column(db.String(length=50),nullable=False)
     chofer=db.Column(db.Integer())
     descripcion=db.Column(db.String(length=500),nullable=False)
+    formadepago=db.Column(db.String(30)nullable=False)
     datos_pedido= db.Column(NestedMutableJson)
 
     
