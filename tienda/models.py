@@ -1,4 +1,3 @@
-
 from tienda import db ,bcrypt,login_manager
 from flask_login import UserMixin
 from sqlalchemy_json import NestedMutableJson
@@ -63,7 +62,7 @@ class Pedidos(db.Model):
     estado=db.Column(db.String(length=50),nullable=False)
     chofer=db.Column(db.Integer())
     descripcion=db.Column(db.String(length=500),nullable=False)
-    formadepago=db.Column(db.String(30)nullable=False)
+    formaPago=db.Column(db.String(length=100),nullable=False)
     datos_pedido= db.Column(NestedMutableJson)
 
     
@@ -79,7 +78,6 @@ class Productos(db.Model):
 
     def __repr__(self):
         return f'{self.nombre}'
-
 """
 db.drop_all()
 db.create_all()
