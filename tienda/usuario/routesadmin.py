@@ -1,8 +1,8 @@
 from tienda import app
-
+import json
 from flask import render_template,redirect,url_for,request,abort
 from flask_login import current_user,login_required,login_user,LoginManager
-from tienda.models import Productos,Usuarios
+from tienda.models import Productos,Usuarios,Pedidos
 
 from tienda import db
 
@@ -102,6 +102,22 @@ def panel():
     else:
         print('GET METHOD RECEIVED')
     return render_template('paneldatatable.html',items=Productos.query.all() ) 
+
+
+@app.route('/panel/pedidos', methods=['GET','POST'])
+@login_required
+def tablapedidos():
+    pedidos = Pedidos.query.all()
+    productos = Productos.query.all()
+    datos = []
+    ids = []
+    for items in pedidos:
+        datos.append(json.loads(items.datos_pedido))
+        ids.append(items.id)
+
+    data = zip(pedidos,ids,datos)
+
+    return render_template('paneltablapedidos.html',data=data,)
 
 
 
