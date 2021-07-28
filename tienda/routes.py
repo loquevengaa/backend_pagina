@@ -28,6 +28,8 @@ def tienda_page():
 @app.route('/categoria/<categoria>',methods=['GET','POST'])#aca se muestran lo productos
 def categorias(categoria):
 
+	categoria = categoria.lower()
+
 	try:
 		datos = json.loads(request.cookies.get("carrito"))
 	except:

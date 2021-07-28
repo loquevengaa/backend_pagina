@@ -91,7 +91,7 @@ def carrito_delete(id):
 	return resp
 
 
-@app.route('/pedido')
+@app.route('/pedido',methods=['GET','POST'])
 def pedido():
 	form=PedidoForm()
 	if form.validate_on_submit():
@@ -109,7 +109,7 @@ def pedido():
 		nuevoPedido=Pedidos(direccion=form.direccion.data,
 							nombre=form.nombre.data,
 							telefono=form.telefono.data,
-							email=form.mail.data,
+							email=form.email.data,
 							medioDePago=form.medioDePago.data,
 							fechaHoraPedido=time.strftime("%d/%m/%y %H:%M"),
 							fechaHoraEntrega=None,

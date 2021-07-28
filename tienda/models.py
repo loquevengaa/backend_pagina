@@ -3,13 +3,10 @@ from tienda import db ,bcrypt,login_manager
 from flask_login import UserMixin
 from sqlalchemy_json import NestedMutableJson
 import pandas as pd
+
 @login_manager.user_loader
 def load_user(user_id):
     return Usuarios.query.get(int(user_id))
-
-
-df=pd.read_excel('tienda\productos.xlsx')
-
 
 
 class Usuarios(db.Model,UserMixin):

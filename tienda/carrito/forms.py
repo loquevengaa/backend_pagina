@@ -5,7 +5,7 @@ from flask_wtf.recaptcha import RecaptchaField
 
 
 class PedidoForm(FlaskForm):
-    dirreccion=StringField(label='Direccion',validators=[Length(min= 2, max= 50),DataRequired()])
+    direccion=StringField(label='Direccion',validators=[Length(min= 2, max= 50),DataRequired()])
     nombre =StringField(label='Nombre',validators=[Length(min= 2, max= 50),DataRequired()])
     telefono=IntegerField(label='Telefono',validators=[DataRequired()])
     email =StringField(label='Correo',validators=[Email(),DataRequired()])

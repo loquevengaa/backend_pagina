@@ -29,15 +29,24 @@
     </div>
 
 
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category,messages in messages %}
+                <p>{{messages}}</p>
+            {% endfor %}
+        {% endif %}
+        {% endwith %}
+
  <div class="ingresa-datos">
- 	<form>
+ 	<form action="/pedido" method="POST">
  	 <div>
+    {{ form.csrf_token }}
     {{form.nombre.label()}}
     {{form.nombre(class="form-control")}}
    </div>
    <div>
-     {{form.dirreccion.label()}}
-     {{form.dirreccion(class="form-control")}}
+     {{form.direccion.label()}}
+     {{form.direccion(class="form-control")}}
    </div>
    <div>
      {{form.telefono.label()}}
@@ -48,10 +57,6 @@
      {{form.email(class="form-control")}}
    </div>
    <div>
-     {{form.telefono.label()}}
-     {{form.telefono(class="form-control")}}
-   </div>
-   <div>
      {{form.descripcion.label()}}
      {{form.descripcion(class="form-control")}}
    </div>
@@ -59,9 +64,6 @@
      {{form.medioDePago.label()}}
      {{form.medioDePago(class="form-control")}}
    </div>
-   <form action="/" method="POST">
-    <!-- {{form.recaptcha}}-->
-    </form>
     <div>
       {{form.submit.label()}}
       {{form.submit(class="form-control")}}
