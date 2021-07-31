@@ -17,19 +17,17 @@
 	}
 
 </style>
-
-
 	<table id="pedidos" hidden="hidden" class="display" style="width:100%;">
         <thead>
             <tr>
             	<th></th>
                 <th>Datos</th>
                 <th>Productos</th>
-                <th>Horario</th>
+                <th>Hora Pedido</th>
                 <th>Estado</th>
                 <th>Pago</th>
                 <th>Chofer</th>
-                <th>Descripcion</th>
+                <th>Comentarios</th>
                 <th>Aceptar</th>
             </tr>
         </thead>
@@ -40,32 +38,45 @@
 
            	<td>
            		<div class="datos">
-           			<span>ID: {{i[0].id}}</span>
-           			<span>{{i[0].nombre}}</span>
-           			<span>{{i[0].telefono}}</span>
-           			<span>{{i[0].email}}</span>
-           			<span>{{i[0].direccion}}</span>
+           			<span>ID: {{i.id}}</span>
+           			<span>{{i.nombre}}</span>
+           			<span>{{i.telefono}}</span>
+           			<span>{{i.email}}</span>
+           			<span>{{i.direccion}}</span>
            		</div>
            	</td>
 
            	<td>
            		<div class="productos">
-           			{% for j in i[2] %}
-           				{{j.id}}
+           			{%  for j in info[i.id] %}
+           			<div>
+           			  {{ j.cantidad }}
+           			  {{productos[j.id | int].nombre}}
+           			 </div>
            			{% endfor %}
            		</div>
            	</td>
 
            	<td>
-           		{{i.fechaHoraPedido}}
+           		{{i.fechaHoraPedido[:16]}}
            	</td>
 
            	<td>
-           		{{i.estado}}
+           		<span hidden="hidden">{{i.estado}}</span>
+           		<form>
+           		<select>
+           			<option type="text" value="{{i.estado}}">{{i.estado}}</option>
+           			<option>Enviando</option>
+           			<option>Entregado</option>
+           			<option>Cancelado</option>
+           		</select>
+           		</form>
            	</td>
 
            	<td>
-           		{{i.formaPago}}
+           		<div>Medio de Pago: {{i.formaPago}}</div>
+           		<div>Total: ${{total[i.id]}}</div>
+           		<div>Estado: En espera</div>
            	</td>
 
            	<td>
@@ -101,7 +112,7 @@
 		stateSave: true,
 		stateDuration: 60,
 		columnDefs: [
-		{orderable: false, targets: [0,1,8]}
+		{orderable: false, targets: [0]}
 		],
 		language: {
 			search: 'Buscar:',

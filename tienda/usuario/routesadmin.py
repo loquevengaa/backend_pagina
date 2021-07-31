@@ -109,15 +109,14 @@ def panel():
 def tablapedidos():
     pedidos = Pedidos.query.all()
     productos = Productos.query.all()
-    datos = []
-    ids = []
+    info = [None]*1000 #aca van los datos del carrito
+    total = [0]*1000 #aca se calcula el total del pedido
     for items in pedidos:
-        datos.append(json.loads(items.datos_pedido))
-        ids.append(items.id)
+        info[items.id] = json.loads(items.datos_pedido)
+        for j in info[items.id]:
+            total[items.id] += j["cantidad"]*productos[items.id].precioFinal
 
-    data = zip(pedidos,ids,datos)
-
-    return render_template('paneltablapedidos.html',data=data,)
+    return render_template('paneltablapedidos.html',data=pedidos,info=info,productos=productos,total=total)
 
 
 
