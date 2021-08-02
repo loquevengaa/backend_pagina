@@ -36,7 +36,7 @@
       
       <div class="nav-down">
         <div>
-          <a href="/categoria/ofertas">
+          <a href="/">
            <object data="../static/media/iconos/price-tag.svg"></object>
            <span class="links_name"><nobr>Ofertas y Combos</nobr></span>
          </a>
@@ -99,7 +99,7 @@
       
     </div>
 
-  <div>{% block content %}{% endblock content %}</div>
+  <main>{% block content %}{% endblock content %}</main>
 
 
 <div class="mostrar-carrito">
@@ -109,13 +109,14 @@
     <div class="box">
       <div class="img-carrito"><img src="../static/media/productos/{{articulo[0]}}"></div>
       <div>{{articulo[1]}}</div>
-        <form action="/carrito/add" method="POST" onchange="this.form.submit();">
+        <form action="/carrito/add" method="POST">
           <div class="number-input">
             <button type="button"  onclick="this.parentNode.querySelector('input[type=number]').stepDown()" ></button>
-            <input class="quantity bg-light" min="1" max="{{items.stock}}" name="cantidad" value="{{articulo[2]}}" type="number">
+            <input class="quantity bg-light" min="1" max="{{articulo[5]}}" name="cantidad" value="{{articulo[2]}}" type="number" onchange="this.form.submit();">
             <button type="button" onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus"></button>
           </div>
-          <input type="hidden" name="indice" value="{{items.id}}">
+          <button class="boton-actualizar" type="submit"><i class="bi bi-arrow-clockwise"></i></button>
+          <input type="hidden" name="indice" value="{{articulo[4][0]}}">
         </form></nobr>
       <div>${{articulo[3]}}</div>
     <div class="elimina-carrito">
@@ -160,8 +161,10 @@
       $(".boton-carrito").on("click",function(){
         if ($(".mostrar-carrito").hasClass('mostrar')) {
             $(".mostrar-carrito").removeClass('mostrar');
+            return false;
         } else {
             $(".mostrar-carrito").addClass('mostrar');
+            return false;
           };
         });
 
@@ -189,6 +192,5 @@
 </script>
 
 </body>
-<footer>  
-</footer>
+<footer>asd</footer>
 </html>

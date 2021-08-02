@@ -32,6 +32,7 @@ def tienda_page():
 	cantidades=[]
 	total=[]
 	pid=[]
+	stock=[]
 	totalfinal=0
 	for articulo in datos:
 		try:
@@ -42,12 +43,13 @@ def tienda_page():
 			articulos.append(art.nombre)
 			cantidades.append(articulo["cantidad"])
 			aux = art.precioFinal*articulo["cantidad"]
+			stock.append(art.stock)
 			total.append(aux)
 			totalfinal=totalfinal+aux
 		except:
 			pass
 	d = len(imagen)	
-	articulos=zip(imagen,articulos,cantidades,total,pid)
+	articulos=zip(imagen,articulos,cantidades,total,pid,stock)
 
 	items= Productos.query.all()
 	
@@ -70,6 +72,7 @@ def categorias(categoria):
 	cantidades=[]
 	total=[]
 	pid=[]
+	stock=[]
 	totalfinal=0
 	for articulo in datos:
 		try:
@@ -80,12 +83,13 @@ def categorias(categoria):
 			articulos.append(art.nombre)
 			cantidades.append(articulo["cantidad"])
 			aux = art.precioFinal*articulo["cantidad"]
+			stock.append(art.stock)
 			total.append(aux)
 			totalfinal=totalfinal+aux
 		except:
 			pass
 	d = len(imagen)	
-	articulos=zip(imagen,articulos,cantidades,total,pid)
+	articulos=zip(imagen,articulos,cantidades,total,pid,stock)
 
 
 	items= Productos.query.filter_by(categoria=categoria)
