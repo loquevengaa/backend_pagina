@@ -104,25 +104,36 @@
 
 <div class="mostrar-carrito">
   {% if d!=0 %}
+  <div class="box-container">
     {% for articulo in articulos %}
     <div class="box">
-      <div><img src="../static/media/productos/{{articulo[0]}}"></div>
+      <div class="img-carrito"><img src="../static/media/productos/{{articulo[0]}}"></div>
       <div>{{articulo[1]}}</div>
-      <div>(-) {{articulo[2]}} (+)</div>
+        <form action="/carrito/add" method="POST" onchange="this.form.submit();">
+          <div class="number-input">
+            <button type="button"  onclick="this.parentNode.querySelector('input[type=number]').stepDown()" ></button>
+            <input class="quantity bg-light" min="1" max="{{items.stock}}" name="cantidad" value="{{articulo[2]}}" type="number">
+            <button type="button" onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus"></button>
+          </div>
+          <input type="hidden" name="indice" value="{{items.id}}">
+        </form></nobr>
       <div>${{articulo[3]}}</div>
-    <div>
+    <div class="elimina-carrito">
       <form action="/carrito_delete/{{articulo[4][0]}}">
         <button type="submit">X</button>
       </form>
     </div>
     </div>
     {% endfor %}
+  </div>
+  <div class="cerrar-precio">
     <div>PRECIO FINAL: ${{totalfinal}}</div>
-    <div><a href="/pedido">FINALIZAR COMPRA</a><button class="boton-carrito">CERRAR</button></div>
+    <div><a href="/pedido"><button>FINALIZAR COMPRA</button></a><button class="boton-carrito">CERRAR</button></div>
     
     {% else %}
     <div>SU CARRITO ESTA VACIOO</div>
     <button class="boton-carrito">CERRAR</button>
+  </div>
   {% endif %}
   </div> 
 </div>

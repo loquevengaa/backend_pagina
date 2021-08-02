@@ -1,8 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
 
-body {
+body,html {
       margin: 0;
-      min-height: 100%;
+      min-height: 1vh;
       font-family: "Poppins" , sans-serif;
       background: rgb(220,220,220);
     }
@@ -191,6 +191,26 @@ body {
 
       .mostrar-carrito {
         margin-top: 50px !important;
+        border: 3px solid #88304E;
+        border-bottom-right-radius: 5px;
+      }
+
+      .box {
+        grid-template-columns: 1fr 3fr 3fr !important;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .box form {
+        width: 50px;
+      }
+
+      .box div {
+        padding: 2px;
+      }
+
+      .box .img-carrito {
+        grid-row: 1 / 3;
       }
 
     }
@@ -380,6 +400,10 @@ body {
     height: 75px;
     background-color: white;
     width: 100%;
+    position: absolute;
+    bottom: 0;
+    max-width: 1000px;
+    margin: auto;
   }
 
   @media (max-width: 550px) {
@@ -422,6 +446,7 @@ input[type=number]::-webkit-outer-spin-button {
 
 .number-input {
     display: inline-flex;
+    margin-bottom: 3px;
 }
 
 .number-input,
@@ -477,19 +502,33 @@ input[type=number]::-webkit-outer-spin-button {
 .box {
       max-width: 500px;
       display: grid;
-      grid-template-columns: 1fr 3fr 1fr 1fr 1fr;
+      grid-template-columns: 1fr 3fr 3fr 1fr 1fr;
       align-items: center;
     }
 
-    .box button {
+    .box .elimina-carrito button {
       background: red;
       color: white;
       border-radius: 5px;
       font-weight: bold;
+      width: 30px;
     }
 
     .box img {
       max-width: 50px;
+      align-items: center;
+    }
+
+    .box-container {
+      overflow-y: scroll;
+      max-height: 500px;
+    }
+
+    .cerrar-precio {
+      bottom: 0;
+      padding: 5px;
+      width: 100%;
+      border-top: 1px solid #88304E;
     }
 
     .mostrar-carrito {
@@ -505,4 +544,17 @@ input[type=number]::-webkit-outer-spin-button {
       border-bottom: 3px solid #88304E;
       border-bottom-left-radius: 5px;
       display: none;
+
+    }
+
+    .elimina-carrito form {
+      text-align: center;
+      display: grid;
+      grid-template-columns: 1fr;
+      width: 50%;
+      justify-content: center;
+      margin: auto;
+    }
+    .mostrar-carrito .boton-agregar {
+      width: 15px;
     }

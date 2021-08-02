@@ -20,9 +20,39 @@ def load_user(user_id):
 
 @app.route('/')
 @app.route('/home',methods=['POST','GET'])#aca se muestran lo productos
-def tienda_page():	
+def tienda_page():
+
+	try:
+		datos = json.loads(request.cookies.get("carrito"))
+	except:
+		datos = []
+
+	imagen=[]
+	articulos=[]
+	cantidades=[]
+	total=[]
+	pid=[]
+	totalfinal=0
+	for articulo in datos:
+		try:
+			art = Productos.query.get(articulo["id"])
+			
+			pid.append([articulo["id"]])
+			imagen.append(art.imagen)
+			articulos.append(art.nombre)
+			cantidades.append(articulo["cantidad"])
+			aux = art.precioFinal*articulo["cantidad"]
+			total.append(aux)
+			totalfinal=totalfinal+aux
+		except:
+			pass
+	d = len(imagen)	
+	articulos=zip(imagen,articulos,cantidades,total,pid)
+
 	items= Productos.query.all()
-	return render_template('home.html',items=items)
+	
+	return render_template('home.html',items=items,articulos=articulos,totalfinal=totalfinal,d=d)
+
 
 
 @app.route('/categoria/<categoria>',methods=['GET','POST'])#aca se muestran lo productos
