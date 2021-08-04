@@ -99,6 +99,12 @@ def categorias(categoria):
 	#	return redirect(request.referrer)
 
 
+@app.route('/buscar/<nombre>')
+def buscar(nombre):
+
+	res = select([Productos]).where(Productos.c.nombre.like('%foobar%'))
+
+	return pass
 
 
 
