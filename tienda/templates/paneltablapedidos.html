@@ -87,8 +87,8 @@
            		{{i.descripcion}}
            	</td>
            	<td>
-           		<a target="_blank" href="https://api.whatsapp.com/send?phone=5492235062720&text=Hola%20{{i.nombre}}%20recibimos tu pedido ID: {{i.id}}."><button>aceptar</button></a>
-           		<a target="_blank" href="https://api.whatsapp.com/send?phone=5492235062720&text=Hola%20{{i.nombre}}%20por x razon no podemos concretar tu compra."><button>rechazar</button></a>
+           		<a target="_blank" href="whatsapp://send?phone={{i.telefono}}&text=Hola%20{{i.nombre}}%20recibimos tu pedido ID: {{i.id}}."><button>aceptar</button></a>
+           		<a target="_blank" href="whatsapp://send?phone=5492235062720&text=Hola%20{{i.nombre}}%20por x razon no podemos concretar tu compra."><button>rechazar</button></a>
            	</td>
            </tr>
            {% endfor %}

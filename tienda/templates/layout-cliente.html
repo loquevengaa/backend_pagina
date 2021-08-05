@@ -16,13 +16,11 @@
 
       <div class="nav-up-container">
         <div class="nav-up">
-        <div class="logo">LOGO</div>
+        <div class="logo">TIENDA QUEEN</div>
           <div class="busqueda">
-            <form action="/buscar">
               <input type="search" class="input" 
               placeholder=" Buscar productos">
               <div class="searchbtn"><i class="fas fa-search"></i></div>
-            </form>
           </div>
 
           <div class="carrito">
@@ -111,7 +109,7 @@
     <div class="box">
       <div class="img-carrito"><img src="../static/media/productos/{{articulo[0]}}"></div>
       <div>{{articulo[1]}}</div>
-        <form action="/carrito/add" method="POST">
+        <form action="/carrito/modify" method="POST">
           <div class="number-input">
             <button type="button"  onclick="this.parentNode.querySelector('input[type=number]').stepDown()" ></button>
             <input class="quantity bg-light" min="1" max="{{articulo[5]}}" name="cantidad" value="{{articulo[2]}}" type="number" onchange="this.form.submit();">

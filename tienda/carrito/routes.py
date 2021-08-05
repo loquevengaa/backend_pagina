@@ -16,21 +16,25 @@ def carrito_add():
 		cantidad = int(request.form['cantidad'])
 		art=Productos.query.get(indice)
 		print(art)
-		if art is None:
-			print("Articulo no existe")
-			return redirect(request.referrer) #No hay articulo		
-		if art.stock <= 0:
-			print("No stock")
-			return redirect(request.referrer) #No hay stock
 		try:
 			datos = json.loads(request.cookies.get("carrito"))	 #str(current_user.get_id()			
 		except:
 			datos=[]
+
+		if art is None:
+			print("Articulo no existe")
+			return redirect(request.referrer) #No hay articulo		
 		actualizar = False
+		aux=0
 		for dato in datos:
 			if dato["id"] == indice:
 				dato["cantidad"] +=cantidad
+				aux=dato["cantidad"]
+				print(aux)
 				actualizar = True
+		if  (art.stock-aux) < 0:
+			print("No stock")
+			return redirect(request.referrer) #No hay stock	
 		if not actualizar:
 			datos.append({"id": indice,"cantidad":cantidad})
 			print(datos)					 						 
@@ -40,6 +44,42 @@ def carrito_add():
 	return redirect(request.referrer)
 
 
+
+@app.route('/carrito/modify',methods=['GET','POST'])
+def carrito_modify():
+
+	if request.method=='POST':
+		indice = (request.form['indice'])
+		print(indice)
+		cantidad = int(request.form['cantidad'])
+		art=Productos.query.get(indice)
+		print(art)
+		try:
+			datos = json.loads(request.cookies.get("carrito"))	 #str(current_user.get_id()			
+		except:
+			datos=[]
+
+		if art is None:
+			print("Articulo no existe")
+			return redirect(request.referrer) #No hay articulo		
+		actualizar = False
+		aux=0
+		for dato in datos:
+			if dato["id"] == indice:
+				dato["cantidad"] =cantidad
+				aux=dato["cantidad"]
+				print(aux)
+				actualizar = True
+		if  (art.stock-aux) < 0:
+			print("No stock")
+			return redirect(request.referrer) #No hay stock	
+		if not actualizar:
+			datos.append({"id": indice,"cantidad":cantidad})
+			print(datos)					 						 
+		resp=make_response(redirect(request.referrer))
+		resp.set_cookie("carrito", json.dumps(datos)) #str(current_user.get_id()
+		return resp
+	return redirect(request.referrer)
 
 
 

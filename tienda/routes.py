@@ -104,7 +104,7 @@ def buscar(nombre):
 
 	res = select([Productos]).where(Productos.c.nombre.like('%foobar%'))
 
-	return pass
+	return res
 
 
 
