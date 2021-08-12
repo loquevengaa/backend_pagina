@@ -3,6 +3,8 @@ from flask_login import UserMixin
 import sqlalchemy.types as types
 import pandas as pd
 
+
+
 @login_manager.user_loader
 def load_user(user_id):
     return Usuarios.query.get(int(user_id))
@@ -17,6 +19,7 @@ class Usuarios(db.Model,UserMixin):
     cantidad_pedidos=db.Column(db.Integer(),nullable=True)
     admin = db.Column(db.Boolean, default=False)
     chofer = db.Column(db.Boolean, default=False)
+    pedidos=db.relationship('Pedidos',backref='chofer_asociado')
     
     @property
     def contrasenia(self):
@@ -60,10 +63,11 @@ class Pedidos(db.Model):
     fechaHoraPedido=db.Column(db.String(100))
     fechaHoraEntrega=db.Column(db.String(100))
     estado=db.Column(db.String(length=50),nullable=False)
-    chofer=db.Column(db.Integer())
+    chofer=db.Column(db.Integer(),db.ForeignKey('usuarios.id'))
     descripcion=db.Column(db.String(length=500),nullable=False)
     formaPago=db.Column(db.String(length=100),nullable=False)
     datos_pedido= db.Column(types.JSON())
+    costo=db.relationship('Costo_pedido',backref='pedido')
 
     
 class Productos(db.Model):
@@ -78,6 +82,15 @@ class Productos(db.Model):
 
     def __repr__(self):
         return f'{self.nombre}'
+
+   
+class Costo_pedido(db.Model):
+    id=db.Column(db.Integer(),primary_key=True)
+    id_pedido=db.Column(db.Integer(),db.ForeignKey('pedidos.id'))
+    costo=db.Column(db.Float(),nullable=False) 
+    def __repr__(self):
+        return f'{self.costo}'
+
 """
 db.drop_all()
 db.create_all()
@@ -94,5 +107,4 @@ for i in range(len(df)):
     db.session.add(producto)
     db.session.commit()
     
-
 """

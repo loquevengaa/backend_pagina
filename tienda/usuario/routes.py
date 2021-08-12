@@ -28,7 +28,7 @@ def pagina_registro():
             db.session.add(usuario_nuevo)
             db.session.commit()
             login_user(usuario_nuevo)
-            flash(f"Cuenta creada sactifatoriamente! estas logeado",category='success')
+            flash(f"Cuenta creada sactifatoriamente! estas logeado")
             return redirect(url_for('tienda_page'))
         form.username.errors.append("Correo de usuario ya existe.")
     else:

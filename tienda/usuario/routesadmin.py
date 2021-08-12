@@ -1,6 +1,6 @@
 from tienda import app
 import json
-from flask import render_template,redirect,url_for,request,abort
+from flask import render_template,redirect,url_for,request,abort,flash
 from flask_login import current_user,login_required,login_user,LoginManager
 from tienda.models import Productos,Usuarios,Pedidos
 
@@ -152,3 +152,28 @@ def agregar():
             pass
         return redirect(url_for('panel'))
 
+@app.route('/panel/crear_chofer', methods=['GET','POST'])
+@login_required
+def crear_chofer():
+    if not current_user.is_admin():
+        abort(404)
+    if request.method == 'POST':
+        try:
+            nombre= request.form['nombre-chofer']
+            email= request.form['email-chofer']
+            telefono=request.form['telefono-chofer']
+            contrasenia= request.form['contrasenia-chofer']
+            chofer=Usuarios(nombre=nombre,
+                        email=email,
+                        telefono=telefono,
+                        contrasenia_cifrada=contrasenia,
+                        cantidad_pedidos=0,
+                        admin=False,
+                        chofer=True,
+                        )
+            db.session.add(chofer)
+            db.commit()
+            flash(f'Chofer creado con exito')
+        except:
+            flash(f'Error al crear Chofer')
+        return redirect(url_for('panel'))
