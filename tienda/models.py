@@ -112,5 +112,4 @@ for i in range(len(df)):
                        imagen=df['imagen'][i])
     db.session.add(producto)
     db.session.commit()
-    
-"""
+    """

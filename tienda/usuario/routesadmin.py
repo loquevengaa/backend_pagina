@@ -172,17 +172,21 @@ def combos_agregar():
     productos = Productos.query.all()
 
     if request.method=='POST':
+        print("agrego combo")
         items=request.form.getlist('skills')
         datos=[]
         for item in items:
             datos.append({"id":item,"cantidad":0})
+        print(datos)
         datos=json.dumps(datos)
         try:
             now = str(datetime.now());now = now.replace('-','');now = now.replace(' ','')
             now = now.replace(':','');now = now.replace('.','')
             extension = request.files['n-image'].filename.split('.')
             photos.save(request.files.get('n-image'),name=now+'.')
-            imgnombre = now+'.'+extension[-1] 
+            imgnombre = now+'.'+extension[-1]
+        except:
+            imgnombre ="a" 
             nuevoCombo=Combos(
                     datos_combo=datos,
                     precioFinal=0,
@@ -190,8 +194,7 @@ def combos_agregar():
                     )
             db.session.add(nuevoCombo)
             db.session.commit()        
-        except:
-            pass
+        
     return render_template('panelcombos.html',productos=productos)
         
 @app.route('/panel/combos/modifica', methods=['GET','POST'])
