@@ -135,29 +135,6 @@
 
 		<button id="show">Agregar Producto</button> <button id="combo">Agregar Combo</button>
 
-	<div class="n-combo" style="display: none;">
-		<form action="/panel/agregar" method="POST" enctype="multipart/form-data">
-			<span>Imagen</span>
-			<span>Nombre</span>
-			<span>Categoria</span>
-			<span>Stock</span>
-			<span>Precio</span>
-			<span>Oferta</span>
-			<span></span>
-			<input type="file" accept=".jpg, .jpeg, .png" name="n-image" required="required">
-			<input class="texto" type="text" name="n-nombre" required="required">
-			<select name="n-categoria" required="required">
-				{% for j in ('Aperitivo','Gaseosa','Vino','Energizante','Whisky','Jugo','Gin','Cerveza') %}
-				<option type="text" value="{{j}}">{{j}}</option>
-				{% endfor %}
-			</select>
-			<input type="number" name="n-stock" min="0" value="0">
-			<input type="number" name="n-precio" step="0.01" min="0" required="required">
-			<input type="number" name="n-oferta" value="0" min="0">
-			<input type="submit" value="Agregar">
-		</form>
-	</div>
-
 
 	<div class="n-producto" style="display: none;">
 		<form action="/panel/agregar" method="POST" enctype="multipart/form-data">

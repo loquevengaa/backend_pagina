@@ -1,0 +1,37 @@
+{% extends 'layout-admin.html' %}
+{% block content %}
+
+<style type="text/css">
+	.formulario-combo form{
+		display: grid;
+		grid-template-columns: 1fr 1fr 2fr 0.5fr
+	}
+
+	.foto-nombre {
+		
+	}
+
+</style>
+
+<div class="formulario-combo">
+
+	<form method="post" id="multiple_select_form" action="/panel/combos/agregar">
+
+	<input type="file" accept=".jpg, .jpeg, .png" name="n-image">
+
+	<input class="texto" type="text" name="n-nombre" placeholder="Nombre">
+
+     <select name="skills" id="skills" class="form-control selectpicker" data-live-search="true" placeholder="asd" multiple>
+     	{% for item in productos %}
+      		<option value="{{item.id}}">{{item.nombre}}</option>
+        {% endfor %}
+     </select>
+
+     <input type="hidden" name="hidden_skills" id="hidden_skills" />
+     <input type="submit" name="submit" class="btn btn-info" value="Submit" />
+
+    </form>
+
+</div>
+
+{% endblock content %}

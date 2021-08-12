@@ -156,7 +156,27 @@ def agregar():
 
 
 
+@app.route('/panel/combos', methods=['GET','POST'])
+@login_required
 
+def combos():
+
+    productos = Productos.query.all()
+
+    return render_template('panelcombos.html',productos=productos)
+
+@app.route('/panel/combos/agregar', methods=['GET','POST'])
+@login_required
+
+def combos_agregar():
+
+    productos = Productos.query.all()
+
+    if request.method=='POST':
+        for item in request.form['skills']:
+            print(item)
+
+    return render_template('panelcombos.html',productos=productos)
         
 
 @app.route('/panel/choferes/crear_chofer', methods=['GET','POST'])
