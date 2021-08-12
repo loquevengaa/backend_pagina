@@ -2,60 +2,31 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title></title>
-
-  <!--<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">-->
-  <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>test</title>
+
+  <!-- CSS PROPIO -->
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='admin.css') }}">
+
+  <!-- CSS CDN'S -->
+  <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css">  
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css">
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/css/bootstrap-select.min.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
-
- <style type="text/css">
-
- 	body {
-		background-color: rgb(245,245,245);
-		font-family: arial;
-		min-height: 100%;
-		font-size: 14px;
-	}	
-
-	html, body {
-	    margin: 0;
-	    height: 100%;
-	}
-
- 	.nav-admin {
- 		display: grid;
- 		grid-template-columns: repeat(5, 1fr);
- 		width: 100%;
- 		height: 50px;
- 		background: #88304E;
- 		text-align: center;
- 		align-items: center;
- 	}
-
- 	.nav-admin a {
- 		color: white;
- 		text-decoration: none;
- 	}
-
- </style>
 
 </head>
 <body>
-    <div class="container">
+    <div class="cotenedor-barra">
     	<div class="nav-admin">
     		<div>
-				<a href="/">INICIO</a>
+				<a href="/">INICIO TIENDA</a>
 			</div>
 
     		<div>
-				<a href="panel/pedidos">PEDIDOS</a>
+				<a href="/panel/pedidos">PEDIDOS</a>
 			</div>
 
     		<div>
@@ -63,11 +34,11 @@
 			</div>
 			
 			<div>
-				<a href="panel/combos">COMBOS</a>
+				<a href="/panel/combos">COMBOS</a>
 			</div>
 
 			<div>
-				<a href="panel/choferes">CHOFERES</a>
+				<a href="/panel/choferes">CHOFERES</a>
 			</div>
 		</div>
     </div>
@@ -75,7 +46,8 @@
   <main>{% block content %}{% endblock content %}</main>
 
 
-<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+
+  
 
 <script type="text/javascript">
 

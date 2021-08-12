@@ -1,26 +1,12 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<meta charset="utf-8">
-	<title>test</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
-	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css">
-</head>
-<body>
+{% extends 'layout-admin.html' %}
+{% block content %}
 
-<style type="text/css">
-	
-	.datos {
-		display: flex;
-		flex-direction: column;
-	}
+<div class="contenido">
 
-</style>
 	<table id="pedidos" hidden="hidden" class="display" style="width:100%;">
         <thead>
             <tr>
-            	<th></th>
+            	<th>ID</th>
                 <th>Datos</th>
                 <th>Productos</th>
                 <th>Hora Pedido</th>
@@ -28,17 +14,16 @@
                 <th>Pago</th>
                 <th>Chofer</th>
                 <th>Comentarios</th>
-                <th>Aceptar</th>
+                <th>Acción</th>
             </tr>
         </thead>
         <tbody>
         	{%for i in data %}
            <tr>
-           	<td></td>
+           	<td>{{i.id}}</td>
 
            	<td>
            		<div class="datos">
-           			<span>ID: {{i.id}}</span>
            			<span>{{i.nombre}}</span>
            			<span>{{i.telefono}}</span>
            			<span>{{i.email}}</span>
@@ -143,5 +128,4 @@
 } );
 </script>
 
-</body>
-</html>
+{% endblock content %}

@@ -1,0 +1,144 @@
+body {
+		background-color: rgb(245,245,245);
+		font-family: arial;
+		min-height: 100%;
+		font-size: 14px;
+	}	
+
+	html, body {
+	    margin: 0;
+	    height: 100%;
+	}
+
+	/* --------- BARRA NAVEGACION ------------- */
+
+ 	.nav-admin {
+ 		display: grid;
+ 		grid-template-columns: repeat(5, 1fr);
+ 		width: 100%;
+ 		height: 50px;
+ 		background: #88304E;
+ 		text-align: center;
+ 		align-items: center;
+ 	}
+
+ 	.nav-admin a {
+ 		color: white;
+ 		text-decoration: none;
+ 	}
+
+ 	/* ------------ TABLA PRODUCTOS ----------- */
+
+ 	.img {
+		max-width: 65px;
+		max-height: 65px;
+	}
+
+	.nombre input {
+		width: 100%;
+	}
+
+	.numero {
+	display: grid;
+	grid-template-columns: 2fr 1fr 2fr;
+	max-width: 150px;
+	}
+	.numero input {
+		max-width: 50px;
+	}
+
+	.contenido {
+		max-width: 1200px;
+		margin: auto;
+		margin-top: 10px;
+	}
+
+	.n-producto form, .n-combo form {
+		display: grid;
+		grid-template-columns: 2fr 2fr 1fr 0.5fr 1fr 0.5fr 0.5fr;
+		text-align: center;
+		align-items: center;
+		font-weight: bold;
+		max-width: 1200px;
+		margin: auto;
+		margin-bottom: 30px;
+	}
+
+	.n-producto input, .n-combo input {
+		width: 75%;
+		text-align: center;
+		margin: auto;
+	}
+
+	.n-producto select, .n-combo select {
+		width: 75%;
+		text-align: center;
+		margin: auto;
+	}
+
+	#show {
+		margin-bottom: 15px;
+	}
+
+	.active {
+		background-color: lightblue;
+	}
+
+	.eliminar form{
+		text-align: center;
+	}
+
+	.eliminar button {
+		background-color: red;
+		color: white;
+		font-weight: bold;
+		border: 2px solid grey;
+		border-radius: 2px;
+		cursor: pointer;
+	}
+
+	th {
+		font-size: 15px;
+	}
+
+	td {
+		text-align: center;
+		font-weight: bold;
+	}
+
+	td input, td select {
+		font-weight: bold;
+	}
+
+
+	.precio input {
+		max-width: 75px;
+	}
+
+	.oferta input {
+		max-width: 50px;
+	}
+
+	.imagen label {
+		border: 1px solid black;
+		padding: 1px;
+		font-weight: normal;
+		border-radius: 2px;
+		background-color: lightblue;
+		cursor: pointer;
+		font-size: 14px;
+	}
+
+	@media (max-width: 550px) {
+		.n-producto form {
+			display: grid;
+			grid-template-columns: repeat( auto-fill, minmax(250px,1fr));
+		}
+	}
+
+	/* ------------ TABLA PEDIDOS ---------- */
+
+	td .datos {
+		display: flex;
+		flex-direction: column;
+	}

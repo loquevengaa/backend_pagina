@@ -279,5 +279,6 @@ def crear_chofer():
 def choferes():
     if not current_user.is_admin():
         abort(404)
+        
     
 
