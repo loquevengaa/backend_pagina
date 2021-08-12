@@ -167,14 +167,21 @@ def combos():
 
 @app.route('/panel/combos/agregar', methods=['GET','POST'])
 @login_required
-
 def combos_agregar():
 
     productos = Productos.query.all()
 
     if request.method=='POST':
-        for item in request.form['skills']:
-            print(item)
+      
+
+        print(request.form.getlist('skills'))
+       
+           
+          
+             
+        
+        #print( request.form['productos_seleccionados'])    
+           
 
     return render_template('panelcombos.html',productos=productos)
         

@@ -21,9 +21,9 @@
 
 	<input class="texto" type="text" name="n-nombre" placeholder="Nombre">
 
-     <select name="skills" id="skills" class="form-control selectpicker" data-live-search="true" placeholder="asd" multiple>
+     <select name="skills"  class="form-control selectpicker" data-live-search="true" placeholder="asd" multiple>
      	{% for item in productos %}
-      		<option value="{{item.id}}">{{item.nombre}}</option>
+      		<option value={{item.id}}>{{item.nombre}}</option>
         {% endfor %}
      </select>
 
