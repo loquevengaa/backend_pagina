@@ -152,7 +152,14 @@ def agregar():
             pass
         return redirect(url_for('panel'))
 
-@app.route('/panel/crear_chofer', methods=['GET','POST'])
+
+
+
+
+
+        
+
+@app.route('/panel/choferes/crear_chofer', methods=['GET','POST'])
 @login_required
 def crear_chofer():
     if not current_user.is_admin():
@@ -177,3 +184,12 @@ def crear_chofer():
         except:
             flash(f'Error al crear Chofer')
         return redirect(url_for('panel'))
+
+
+@app.route('/panel/choferes', methods=['GET','POST'])
+@login_required
+def choferes():
+    if not current_user.is_admin():
+        abort(404)
+    
+
