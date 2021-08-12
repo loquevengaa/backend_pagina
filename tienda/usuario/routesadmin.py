@@ -2,7 +2,7 @@ from tienda import app
 import json
 from flask import render_template,redirect,url_for,request,abort,flash
 from flask_login import current_user,login_required,login_user,LoginManager
-from tienda.models import Productos,Usuarios,Pedidos
+from tienda.models import Productos,Usuarios,Pedidos,Combos
 
 from tienda import db
 
@@ -172,19 +172,77 @@ def combos_agregar():
     productos = Productos.query.all()
 
     if request.method=='POST':
-      
-
-        print(request.form.getlist('skills'))
-       
-           
-          
-             
-        
-        #print( request.form['productos_seleccionados'])    
-           
-
+        items=request.form.getlist('skills')
+        datos=[]
+        for item in items:
+            datos.append({"id":item,"cantidad":0})
+        datos=json.dumps(datos)
+        try:
+            now = str(datetime.now());now = now.replace('-','');now = now.replace(' ','')
+            now = now.replace(':','');now = now.replace('.','')
+            extension = request.files['n-image'].filename.split('.')
+            photos.save(request.files.get('n-image'),name=now+'.')
+            imgnombre = now+'.'+extension[-1] 
+            nuevoCombo=Combos(
+                    datos_combo=datos,
+                    precioFinal=0,
+                    imagen=imgnombre    
+                    )
+            db.session.add(nuevoCombo)
+            db.session.commit()        
+        except:
+            pass
     return render_template('panelcombos.html',productos=productos)
         
+@app.route('/panel/combos/modifica', methods=['GET','POST'])
+@login_required
+def combos_modifica():
+    productos = Productos.query.all()
+
+    if request.method=='POST':
+        indice = int(request.form['indice'])
+        tipo = request.form['tipo']
+        combo=Combos.query.filter_by(id=indice).first()    
+
+        if tipo == 'cambianombre':
+            combo.nombre=request.form['nombre']
+
+        elif tipo == 'cambiaprecio':
+            combo.precio=float(request.form['precio'])
+        
+        elif tipo == 'eliminar':
+            db.session.delete(combo)  
+
+
+        elif tipo == 'cambio stock':
+            
+            info=json.load(combo.datos_combo)
+            for Produ in info:
+                if Produ["id"]==request.form["indice_producto"]:
+                   Produ["camtidad"]=int(request.form["cantidad"]) 
+            combo.datos_combo=json.dumps(info)        
+            
+        elif tipo == 'cambiaimagen':
+            img_name = str(combo.imagen)
+            print(img_name)
+            if img_name!='default.png':
+                try:
+                    os.remove('tienda/static/media/productos/'+img_name)#tienda\static\media\productos
+                except Exception as e:
+                    print('algo pasooooooooooo')
+                    pass       
+
+            now = str(datetime.now());now = now.replace('-','');now = now.replace(' ','')
+            now = now.replace(':','');now = now.replace('.','')
+            extension = request.files['image'].filename.split('.')
+            photos.save(request.files.get('image'),name=now+'.')
+
+            combo.imagen = now+'.'+extension[-1]
+
+        db.session.commit()
+    return render_template('panelcombos.html',productos=productos)
+
+
 
 @app.route('/panel/choferes/crear_chofer', methods=['GET','POST'])
 @login_required
