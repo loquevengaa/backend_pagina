@@ -14,7 +14,7 @@
                 <th>Pago</th>
                 <th>Chofer</th>
                 <th>Comentarios</th>
-                <th>Acción</th>
+                <th>Acción</i></th>
             </tr>
         </thead>
         <tbody>
@@ -24,10 +24,10 @@
 
            	<td>
            		<div class="datos">
-           			<span>{{i.nombre}}</span>
-           			<span>{{i.telefono}}</span>
-           			<span>{{i.email}}</span>
-           			<span>{{i.direccion}}</span>
+           			<span><i class='bx bxs-face'></i> {{i.nombre}}</span>
+           			<span><i class="bi bi-whatsapp"></i> {{i.telefono}}</span>
+           			<span><i class='bx bxs-envelope' ></i> {{i.email}}</span>
+           			<span><i class="bi bi-house-door-fill"></i> {{i.direccion}}</span>
            		</div>
            	</td>
 
@@ -58,7 +58,7 @@
            		</form>
            	</td>
 
-           	<td>
+           	<td class="datos-pago">
            		<div>Medio de Pago: {{i.formaPago}}</div>
            		<div>Total: ${{total[i.id]}}</div>
            		<div>Estado: En espera</div>
@@ -72,8 +72,8 @@
            		{{i.descripcion}}
            	</td>
            	<td>
-           		<a target="_blank" href="whatsapp://send?phone={{i.telefono}}&text=Hola%20{{i.nombre}}%20recibimos tu pedido ID: {{i.id}}."><button>aceptar</button></a>
-           		<a target="_blank" href="whatsapp://send?phone=5492235062720&text=Hola%20{{i.nombre}}%20por x razon no podemos concretar tu compra."><button>rechazar</button></a>
+           		<a target="_blank" href="whatsapp://send?phone={{i.telefono}}&text=Hola%20{{i.nombre}}%20recibimos tu pedido ID: {{i.id}}."><button><i class="bi bi-check-circle-fill" style="color: green;"></i></button></a>
+           		<a target="_blank" href="whatsapp://send?phone=5492235062720&text=Hola%20{{i.nombre}}%20por x razon no podemos concretar tu compra."><button><i class="bi bi-x-circle-fill" style="color: red;"></i></button></a>
            	</td>
            </tr>
            {% endfor %}

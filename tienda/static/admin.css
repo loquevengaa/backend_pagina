@@ -142,3 +142,13 @@ body {
 		display: flex;
 		flex-direction: column;
 	}
+
+	#pedidos .productos {
+		overflow-y: scroll;
+     	max-height: 150px;
+    }
+
+
+	#pedidos .productos, #pedidos .datos, #pedidos .datos-pago {
+		text-align: left;
+	}
