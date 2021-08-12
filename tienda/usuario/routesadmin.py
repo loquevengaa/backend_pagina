@@ -187,13 +187,14 @@ def combos_agregar():
             imgnombre = now+'.'+extension[-1]
         except:
             imgnombre ="a" 
-            nuevoCombo=Combos(
+
+        nuevoCombo=Combos(
                     datos_combo=datos,
                     precioFinal=0,
                     imagen=imgnombre    
                     )
-            db.session.add(nuevoCombo)
-            db.session.commit()        
+        db.session.add(nuevoCombo)
+        db.session.commit()        
         
     return render_template('panelcombos.html',productos=productos)
         

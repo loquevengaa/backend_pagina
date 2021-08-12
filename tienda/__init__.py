@@ -26,3 +26,4 @@ from tienda import routes
 from tienda.usuario import routes
 from tienda.carrito import routes
 from tienda.usuario import routesadmin
+from tienda.usuario import routeschoferes
