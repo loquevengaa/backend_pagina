@@ -97,9 +97,9 @@
     <span style="font-weight: bold;">Información de Contacto</span></br>
     <span style="font-size: 13px;">(Nos comunicaremos por whatsapp para confimar tu pedido e informarte sobre el estado del envio).</span></br>
   <label> 📞 Whatsaap: +</label>
-  <input type="number" name="cod-int" value="549" style="width: 50px;">
-  <input type="number" name="codigo-area" value="223" style="width: 50px;">
-  <input type="number" name="telefono" placeholder="5123456" style="width: 100px;"><span style="font-size: 13px;">(Sin 15).</span></br>
+  <input type="number" name="cod-int" value="549" style="width: 50px;" required="required">
+  <input type="number" name="codigo-area" value="223" style="width: 50px;" required="required">
+  <input type="number" name="telefono" placeholder="5123456" max="9999999" style="width: 100px;" required="required"><span style="font-size: 13px;">(Sin 15).</span></br>
   <label for="email">📧 Email:</label>
   <input type="email" name="email">
   <br></br>
@@ -116,7 +116,7 @@
 
 <div>
   <span style="font-weight: bold;">Información de Pago</span></br>
-   💸 <select>
+   💸 <select required="required">
      <option>Efectivo</option>
      <option>Mercado Pago (envio de dinero)</option>
      <option>Transferencia Bancaria</option>
