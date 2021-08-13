@@ -12,8 +12,16 @@
 
   <style type="text/css">
   	.ingresa-datos {
-  		margin-top: 100px;
+      padding: 10px;
+      padding-top: 100px;
+      margin: auto;
+      max-width: 550px;
   	}
+
+    input {
+      width: 95%;
+      max-width: 325px;
+    }
   </style>
 
 </head>
@@ -37,6 +45,7 @@
         {% endif %}
         {% endwith %}
 
+<!--
  <div class="ingresa-datos">
  	<form action="/pedido" method="POST">
  	 <div>
@@ -70,6 +79,53 @@
     </div>
  	</form>
  </div>
+-->
+
+
+<div class="ingresa-datos">
+ <form>
+
+  <div>
+    <span style="font-weight: bold;">Información del Comprador</span></br>
+    <span style="font-size: 13px;">(Buscaremos a esta persona al momento de entregar el pedido).</span></br>
+  <label for="nombre">🤠 Nombre Completo:</label>
+   <input type="text" name="nombre" required="required">
+   <br></br>
+  </div>
+
+  <div>
+    <span style="font-weight: bold;">Información de Contacto</span></br>
+    <span style="font-size: 13px;">(Nos comunicaremos por whatsapp para confimar tu pedido e informarte sobre el estado del envio).</span></br>
+  <label> 📞 Whatsaap: +</label>
+  <input type="number" name="cod-int" value="549" style="width: 50px;">
+  <input type="number" name="codigo-area" value="223" style="width: 50px;">
+  <input type="number" name="telefono" placeholder="5123456" style="width: 100px;"><span style="font-size: 13px;">(Sin 15).</span></br>
+  <label for="email">📧 Email:</label>
+  <input type="email" name="email">
+  <br></br>
+ </div>
+
+ <div>
+    <span style="font-weight: bold;">Información de Envío</span></br>
+    <label>📫 Dirección de Entrega:</label>
+   <input type="text" name="direccion" required="required"></br>
+   <label for="comentarios">💬 Comentarios:</label>
+   <input type="text" name="comentarios" placeholder="Algun dato que facilite identificar el lugar de entrega.">
+   <br></br>
+ </div>
+
+<div>
+  <span style="font-weight: bold;">Información de Pago</span></br>
+   💸 <select>
+     <option>Efectivo</option>
+     <option>Mercado Pago (envio de dinero)</option>
+     <option>Transferencia Bancaria</option>
+   </select>
+   <br></br>
+</div>
+   🤝 <button type="submit">FINALIZAR COMPRA</button>
+ </form>
+</div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 

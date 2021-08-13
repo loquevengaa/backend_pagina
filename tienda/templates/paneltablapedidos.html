@@ -60,12 +60,30 @@
 
            	<td class="datos-pago">
            		<div>Medio de Pago: {{i.formaPago}}</div>
+           		<div>
+           			<form>
+           			<select name="estado-pago">
+	           			<option>en espera</option>
+	           			<option>pagado</option>
+	           			<option>cancelado</option>
+           			</select>
+           		</form>
+           		</div>
            		<div>Total: ${{total[i.id]}}</div>
-           		<div>Estado: En espera</div>
            	</td>
 
            	<td>
-           		{{i.chofer}}
+           		<form>
+           			<select>
+	           			<option>{{i.chofer}}</option>
+	           			<option>chofer 1</option>
+	           			<option>chofer 2</option>
+	           			<option>chofer 3</option>
+	           			<option>chofer 4</option>
+	           			<option>chofer 5</option>
+           			</select>
+           		</form>
+           		
            	</td>
 
            	<td>
@@ -99,8 +117,9 @@
 		bProcessing: true,
 		stateSave: true,
 		stateDuration: 60,
+		order: [[3, 'desc']],
 		columnDefs: [
-		{orderable: false, targets: [0]}
+		{orderable: false, targets: [0,1,2,3,4,5,6,7,8]}
 		],
 		language: {
 			search: 'Buscar:',
@@ -119,11 +138,8 @@
 
 		"initComplete": function(settings, json) {
      $('#pedidos').show();
-     }
-
-    });
-
-	
+     },
+  });
 
 } );
 </script>
