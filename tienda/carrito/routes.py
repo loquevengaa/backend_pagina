@@ -131,6 +131,7 @@ def carrito_delete(id):
 
 @app.route('/pedido',methods=['GET','POST'])
 def pedido():
+
 		try:
 			cookies=request.cookies.get("carrito")
 			datos = json.loads(cookies)
@@ -138,22 +139,36 @@ def pedido():
 			return redirect(url_for("tienda_page"))
 		if len(datos)==0:
 			return redirect(url_for("tienda_page"))
-		if request.method=='POST':	
+
+
+		if request.method=='POST':	#finaliza la compra
+
+			nombre = request.form['nombre']
+			telefono=request.form['cod-int']+request.form['cod-area']+request.form['telefono']
+			email = request.form['email']
+			direccion = request.form['direccion']
+			comentarios = request.form['comentarios']
+			mediopago = request.form['mediopago']
+
+			######################################
 			total=0
 			for articulo in datos:
-				total=total+Productos.query.get(articulo["id"]).precioFinal*articulo["cantidad"]
+				total += Productos.query.get(articulo["id"]).precioFinal*articulo["cantidad"]
+			#####################################
+
 			if cookies:	
-				nuevoPedido=Pedidos(direccion=form.direccion.data,
-									nombre=form.nombre.data,
-									telefono=form.telefono.data,
-									email=form.email.data,
-									formaPago=form.medioDePago.data,
+				nuevoPedido=Pedidos(direccion=direccion,
+									nombre=nombre,
+									telefono=telefono,
+									email=email,
+									formaPago=mediopago,
 									fechaHoraPedido=str(datetime.now()),
 									fechaHoraEntrega="",
 									estado="En Espera",
 									chofer=None,
-									descripcion=form.descripcion.data,
-									datos_pedido=cookies
+									descripcion=comentarios,
+									datos_pedido=cookies,
+									costo=total
 									)
 				db.session.add(nuevoPedido)
 				db.session.commit()
@@ -163,6 +178,7 @@ def pedido():
 				resp.set_cookie("carrito","",expires=0)
 		else:
 			resp = make_response(render_template("finalizar-pedido.html"))
+
 		return resp
 
 
