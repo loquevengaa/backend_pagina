@@ -56,7 +56,7 @@ class Usuarios(db.Model,UserMixin):
 
 class Pedidos(db.Model):
     id=db.Column(db.Integer(),primary_key=True)
-    direccion=db.Column(db.String(length=100),nullable=False)
+    direccion=db.Column(db.String(length=200),nullable=False)
     nombre=db.Column(db.String(length=100),nullable=False)
     telefono=db.Column(db.Integer(),nullable=True)
     email= db.Column(db.String(100))
@@ -67,15 +67,16 @@ class Pedidos(db.Model):
     descripcion=db.Column(db.String(length=500),nullable=False)
     formaPago=db.Column(db.String(length=100),nullable=False)
     datos_pedido= db.Column(types.JSON(),nullable=False)
-    costo=db.relationship('Costo_pedido',backref='pedido')
-
+    costo=db.Column(db.Float(),nullable=False) 
+    #costo=db.relationship('Costo_pedido',backref='pedido')
+"""
 class Costo_pedido(db.Model):
     id=db.Column(db.Integer(),primary_key=True)
     id_pedido=db.Column(db.Integer(),db.ForeignKey('pedidos.id'))
     costo=db.Column(db.Float(),nullable=False) 
     def __repr__(self):
         return f'{self.costo}'
-
+"""
     
 class Productos(db.Model):
     id=db.Column(db.Integer(),primary_key=True)
@@ -92,11 +93,11 @@ class Productos(db.Model):
 
 class Combos(db.Model):
     id=db.Column(db.Integer(),primary_key=True) 
+    nombre=db.Column(db.String(length=500),nullable=False)
     datos_combo= db.Column(types.JSON(),nullable=False)  # id del producto y cantidad
     precioFinal=db.Column(db.Float(),nullable=False)
     imagen=db.Column(db.String(),nullable=False)
 
-    
 """
 db.drop_all()
 db.create_all()
@@ -112,4 +113,30 @@ for i in range(len(df)):
                        imagen=df['imagen'][i])
     db.session.add(producto)
     db.session.commit()
-    """
+
+usuario=Usuarios(nombre="a",
+                 email="tincho@gmail.com" ,
+                 telefono=123456,
+                 contrasenia="adminadmin",
+                 cantidad_pedidos=0,
+                 admin=True,
+                 chofer=False
+                 )
+
+
+db.session.add(usuario)
+db.session.commit()
+
+chofer=Usuarios(nombre="chofer",
+                 email="nico@gmail.com" ,
+                 telefono=12363456,
+                 contrasenia="adminadmin",
+                 cantidad_pedidos=0,
+                 admin=False,
+                 chofer=True
+                 )
+db.session.add(chofer)
+db.session.commit()
+
+
+"""

@@ -2,8 +2,6 @@ from datetime import datetime
 from tienda import app,db
 from flask import render_template,redirect,request, make_response,url_for
 from tienda.models import Productos,Pedidos
-
-import time
 import json
 
 @app.route('/carrito/add',methods=['GET','POST'])
@@ -159,6 +157,8 @@ def pedido():
 									)
 				db.session.add(nuevoPedido)
 				db.session.commit()
+
+			
 				resp = make_response(redirect('/'))
 				resp.set_cookie("carrito","",expires=0)
 		else:
