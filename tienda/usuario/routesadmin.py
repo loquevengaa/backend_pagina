@@ -227,10 +227,16 @@ def combos_modifica():
     if request.method=='POST':
         indice = int(request.form['indice'])
         tipo = request.form['tipo']
-        combo=Combos.query.filter_by(id=indice).first()    
+        print(indice)
+        print(request.form['idpedido'])
+
+        #combo=Combos.query.filter_by(id=indice).first()    
 
         if tipo == 'cambianombre':
             combo.nombre=request.form['nombre']
+
+        elif tipo == 'agrega_producto':
+            print('sipapa')
 
         elif tipo == 'cambiaprecio':
             combo.precio=float(request.form['precio'])

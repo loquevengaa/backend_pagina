@@ -68,7 +68,7 @@
                </div>
 
                <div>
-                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                 <button type="button" class="agregar-producto" data-id="{{i.id}}">
   Agregar Producto
 </button>
 
@@ -103,7 +103,7 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -130,7 +130,11 @@
             </td>
             <td>{{i.nombre}}</td>
             <td>
-               <button type="button" class="btn btn-secondary" data-dismiss="modal">Agregar</button>
+               <form method="POST" action="/panel/combos/modifica">
+                  <button type="submit" class="" name="indice" value="{{i.id}}">Agregar</button>
+                  <input hidden class="idpedido" name="idpedido" value="">
+                  <input type="hidden" name="tipo" value="agrega_producto">
+               </form>
             </td>
               
            </tr>
@@ -141,7 +145,7 @@
         
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="" data-dismiss="modal">Cerrar</button>
       </div>
     </div>
   </div>
@@ -152,6 +156,14 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
 <script src="//cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.js"></script>
+
+<script type="text/javascript">
+   $(".agregar-producto").click(function () {
+    var ids = $(this).attr('data-id');
+    $(".idpedido").val( ids );
+    $('#myModal').modal('show');
+});
+</script>
 
 
 <script type="text/javascript">
