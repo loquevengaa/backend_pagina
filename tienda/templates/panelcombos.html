@@ -7,19 +7,216 @@
 
 	<input type="file" accept=".jpg, .jpeg, .png" name="n-image">
 
-	<input class="texto" type="text" name="n-nombre" placeholder="Nombre">
+	<input class="texto" type="text" name="nombre" placeholder="Nombre">
 
-     <select name="skills"  class="form-control selectpicker" data-live-search="true" placeholder="asd" multiple>
+     <select name="productos"  class="form-control selectpicker" data-live-search="true" multiple>
      	{% for item in productos %}
       		<option value={{item.id}}>{{item.nombre}}</option>
         {% endfor %}
      </select>
 
-     <input type="hidden" name="hidden_skills" id="hidden_skills" />
-     <input type="submit" name="submit" class="btn btn-info" value="Submit" />
+
+   <input type="number" name="precio">
+
+   <input type="hidden" name="hidden_skills" id="hidden_skills" />
+   <input type="submit" name="submit" class="btn btn-info" value="Submit" />
 
     </form>
 
 </div>
+
+
+
+
+<div class="tabla-combos">
+
+      <table id="combos" hidden="hidden" class="display" style="width:100%;">
+        <thead>
+            <tr>
+               <th>ID</th>
+                <th>Imagen</th>
+                <th>Nombre</th>
+                <th>Precio</th>
+                <th>Productos</th>
+                <th>Eliminar</th>
+            </tr>
+        </thead>
+        <tbody>
+         {%for i in combos %}
+         <tr>
+           <td>{{i.id}}</td>
+           <td></td>
+           <td>{{i.nombre}}</td>
+           <td>{{i.precioFinal}}</td>
+
+           <td style="text-align: left">
+              <div class="productos" >
+                  {%  for j in info[i.id] %}
+                  <div>
+                    <input type="number" min="1" name="cantidad" value="{{ j.cantidad }}" style="width: 50px;">
+                    {% if prod[j.id|int]!=None %}
+                     {{prod[(j.id | int)].nombre}} 
+                      
+                    {% else %}
+                    <span>Producto Eliminado</span>
+                    {% endif %}
+                      
+                   </div>
+                    
+                  {% endfor %}
+                  
+               </div>
+
+               <div>
+                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+  Agregar Producto
+</button>
+
+               </div>
+
+           </td>
+           <td>
+              <div class="eliminar">
+               <form method="POST">
+                  <button type="submit" name="eliminar" value="eliminar">X</button>
+                  <input type="hidden" name="indice" value="{{i.id}}">
+                  <input type="hidden" name="tipo" value="eliminar">
+               </form>
+            </div>
+           </td>
+           {% endfor %}
+         </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+               <th>ID</th> 
+                <th>Imagen</th>
+                <th>Nombre</th>
+                <th>Precio</th>
+                <th>Productos</th>
+                <th>Eliminar</th>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+ 
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Elige que producto agregar</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <table id="productos" hidden="hidden" class="display" style="width:100%;">
+         <thead>
+            <tr>
+                <th>Imagen</th>
+                <th>Nombre</th>
+                <th>Añadir</th>
+            </tr>
+        </thead>
+
+        <tbody>
+           {%for i in productos %}
+           <tr>
+            <td>
+               <div class="imagen"><img class="img" src="../static/media/productos/{{i.imagen}}"></div>
+            </td>
+            <td>{{i.nombre}}</td>
+            <td>
+               <button type="button" class="btn btn-secondary" data-dismiss="modal">Agregar</button>
+            </td>
+              
+           </tr>
+           {%endfor%}
+        </tbody>
+           
+        </table>
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+<script src="//cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.js"></script>
+
+
+<script type="text/javascript">
+   $(document).ready(function() {
+    $('#combos').DataTable({
+      responsive: true,
+      bProcessing: true,
+      stateSave: true,
+      stateDuration: 60,
+      language: {
+         search: 'Buscar:',
+         zeroRecords: 'No se encontraron registros.',
+         lengthMenu: "Mostrar _MENU_ registros",
+         infoEmpty: "Mostrando registros del 0 al 0 de un total de 0 registros",
+         infoFiltered: "(filtrado de un total de _MAX_ registros)",
+         info: "Mostrando de _START_ a _END_ de _TOTAL_ registros",
+         paginate: {
+              first: "Primero",
+              last: "Último",
+              next: "Siguiente",
+              previous: "Anterior"
+          },
+      },
+
+      "initComplete": function(settings, json) {
+     $('#combos').show();
+     }
+
+    });
+} );
+</script>
+
+<script type="text/javascript">
+   $(document).ready(function() {
+    $('#productos').DataTable({
+      responsive: true,
+      bProcessing: true,
+      stateSave: true,
+      stateDuration: 60,
+      scrollY: "500px",
+      scrollCollapse: true,
+      paging: false,
+      language: {
+         search: 'Buscar:',
+         zeroRecords: 'No se encontraron registros.',
+         lengthMenu: "Mostrar _MENU_ registros",
+         infoEmpty: "Mostrando registros del 0 al 0 de un total de 0 registros",
+         infoFiltered: "(filtrado de un total de _MAX_ registros)",
+         info: "Mostrando de _START_ a _END_ de _TOTAL_ registros",
+         paginate: {
+              first: "Primero",
+              last: "Último",
+              next: "Siguiente",
+              previous: "Anterior"
+          },
+      },
+
+      "initComplete": function(settings, json) {
+     $('#productos').show();
+     }
+
+    });
+} );
+</script>
+
+
 
 {% endblock content %}

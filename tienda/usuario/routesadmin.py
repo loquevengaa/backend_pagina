@@ -172,8 +172,16 @@ def agregar():
 def combos():
 
     productos = Productos.query.all()
+    combos= Combos.query.all()
 
-    return render_template('panelcombos.html',productos=productos)
+    info = [None]*1000 #aca van los datos del carrito
+    prod = [None]*1000 #aca van los datos del carrito
+    for items in combos:
+        info[items.id] = json.loads(items.datos_combo)
+    for items in  productos:
+        prod[items.id]=items
+
+    return render_template('panelcombos.html',productos=productos,combos=combos,info=info,prod=prod)
 
 @app.route('/panel/combos/agregar', methods=['GET','POST'])
 @login_required
@@ -183,10 +191,10 @@ def combos_agregar():
 
     if request.method=='POST':
         print("agrego combo")
-        items=request.form.getlist('skills')
+        items=request.form.getlist('productos')
         datos=[]
         for item in items:
-            datos.append({"id":item,"cantidad":0})
+            datos.append({"id":item,"cantidad":1})
         print(datos)
         datos=json.dumps(datos)
         try:
@@ -199,14 +207,17 @@ def combos_agregar():
             imgnombre ="a" 
 
         nuevoCombo=Combos(
+                    nombre=request.form['nombre'],
                     datos_combo=datos,
-                    precioFinal=0,
+                    precioFinal=float(request.form['precio']),
                     imagen=imgnombre    
                     )
         db.session.add(nuevoCombo)
         db.session.commit()        
         
-    return render_template('panelcombos.html',productos=productos)
+    return redirect(url_for('combos'))
+
+
         
 @app.route('/panel/combos/modifica', methods=['GET','POST'])
 @login_required
