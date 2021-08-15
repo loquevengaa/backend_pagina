@@ -1,34 +1,39 @@
 {% extends 'layout-admin.html' %}
 {% block content %}
 
-<div class="formulario-combo">
 
-	<form method="post" id="multiple_select_form" action="/panel/combos/agregar">
+<div class="contenido">
 
-	<input type="file" accept=".jpg, .jpeg, .png" name="n-image">
+      <button id="show">Agregar Combo</button>
 
-	<input class="texto" type="text" name="nombre" placeholder="Nombre">
+      <div class="formulario-combo n-combo" hidden>
 
-     <select name="productos"  class="form-control selectpicker" data-live-search="true" multiple>
-     	{% for item in productos %}
-      		<option value={{item.id}}>{{item.nombre}}</option>
-        {% endfor %}
-     </select>
+         <form method="post" id="multiple_select_form" action="/panel/combos/agregar">
+
+         <span>Imagen</span>
+         <span>Nombre</span>
+         <span>Productos</span>
+         <span>Precio</span>
+         <span></span>
+
+         <input type="file" accept=".jpg, .jpeg, .png" name="n-image" required="required">
+
+         <input class="texto" type="text" name="nombre" required="required">
+
+           <select name="productos"  class="selectpicker" data-live-search="true" multiple required="required">
+            {% for item in productos %}
+                  <option value={{item.id}}>{{item.nombre}}</option>
+              {% endfor %}
+           </select>
 
 
-   <input type="number" name="precio">
+         <input type="number" name="precio" step="0.01" min="0" required="required">
+         <input type="hidden" name="hidden_skills" id="hidden_skills" />
+         <input type="submit" name="submit" class="" value="Agregar" />
 
-   <input type="hidden" name="hidden_skills" id="hidden_skills" />
-   <input type="submit" name="submit" class="btn btn-info" value="Submit" />
+          </form>
 
-    </form>
-
-</div>
-
-
-
-
-<div class="tabla-combos">
+      </div>
 
       <table id="combos" hidden="hidden" class="display" style="width:100%;">
         <thead>
@@ -45,9 +50,28 @@
          {%for i in combos %}
          <tr>
            <td>{{i.id}}</td>
-           <td></td>
+           <td>
+              <div class="imagen">
+                  <div><img class="img" src="../static/media/productos/{{i.imagen}}"></div>
+               <div> 
+               <form action="/panel/combos/modifica" method="POST" enctype="multipart/form-data">
+                  <label for="file{{i.id}}">Modificar</label>
+                  <input onchange="this.form.submit();" type="file" id="file{{i.id}}" style="display: none;" accept=".jpg, .jpeg, .png" name="image">
+                  <input type="hidden" name="indice" value="{{i.id}}">
+                  <input type="hidden" name="tipo" value="cambiaimagen">
+               </form>
+               </div>
+            </div>
+           </td>
            <td>{{i.nombre}}</td>
-           <td>{{i.precioFinal}}</td>
+           <td>
+            <form action="/panel/combos/modifica" method="POST">
+               <nobr><label for="precio"><b>$</b></label>
+               <input type="number" name="precio" value="{{i.precioFinal}}" step="0.01" min="0"></nobr>
+               <input type="hidden" name="indice" value="{{i.id}}">
+               <input type="hidden" name="tipo" value="cambiaprecio">
+               </form>
+           </td>
 
            <td style="text-align: left">
               <div class="productos" >
@@ -156,6 +180,17 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
 <script src="//cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.js"></script>
+
+
+
+<script>
+$(document).ready(function(){
+
+    $('#show').click(function() {
+      $('.n-combo').toggle(200);  
+    });
+});
+</script>
 
 <script type="text/javascript">
    $(".agregar-producto").click(function () {

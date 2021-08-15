@@ -227,19 +227,24 @@ def combos_modifica():
     if request.method=='POST':
         indice = int(request.form['indice'])
         tipo = request.form['tipo']
-        print(indice)
-        print(request.form['idpedido'])
+        combo=Combos.query.filter_by(id=indice).first() 
 
-        #combo=Combos.query.filter_by(id=indice).first()    
+        print(indice)
+          
 
         if tipo == 'cambianombre':
             combo.nombre=request.form['nombre']
 
         elif tipo == 'agrega_producto':
+            idcombo = request.form['idpedido']
+
+            combo=Combos.query.filter_by(id=idcombo).first() 
+
+            print(combo.datos_combo) 
             print('sipapa')
 
         elif tipo == 'cambiaprecio':
-            combo.precio=float(request.form['precio'])
+            combo.precioFinal=float(request.form['precio'])
         
         elif tipo == 'eliminar':
             db.session.delete(combo)  
@@ -270,8 +275,9 @@ def combos_modifica():
 
             combo.imagen = now+'.'+extension[-1]
 
+
         db.session.commit()
-    return render_template('panelcombos.html',productos=productos)
+    return redirect(url_for('combos'))
 
 
 

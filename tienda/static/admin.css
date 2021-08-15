@@ -53,7 +53,7 @@ body {
 		margin-top: 10px;
 	}
 
-	.n-producto form, .n-combo form {
+	.n-producto form {
 		display: grid;
 		grid-template-columns: 2fr 2fr 1fr 0.5fr 1fr 0.5fr 0.5fr;
 		text-align: center;
@@ -74,6 +74,17 @@ body {
 		width: 75%;
 		text-align: center;
 		margin: auto;
+	}
+
+	.n-combo form {
+		display: grid;
+		grid-template-columns: 2fr 2fr 1fr 0.5fr 0.5fr;
+		text-align: center;
+		align-items: center;
+		font-weight: bold;
+		max-width: 1200px;
+		margin: auto;
+		margin-bottom: 30px;
 	}
 
 	#show {
@@ -130,7 +141,7 @@ body {
 	}
 
 	@media (max-width: 550px) {
-		.n-producto form {
+		.n-producto form, .n-combo form {
 			display: grid;
 			grid-template-columns: repeat( auto-fill, minmax(250px,1fr));
 		}
