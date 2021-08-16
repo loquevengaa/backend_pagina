@@ -155,7 +155,7 @@ body {
 	}
 
 	#pedidos .productos {
-		overflow-y: scroll;
+		overflow-y: auto;
      	max-height: 150px;
     }
 

@@ -241,7 +241,7 @@ body,html {
         transition: 0.2s;
   }
 
-  .img {
+  .productos-grid .img {
     width: 100%;
     display: block;
     margin-left: auto;
