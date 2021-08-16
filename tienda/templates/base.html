@@ -1,13 +1,3 @@
-{% if session["id"] %}
-      <a class="navbar-brand " href="/perfil/{{ session['username']}}"> Perfil</a>
-      <a class="navbar-brand " href="/logout"> {{ session['username']}} (Salir)</a>
-{% else %}
-      <a class="navbar-brand " href="/login">Login</a>
-      <a class="navbar-brand " href="/registro">Registro</a>
-{% endif %}
-
-
-<a class="navbar-brand " href="/carrito"> Carrito <span class="badge"> </span></a>
 {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
         {% for category,messages in messages %}
