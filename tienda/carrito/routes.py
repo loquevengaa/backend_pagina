@@ -11,6 +11,7 @@ def carrito_add():
 		indice = (request.form['indice'])
 		print(indice)
 		cantidad = int(request.form['cantidad'])
+		tipo=request.form['tipo']
 		art=Productos.query.get(indice)
 		print(art)
 		try:
@@ -24,7 +25,7 @@ def carrito_add():
 		actualizar = False
 		aux=0
 		for dato in datos:
-			if dato["id"] == indice:
+			if dato["id"] == indice and dato['tipo']==tipo:
 				dato["cantidad"] +=cantidad
 				aux=dato["cantidad"]
 				print(aux)
@@ -33,7 +34,7 @@ def carrito_add():
 			print("No stock")
 			return redirect(request.referrer) #No hay stock	
 		if not actualizar:
-			datos.append({"id": indice,"cantidad":cantidad})
+			datos.append({"id": indice,"cantidad":cantidad,"tipo":tipo})
 			print(datos)					 						 
 		resp=make_response(redirect(request.referrer))
 		resp.set_cookie("carrito", json.dumps(datos)) #str(current_user.get_id()
@@ -48,6 +49,7 @@ def carrito_modify():
 	if request.method=='POST':
 		indice = (request.form['indice'])
 		print(indice)
+		tipo=request.form['tipo']
 		cantidad = int(request.form['cantidad'])
 		art=Productos.query.get(indice)
 		print(art)
@@ -62,7 +64,7 @@ def carrito_modify():
 		actualizar = False
 		aux=0
 		for dato in datos:
-			if dato["id"] == indice:
+			if dato["id"] == indice and dato['tipo']==tipo:
 				dato["cantidad"] =cantidad
 				aux=dato["cantidad"]
 				print(aux)
@@ -71,7 +73,7 @@ def carrito_modify():
 			print("No stock")
 			return redirect(request.referrer) #No hay stock	
 		if not actualizar:
-			datos.append({"id": indice,"cantidad":cantidad})
+			datos.append({"id": indice,"cantidad":cantidad,"tipo":tipo})
 			print(datos)					 						 
 		resp=make_response(redirect(request.referrer))
 		resp.set_cookie("carrito", json.dumps(datos)) #str(current_user.get_id()

@@ -101,7 +101,7 @@ def changepassword(email):
 
 	return render_template("changepassword.html",form=form)
 
-
+"""
 
 
 @app.route('/set_admin')
@@ -117,4 +117,4 @@ def set_admin():
         )
     db.session.add(usuario_nuevo)
     db.session.commit()
-    return redirect(url_for('tienda_page'))
+    return redirect(url_for('tienda_page'))"""
