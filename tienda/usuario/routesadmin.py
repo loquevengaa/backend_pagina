@@ -226,12 +226,13 @@ def combos_modifica():
         tipo = request.form['tipo']
         combo=Combos.query.filter_by(id=indice).first()
         
-          
+   
 
         if tipo == 'cambianombre':
             combo.nombre=request.form['nombre']
 
         elif tipo == 'agrega_producto':
+
             indice_producto=int(request.form['indice'])
             info=json.load(combo.datos_combo)
             for Produ in info:
@@ -239,6 +240,7 @@ def combos_modifica():
                         return redirect(url_for('combos'))
             info.append({"id":indice_producto,"cantidad":1})
             combo.datos_combo=json.dumps(info)
+
 
            
         elif tipo == 'cambiaprecio':
