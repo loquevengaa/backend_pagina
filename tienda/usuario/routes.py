@@ -54,7 +54,6 @@ def login():
             return redirect(url_for('panel'))
         else:
             flash('Correo y contraseña no coinciden!! intente otra vez',category='danger')
-
     return render_template('login.html',form=form)
 """ 
     para modificar la cabezera de la pagina y mostrar que se esta logeado hay que poner una condicion de {% if current_user.is_authenticated %}

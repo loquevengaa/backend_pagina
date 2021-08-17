@@ -14,10 +14,8 @@ def mostrar_pedidos():
     if not current_user.is_chofer():
         abort(404)
     else:
-        sin_entregar=()
-        pedidos=Pedidos.query.filter_by(chofer=current_user)
-        for pedido in pedidos:
-            if pedido.estado != "entregado":
-                sin_entregar.append(pedido)
-        
-            
+        pedidos=Pedidos.query.filter(
+            Pedidos.chofer==current_user
+        ).filter(
+            Pedidos.estado=="Enviando"
+        )            

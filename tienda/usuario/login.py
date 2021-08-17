@@ -7,12 +7,14 @@ from tienda import app
 def login_user(Usuario):
       session["id"]=Usuario.id
       session["username"]=Usuario.username
-      session["admin"]=Usuario.admin		
+      session["admin"]=Usuario.admin
+      session["chofer"]=Usuario.chofer		
 
 def logout_user():
       session.pop("id",None)
       session.pop("username",None)
       session.pop("admin",None)
+      session.pop("chofer",None)
 
 
 def is_login():
