@@ -187,8 +187,6 @@ def combos():
 @login_required
 def combos_agregar():
 
-    productos = Productos.query.all()
-
     if request.method=='POST':
         print("agrego combo")
         items=request.form.getlist('productos')
@@ -222,7 +220,6 @@ def combos_agregar():
 @app.route('/panel/combos/modifica', methods=['GET','POST'])
 @login_required
 def combos_modifica():
-    productos = Productos.query.all()
 
     if request.method=='POST':
         indice = int(request.form['indice'])
@@ -241,7 +238,8 @@ def combos_modifica():
                 if Produ["id"]==indice_producto:
                         return redirect(url_for('combos'))
             info.append({"id":indice_producto,"cantidad":1})
-            
+            combo.datos_combo=json.dumps(info)
+
            
         elif tipo == 'cambiaprecio':
             combo.precioFinal=float(request.form['precio'])
