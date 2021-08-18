@@ -101,7 +101,15 @@
 
                     {% if prod[j.id|int]!=None %}
                      <nobr>{{prod[(j.id | int)].nombre}}
-                     ({{prod[(j.id | int)].stock}})</nobr>               
+                     ({{prod[(j.id | int)].stock}})
+
+                     {% if prod[(j.id | int)].stock< j.cantidad%}
+                     <i class="bi bi-exclamation-circle-fill" style="color:red;"></i>
+                     {% else %}
+                     <i class="bi bi-check-circle-fill" style="color: green;"></i>
+                     {% endif %}
+
+                  </nobr>               
                     {% else %}
                     <span>Producto Eliminado</span>
                     {% endif %}
