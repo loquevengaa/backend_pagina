@@ -8,7 +8,7 @@
 
       <div class="formulario-combo n-combo" hidden>
 
-         <form method="post" id="multiple_select_form" action="/panel/combos/agregar">
+         <form method="post" action="/panel/combos/agregar" enctype="multipart/form-data">
 
          <span>Imagen</span>
          <span>Nombre</span>
@@ -16,7 +16,7 @@
          <span>Precio</span>
          <span></span>
 
-         <input type="file" accept=".jpg, .jpeg, .png" name="n-image" required="required">
+         <input type="file" accept=".jpg, .jpeg, .png" name="n-image" required="required" >
 
          <input class="texto" type="text" name="nombre" required="required">
 
@@ -49,25 +49,33 @@
         <tbody>
          {%for i in combos %}
          <tr>
-           <td>{{i.id}}</td>
+           <td style="max-width: 50px !important;">{{i.id}}</td>
            <td>
               <div class="imagen">
                   <div><img class="img" src="../static/media/productos/{{i.imagen}}"></div>
                <div> 
                <form action="/panel/combos/modifica" method="POST" enctype="multipart/form-data">
                   <label for="file{{i.id}}">Modificar</label>
-                  <input onchange="this.form.submit();" type="file" id="file{{i.id}}" style="display: none;" accept=".jpg, .jpeg, .png" name="image">
+                  <input onchange="this.form.submit();" type="file" id="file{{i.id}}" style="display: none;" accept=".jpg, .jpeg, .png" name="n-image">
                   <input type="hidden" name="indice" value="{{i.id}}">
                   <input type="hidden" name="tipo" value="cambiaimagen">
                </form>
                </div>
             </div>
            </td>
-           <td>{{i.nombre}}</td>
            <td>
+               <span hidden>{{i.nombre}}</span>
+              <form action="/panel/combos/modifica" method="POST">
+               <input type="text" name="nombre" value="{{i.nombre}}">
+               <input type="hidden" name="indice" value="{{i.id}}">
+               <input type="hidden" name="tipo" value="cambianombre">
+               </form>
+           </td>
+           <td>
+             <span hidden>{{i.precioFinal}}</span>
             <form action="/panel/combos/modifica" method="POST">
                <nobr><label for="precio"><b>$</b></label>
-               <input type="number" name="precio" value="{{i.precioFinal}}" step="0.01" min="0"></nobr>
+               <input type="number" name="precio" value="{{i.precioFinal}}" step="0.01" min="0" style="width:75px"></nobr>
                <input type="hidden" name="indice" value="{{i.id}}">
                <input type="hidden" name="tipo" value="cambiaprecio">
                </form>
@@ -77,10 +85,23 @@
               <div class="productos" >
                   {%  for j in info[i.id] %}
                   <div>
-                    <input type="number" min="1" name="cantidad" value="{{ j.cantidad }}" style="width: 50px;">
+
+                  <form method="POST" action="/panel/combos/modifica">
+                    <input type="number" min="1" name="cantidad" value="{{ j.cantidad }}" style="width: 40px;">
+                    <input type="hidden" name="idproducto" value="{{ j.id }}">
+                    <input type="hidden" name="indice" value="{{i.id}}">
+                  <input type="hidden" name="tipo" value="cambiastock">
+                    </form>
+
+                    <form method="POST" action="/panel/combos/modifica">
+                     <button type="submit" name="idproducto" value="{{ j.id }}"><i class="bi bi-x-circle-fill" style="color: red;"></i></button>
+                    <input type="hidden" name="indice" value="{{i.id}}">
+                     <input type="hidden" name="tipo" value="eliminaproducto">
+                    </form>
+
                     {% if prod[j.id|int]!=None %}
-                     {{prod[(j.id | int)].nombre}} 
-                      
+                     <nobr>{{prod[(j.id | int)].nombre}}
+                     ({{prod[(j.id | int)].stock}})</nobr>               
                     {% else %}
                     <span>Producto Eliminado</span>
                     {% endif %}
@@ -93,16 +114,15 @@
 
                <div>
                  <button type="button" class="agregar-producto" data-id="{{i.id}}">
-  Agregar Producto
-</button>
-
+                 Agregar Producto
+                  </button>
                </div>
 
            </td>
            <td>
               <div class="eliminar">
-               <form method="POST">
-                  <button type="submit" name="eliminar" value="eliminar">X</button>
+               <form method="POST" action="/panel/combos/modifica">
+                  <button type="submit">X</button>
                   <input type="hidden" name="indice" value="{{i.id}}">
                   <input type="hidden" name="tipo" value="eliminar">
                </form>
@@ -137,7 +157,9 @@
         </button>
       </div>
       <div class="modal-body">
+
         <table id="productos" hidden="hidden" class="display" style="width:100%;">
+
          <thead>
             <tr>
                 <th>Imagen</th>
@@ -155,8 +177,8 @@
             <td>{{i.nombre}}</td>
             <td>
                <form method="POST" action="/panel/combos/modifica">
-                  <button type="submit" class="" name="indice" value="{{i.id}}">Agregar</button>
-                  <input hidden class="idpedido" name="idpedido" value="">
+                  <button type="submit" class="" name="idproducto" value="{{i.id}}">Agregar</button>
+                  <input hidden class="idpedido" name="indice" value="">
                   <input type="hidden" name="tipo" value="agrega_producto">
                </form>
             </td>
@@ -202,6 +224,17 @@ $(document).ready(function(){
 
 
 <script type="text/javascript">
+
+   $(window).scroll(function() {
+    sessionStorage.scrollTop = $(this).scrollTop();
+  });
+
+  $(document).ready(function() {
+    if (sessionStorage.scrollTop != "undefined") {
+      $(window).scrollTop(sessionStorage.scrollTop);
+    }
+  });
+
    $(document).ready(function() {
     $('#combos').DataTable({
       responsive: true,

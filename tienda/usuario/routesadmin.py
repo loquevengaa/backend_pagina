@@ -195,14 +195,14 @@ def combos_agregar():
             datos.append({"id":item,"cantidad":1})
         print(datos)
         datos=json.dumps(datos)
-        try:
-            now = str(datetime.now());now = now.replace('-','');now = now.replace(' ','')
-            now = now.replace(':','');now = now.replace('.','')
-            extension = request.files['n-image'].filename.split('.')
-            photos.save(request.files.get('n-image'),name=now+'.')
-            imgnombre = now+'.'+extension[-1]
-        except:
-            imgnombre ="a" 
+        
+        now = str(datetime.now());now = now.replace('-','');now = now.replace(' ','')
+        now = now.replace(':','');now = now.replace('.','')
+        extension = request.files['n-image'].filename.split('.')
+        photos.save(request.files.get('n-image'),name=now+'.')
+        imgnombre = now+'.'+extension[-1]
+        
+        #imgnombre ="default.png" 
 
         nuevoCombo=Combos(
                     nombre=request.form['nombre'],
@@ -232,31 +232,47 @@ def combos_modifica():
             combo.nombre=request.form['nombre']
 
         elif tipo == 'agrega_producto':
-
-            indice_producto=int(request.form['indice'])
-            info=json.load(combo.datos_combo)
+            indice_producto=int(request.form['idproducto'])
+            
+            info=json.loads(combo.datos_combo)
             for Produ in info:
                 if Produ["id"]==indice_producto:
                         return redirect(url_for('combos'))
             info.append({"id":indice_producto,"cantidad":1})
             combo.datos_combo=json.dumps(info)
 
-
            
         elif tipo == 'cambiaprecio':
             combo.precioFinal=float(request.form['precio'])
         
         elif tipo == 'eliminar':
+            print('llegue')
             db.session.delete(combo)  
 
 
-        elif tipo == 'cambio stock':
+        elif tipo == 'cambiastock':
+
+            idproducto = int(request.form["idproducto"])
+            cantidad = int(request.form["cantidad"])
             
-            info=json.load(combo.datos_combo)
+            info=json.loads(combo.datos_combo)
             for Produ in info:
-                if Produ["id"]==request.form["indice_producto"]:
-                   Produ["camtidad"]=int(request.form["cantidad"]) 
-            combo.datos_combo=json.dumps(info)        
+                if Produ["id"]==idproducto:
+                   Produ["cantidad"]=cantidad
+
+            combo.datos_combo=json.dumps(info) 
+
+        elif tipo == 'eliminaproducto':
+
+            idproducto = int(request.form["idproducto"])        
+            nuevainfo = []
+
+            info=json.loads(combo.datos_combo)
+            for Produ in info:
+                if Produ["id"]!=idproducto:
+                    nuevainfo.append(Produ)
+
+            combo.datos_combo=json.dumps(nuevainfo)        
             
         elif tipo == 'cambiaimagen':
             img_name = str(combo.imagen)
