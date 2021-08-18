@@ -232,7 +232,7 @@ def combos_modifica():
             combo.nombre=request.form['nombre']
 
         elif tipo == 'agrega_producto':
-            indice_producto=int(request.form['idproducto'])
+            indice_producto=request.form['idproducto']
             
             info=json.loads(combo.datos_combo)
             for Produ in info:
@@ -252,7 +252,7 @@ def combos_modifica():
 
         elif tipo == 'cambiastock':
 
-            idproducto = int(request.form["idproducto"])
+            idproducto = request.form["idproducto"]
             cantidad = int(request.form["cantidad"])
             
             info=json.loads(combo.datos_combo)
@@ -264,7 +264,7 @@ def combos_modifica():
 
         elif tipo == 'eliminaproducto':
 
-            idproducto = int(request.form["idproducto"])        
+            idproducto = request.form["idproducto"]        
             nuevainfo = []
 
             info=json.loads(combo.datos_combo)
@@ -286,8 +286,8 @@ def combos_modifica():
 
             now = str(datetime.now());now = now.replace('-','');now = now.replace(' ','')
             now = now.replace(':','');now = now.replace('.','')
-            extension = request.files['image'].filename.split('.')
-            photos.save(request.files.get('image'),name=now+'.')
+            extension = request.files['n-image'].filename.split('.')
+            photos.save(request.files.get('n-image'),name=now+'.')
 
             combo.imagen = now+'.'+extension[-1]
 
