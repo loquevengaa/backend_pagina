@@ -310,7 +310,7 @@ def crear_chofer():
             chofer=Usuarios(nombre=nombre,
                         email=email,
                         telefono=telefono,
-                        contrasenia_cifrada=contrasenia,
+                        contrasenia=contrasenia,
                         cantidad_pedidos=0,
                         admin=False,
                         chofer=True,
