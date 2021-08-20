@@ -24,12 +24,11 @@ def set_cookie():
     response = app.make_response(redirect_to_index )  
     response.set_cookie('carrito',value=[])
     return response
-"""
+
 @app.errorhandler(404)
 def page_not_found(error):
     return render_template("error.html", error="Página no encontrada..."), 404
 
-"""
 basedir = os.path.abspath(os.path.dirname(__file__))
 app.config['UPLOADED_PHOTOS_DEST'] = os.path.join(basedir, '../static/media/productos/')
 photos = UploadSet('photos', IMAGES)

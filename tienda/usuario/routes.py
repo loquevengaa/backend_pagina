@@ -67,7 +67,7 @@ def logout_page():
     logout_user()
     flash('Sesion cerrada con exito',category='info')
     return redirect(url_for('tienda_page'))
-
+"""
 @app.route('/perfil/<email>', methods=["get","post"])
 def perfil(email):
 	user=Usuarios.query.filter_by(email=email).first()
@@ -100,7 +100,7 @@ def changepassword(email):
 
 	return render_template("changepassword.html",form=form)
 
-"""
+
 
 
 @app.route('/set_admin')

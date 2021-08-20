@@ -97,7 +97,7 @@ class Combos(db.Model):
     datos_combo= db.Column(types.JSON(),nullable=False)  # id del producto y cantidad
     precioFinal=db.Column(db.Float(),nullable=False)
     imagen=db.Column(db.String(),nullable=False)
-
+    
 """
 db.drop_all()
 db.create_all()
