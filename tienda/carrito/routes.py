@@ -9,25 +9,30 @@ def carrito_add():
 	if request.method=='POST':
 		indice = (request.form['indice'])
 		cantidad = int(request.form['cantidad'])
-		#tipo=request.form['tipo']
-		art=Productos.query.get(indice)
+		tipo=request.form['tipo']
+		if tipo == 'producto':
+			art=Productos.query.get(indice)
+			if art is None:
+				return redirect(request.referrer) #No hay articulo
+			stock=art.stock
+		else:
+			stock=1 # esto hay que modificarlo cuando exista stock en combos		
 		try:
 			datos = json.loads(request.cookies.get("carrito"))	 #str(current_user.get_id()			
 		except:
-			datos=[]
-		if art is None:
-			return redirect(request.referrer) #No hay articulo		
+			datos=[]			
 		actualizar = False
 		aux=0
 		for dato in datos:
-			if dato["id"] == indice :#and dato['tipo']==tipo:
+			
+			if dato["id"] == indice and dato['tipo']==tipo:
 				dato["cantidad"] +=cantidad
 				aux=dato["cantidad"]
 				actualizar = True
-		if  (art.stock-aux) < 0:
+		if  (stock-aux) < 0:
 			return redirect(request.referrer) #No hay stock	
 		if not actualizar:
-			datos.append({"id": indice,"cantidad":cantidad})					 						 
+			datos.append({"id": indice,"cantidad":cantidad,"tipo":tipo})					 						 
 		resp=make_response(redirect(request.referrer))
 		resp.set_cookie("carrito", json.dumps(datos)) #str(current_user.get_id()
 		return resp
@@ -39,9 +44,15 @@ def carrito_add():
 def carrito_modify():
 	if request.method=='POST':
 		indice = (request.form['indice'])
-		#tipo=request.form['tipo']
+		tipo=request.form['tipo']
 		cantidad = int(request.form['cantidad'])
-		art=Productos.query.get(indice)
+		if tipo == 'producto':
+			art=Productos.query.get(indice)
+			if art is None:
+				return redirect(request.referrer) #No hay articulo
+			stock=art.stock
+		else:
+			stock=1 # esto hay que modificarlo cuando exista stock en combos
 		try:
 			datos = json.loads(request.cookies.get("carrito"))	 #str(current_user.get_id()			
 		except:
@@ -51,14 +62,14 @@ def carrito_modify():
 		actualizar = False
 		aux=0
 		for dato in datos:
-			if dato["id"] == indice :#and dato['tipo']==tipo:
+			if dato["id"] == indice and dato['tipo']==tipo:
 				dato["cantidad"] =cantidad
 				aux=dato["cantidad"]
 				actualizar = True
-		if  (art.stock-aux) < 0:
+		if  (stock-aux) < 0:
 			return redirect(request.referrer) #No hay stock	
 		if not actualizar:
-			datos.append({"id": indice,"cantidad":cantidad})					 						 
+			datos.append({"id": indice,"cantidad":cantidad,"tipo":tipo})					 						 
 		resp=make_response(redirect(request.referrer))
 		resp.set_cookie("carrito", json.dumps(datos)) #str(current_user.get_id()
 		return resp

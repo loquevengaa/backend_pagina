@@ -97,7 +97,7 @@ def categorias(categoria):
 	return render_template('home.html',items=items,articulos=articulos,totalfinal=totalfinal,d=d)
 
 
-@app.route('/categoria/combos',methods=['GET','POST'])#aca se muestran lo productos
+@app.route('/categoria/Combos',methods=['GET','POST'])#aca se muestran lo productos
 def combos_cliente():
 
 	############################################################# START CARRITO
