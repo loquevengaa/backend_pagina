@@ -1,15 +1,29 @@
 from tienda import db ,bcrypt,login_manager
 from flask_login import UserMixin
 import sqlalchemy.types as types
-import pandas as pd
 
+import json
 
 
 @login_manager.user_loader
 def load_user(user_id):
     return Usuarios.query.get(int(user_id))
 
+def meFijoStock():
+    combos=Combos.query.all()
 
+    for combo in combos:
+        cantidades=[]
+        datos=json.loads(combo.datos_combo)
+        for producto in datos:
+            pid=producto['id']
+            pcant=producto['cantidad']
+            stock_producto=Productos.query.get(pid).stock
+            cantidades.append(stock_producto//pcant)
+        combo.stock=min(cantidades)   
+
+    db.session.commit()
+        
 class Usuarios(db.Model,UserMixin):
     id=db.Column(db.Integer, primary_key=True)
     nombre= db.Column(db.String(100))
