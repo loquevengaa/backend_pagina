@@ -80,11 +80,9 @@
       <div class="img-container">
         <img class="img" src="../static/media/productos/{{i.imagen}}">
         <form action="/carrito/add" method="POST" style="position: absolute; bottom: 0; padding: 5px;">
-          
-          <input type="hidden" name="cantidad" value="1">
+          <button class="boton-agregar" type="submit">AGREGAR</button>
           <input type="hidden" name="indice" value="{{i.id}}">
           <input type="hidden" name="tipo" value="combo">
-          <button class="boton-agregar" type="submit">AGREGAR</button>
         </form>
       </div>
 

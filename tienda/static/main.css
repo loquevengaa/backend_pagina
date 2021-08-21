@@ -469,7 +469,7 @@ input[type=number]::-webkit-outer-spin-button {
     border: none;
     align-items: center;
     justify-content: center;
-    width: 30px;
+    width: 32px;
     cursor: pointer;
     margin: 0;
     position: relative;
