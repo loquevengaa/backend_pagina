@@ -8,7 +8,7 @@ import json
 def carrito_add():
 	if request.method=='POST':
 		indice = (request.form['indice'])
-		cantidad = int(request.form['cantidad'])
+		cantidad = abs(int(request.form['cantidad']))
 		tipo=request.form['tipo']
 		if tipo == 'producto':
 			art=Productos.query.get(indice)
@@ -45,7 +45,7 @@ def carrito_modify():
 	if request.method=='POST':
 		indice = (request.form['indice'])
 		tipo=request.form['tipo']
-		cantidad = int(request.form['cantidad'])
+		cantidad = abs(int(request.form['cantidad']))
 		if tipo == 'producto':
 			art=Productos.query.get(indice)
 			if art is None:
