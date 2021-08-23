@@ -1,0 +1,29 @@
+{% extends 'layout-admin.html' %}
+{% block content %}
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category,messages in messages %}
+                <p>{{messages}}</p>
+            {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+<form method="POST" action="/panel/choferes/agregar">
+
+	<input type="text" name="nombre">
+	<input type="email" name="email">
+	<input type="telefono" name="telefono" value="5492235">
+	<input type="text" name="contrasenia">
+	<button type="submit">Agregar</button>
+
+</form>
+
+{% for i in choferes %}
+
+<div><a href="/panel/choferes/perfil/{{i.id}}">{{i.nombre}}</a></div>
+
+{% endfor %}
+
+
+{% endblock content %}

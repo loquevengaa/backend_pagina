@@ -15,7 +15,7 @@ def mostrar_pedidos():
         abort(404)
     else:
         pedidos=Pedidos.query.filter(
-            Pedidos.chofer==current_user
+            Pedidos.chofer==current_user.id
         ).filter(
             Pedidos.estado=="Enviando"
         )            

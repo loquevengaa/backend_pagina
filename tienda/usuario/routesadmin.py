@@ -290,17 +290,17 @@ def combos_modifica():
 
 
 
-@app.route('/panel/choferes/crear_chofer', methods=['GET','POST'])
+@app.route('/panel/choferes/agregar', methods=['GET','POST'])
 @login_required
 def crear_chofer():
     if not current_user.is_admin():
         abort(404)
     if request.method == 'POST':
         try:
-            nombre= request.form['nombre-chofer']
-            email= request.form['email-chofer']
-            telefono=request.form['telefono-chofer']
-            contrasenia= request.form['contrasenia-chofer']
+            nombre= request.form['nombre']
+            email= request.form['email']
+            telefono=request.form['telefono']
+            contrasenia= request.form['contrasenia']
             chofer=Usuarios(nombre=nombre,
                         email=email,
                         telefono=telefono,
@@ -310,11 +310,12 @@ def crear_chofer():
                         chofer=True,
                         )
             db.session.add(chofer)
-            db.commit()
+            db.session.commit()
             flash(f'Chofer creado con exito')
         except:
-            flash(f'Error al crear Chofer')
-        return redirect(url_for('panel'))
+            flash(f'Error al crear Chofer')   
+
+    return redirect(url_for('choferes'))
 
 
 @app.route('/panel/choferes', methods=['GET','POST'])
@@ -322,6 +323,26 @@ def crear_chofer():
 def choferes():
     if not current_user.is_admin():
         abort(404)
+
+    choferes=Usuarios.query.filter(Usuarios.chofer==1)
+
+    return render_template('choferes.html',choferes=choferes)
+
+
+@app.route('/panel/choferes/perfil/<id>', methods=['GET','POST'])
+@login_required
+def choferes_perfil(id):
+    if not current_user.is_admin() or not current_user.is_chofer() :
+        abort(404)
+
+    pedidos=
+    
+
+
+
+    return render_template('choferes_perfil.html')    
+
+
         
     
 
