@@ -110,9 +110,10 @@ class Combos(db.Model):
     nombre=db.Column(db.String(length=500),nullable=False)
     datos_combo= db.Column(types.JSON(),nullable=False)  # id del producto y cantidad
     precioFinal=db.Column(db.Float(),nullable=False)
+    stock=db.Column(db.Integer(),nullable=False)
     imagen=db.Column(db.String(),nullable=False)
     
-"""
+
 db.drop_all()
 db.create_all()
 
@@ -153,4 +154,3 @@ db.session.add(chofer)
 db.session.commit()
 
 
-"""
