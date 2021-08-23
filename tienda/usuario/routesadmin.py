@@ -329,18 +329,26 @@ def choferes():
     return render_template('choferes.html',choferes=choferes)
 
 
-@app.route('/panel/choferes/perfil/<id>', methods=['GET','POST'])
+@app.route('/panel/choferes/perfil/<chofer_id>', methods=['GET','POST'])
 @login_required
-def choferes_perfil(id):
-    if not current_user.is_admin() or not current_user.is_chofer() :
+def choferes_perfil(chofer_id):
+    if not current_user.is_admin() and not current_user.is_chofer():
         abort(404)
 
-    pedidos=
-    
+    if  not current_user.is_admin():
+        if current_user.id!=chofer_id:
+            abort(404)
+
+    chofer_id=int(chofer_id)
+
+    pedidos=Pedidos.query.filter(Pedidos.chofer==chofer_id)
+
+    print(pedidos)
 
 
 
-    return render_template('choferes_perfil.html')    
+
+    return render_template('choferes_perfil.html',pedidos=pedidos)    
 
 
         
