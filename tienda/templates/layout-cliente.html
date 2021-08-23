@@ -117,11 +117,11 @@
           </div>
           <button class="boton-actualizar" type="submit"><i class="bi bi-arrow-clockwise"></i></button>
           <input type="hidden" name="indice" value="{{articulo[4][0]}}">
-          <input type="hidden" name="tipo" value="producto">
+          <input type="hidden" name="tipo" value="{{articulo[6]}}">
         </form></nobr>
       <div>${{articulo[3]}}</div>
     <div class="elimina-carrito">
-      <form action="/carrito_delete/{{articulo[4][0]}}">
+      <form action="/carrito_delete/{{articulo[4][0]}}/{{articulo[6]}}">
         <button type="submit">X</button>
       </form>
     </div>

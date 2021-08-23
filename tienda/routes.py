@@ -33,6 +33,7 @@ def tienda_page():
 	total=[]
 	pid=[]
 	stock=[]
+	tipo=[]
 	totalfinal=0
 	for articulo in datos:
 		try:
@@ -48,7 +49,7 @@ def tienda_page():
 				stock.append(art.stock)
 				total.append(aux)
 				totalfinal=totalfinal+aux
-
+				tipo.append("producto")
 			else:
 				art = Combos.query.get(articulo["id"])
 				pid.append([articulo["id"]])
@@ -56,13 +57,14 @@ def tienda_page():
 				articulos.append(art.nombre)
 				cantidades.append(abs(articulo["cantidad"]))
 				aux = art.precioFinal*cantidades[-1]
-				stock.append(1)
+				stock.append(art.stock)
 				total.append(aux)
 				totalfinal=totalfinal+aux
+				tipo.append("combo")
 		except:
 			pass
 	d = len(imagen)	
-	articulos=zip(imagen,articulos,cantidades,total,pid,stock)
+	articulos=zip(imagen,articulos,cantidades,total,pid,stock,tipo)
 
 	items= Productos.query.all()
 	
@@ -86,6 +88,7 @@ def categorias(categoria):
 	total=[]
 	pid=[]
 	stock=[]
+	tipo=[]
 	totalfinal=0
 	for articulo in datos:
 		try:
@@ -101,7 +104,7 @@ def categorias(categoria):
 				stock.append(art.stock)
 				total.append(aux)
 				totalfinal=totalfinal+aux
-
+				tipo.append("producto")
 			else:
 				art = Combos.query.get(articulo["id"])
 				pid.append([articulo["id"]])
@@ -109,13 +112,14 @@ def categorias(categoria):
 				articulos.append(art.nombre)
 				cantidades.append(abs(articulo["cantidad"]))
 				aux = art.precioFinal*cantidades[-1]
-				stock.append(1)
+				stock.append(art.stock)
 				total.append(aux)
 				totalfinal=totalfinal+aux
+				tipo.append("combo")
 		except:
 			pass
 	d = len(imagen)	
-	articulos=zip(imagen,articulos,cantidades,total,pid,stock)
+	articulos=zip(imagen,articulos,cantidades,total,pid,stock,tipo)
 
 	items= Productos.query.all()
 	
@@ -137,6 +141,7 @@ def combos_cliente():
 	total=[]
 	pid=[]
 	stock=[]
+	tipo=[]
 	totalfinal=0
 	for articulo in datos:
 		try:
@@ -152,7 +157,7 @@ def combos_cliente():
 				stock.append(art.stock)
 				total.append(aux)
 				totalfinal=totalfinal+aux
-
+				tipo.append("producto")
 			else:
 				art = Combos.query.get(articulo["id"])
 				pid.append([articulo["id"]])
@@ -160,13 +165,14 @@ def combos_cliente():
 				articulos.append(art.nombre)
 				cantidades.append(abs(articulo["cantidad"]))
 				aux = art.precioFinal*cantidades[-1]
-				stock.append(1)
+				stock.append(art.stock)
 				total.append(aux)
 				totalfinal=totalfinal+aux
+				tipo.append("combo")
 		except:
 			pass
 	d = len(imagen)	
-	articulos=zip(imagen,articulos,cantidades,total,pid,stock)
+	articulos=zip(imagen,articulos,cantidades,total,pid,stock,tipo)
 
 	############################################################# END CARRITO
 	#------------------------------------------------------------------------#

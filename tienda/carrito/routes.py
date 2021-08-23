@@ -1,7 +1,7 @@
 from datetime import datetime
 from tienda import app,db
 from flask import render_template,redirect,request, make_response,url_for
-from tienda.models import Productos,Pedidos
+from tienda.models import Productos,Pedidos,Combos
 import json
 
 @app.route('/carrito/add',methods=['GET','POST'])
@@ -52,7 +52,8 @@ def carrito_modify():
 				return redirect(request.referrer) #No hay articulo
 			stock=art.stock
 		else:
-			stock=1 # esto hay que modificarlo cuando exista stock en combos
+			art=Combos.query.get(indice)
+			stock=art.stock # esto hay que modificarlo cuando exista stock en combos
 		try:
 			datos = json.loads(request.cookies.get("carrito"))	 #str(current_user.get_id()			
 		except:
@@ -76,47 +77,15 @@ def carrito_modify():
 	return redirect(request.referrer)
 
 
-
-
-@app.route('/carrito')
-def carrito():
-	try:
-		datos = json.loads(request.cookies.get("carrito"))
-	except:
-		datos = []
-	imagen=[]
-	articulos=[]
-	cantidades=[]
-	total=[]
-	pid=[]
-	totalfinal=0
-	for articulo in datos:
-		try:
-			art = Productos.query.get(articulo["id"])
-			pid.append([articulo["id"]])
-			imagen.append(art.imagen)
-			articulos.append(art.nombre)
-			cantidades.append(articulo["cantidad"])
-			aux = art.precioFinal*articulo["cantidad"]
-			total.append(aux)
-			totalfinal=totalfinal+aux
-		except:
-			pass
-	d = len(imagen)	
-	articulos=zip(imagen,articulos,cantidades,total,pid)
-	return render_template("carrito.html",articulos=articulos,totalfinal=totalfinal,d=d)
-
-
-
-@app.route('/carrito_delete/<id>')
-def carrito_delete(id):
+@app.route('/carrito_delete/<id>/<tipo>')
+def carrito_delete(id,tipo):
 	try:
 		datos = json.loads(request.cookies.get("carrito"))
 	except:
 		datos = []
 	new_datos=[]
 	for dato in datos:
-		if dato["id"]!=id:
+		if not(dato["id"]==id and dato["tipo"]==tipo):
 			new_datos.append(dato)
 	resp = make_response(redirect(request.referrer))
 	resp.set_cookie("carrito",json.dumps(new_datos))

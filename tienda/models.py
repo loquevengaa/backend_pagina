@@ -1,7 +1,7 @@
 from tienda import db ,bcrypt,login_manager
 from flask_login import UserMixin
 import sqlalchemy.types as types
-
+import pandas as pd
 import json
 
 
@@ -113,7 +113,7 @@ class Combos(db.Model):
     stock=db.Column(db.Integer(),nullable=False)
     imagen=db.Column(db.String(),nullable=False)
     
-
+"""
 db.drop_all()
 db.create_all()
 
@@ -152,5 +152,5 @@ chofer=Usuarios(nombre="chofer",
                  )
 db.session.add(chofer)
 db.session.commit()
-
+"""
 

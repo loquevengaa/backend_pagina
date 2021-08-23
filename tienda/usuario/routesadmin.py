@@ -2,7 +2,7 @@ from tienda import app
 import json
 from flask import render_template,redirect,url_for,request,abort,flash
 from flask_login import current_user,login_required,login_user,LoginManager
-from tienda.models import Productos,Usuarios,Pedidos,Combos
+from tienda.models import Productos,Usuarios,Pedidos,Combos,meFijoStock
 
 from tienda import db
 
@@ -120,15 +120,6 @@ def tablapedidos():
 
 
 
-
-
-
-
-
-
-
-
-
 @app.route('/panel/agregar', methods=['GET','POST'])
 @login_required
 def agregar():
@@ -207,11 +198,13 @@ def combos_agregar():
                     nombre=request.form['nombre'],
                     datos_combo=datos,
                     precioFinal=float(request.form['precio']),
+                    stock=1,
                     imagen=imgnombre    
                     )
         db.session.add(nuevoCombo)
-        db.session.commit()        
-        
+        db.session.commit()
+
+        meFijoStock()
     return redirect(url_for('combos'))
 
 
@@ -292,6 +285,7 @@ def combos_modifica():
 
 
         db.session.commit()
+        meFijoStock()
     return redirect(url_for('combos'))
 
 
