@@ -76,7 +76,7 @@ class Pedidos(db.Model):
     email= db.Column(db.String(100))
     fechaHoraPedido=db.Column(db.String(100))
     fechaHoraEntrega=db.Column(db.String(100))
-    estado=db.Column(db.String(length=50),nullable=False)
+    estado=db.Column(db.String(length=50),nullable=False) #estado de envio
     chofer=db.Column(db.Integer(),db.ForeignKey('usuarios.id'))
     descripcion=db.Column(db.String(length=500),nullable=False)
     formaPago=db.Column(db.String(length=100),nullable=False)

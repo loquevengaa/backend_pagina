@@ -102,23 +102,75 @@ def panel():
         print('GET METHOD RECEIVED')
     return render_template('paneldatatable.html',items=Productos.query.all() ) 
 
+###################################################################### INICIO TABLA PEDIDOS
 
 @app.route('/panel/pedidos', methods=['GET','POST'])
 @login_required
 def tablapedidos():
     pedidos = Pedidos.query.all()
     productos = Productos.query.all()
+    combos = Combos.query.all()
     info = [None]*1000 #aca van los datos del carrito
     prod = [None]*1000 #aca van los datos del carrito
+    comb = [None]*1000
+    infocombos = [None]*1000
+    
     for items in pedidos:
         info[items.id] = json.loads(items.datos_pedido)
+
     for items in  productos:
         prod[items.id]=items
 
+    for items in  combos:
+        comb[items.id]=items
+        infocombos[items.id] = json.loads(items.datos_combo)
 
-    return render_template('paneltablapedidos.html',data=pedidos,info=info,productos=productos,prod=prod)
+    choferes=Usuarios.query.filter(Usuarios.chofer==1)
 
 
+    return render_template('paneltablapedidos.html',data=pedidos,info=info,productos=productos,prod=prod,choferes=choferes,combos=combos,comb=comb,infocombos=infocombos)
+
+
+@app.route('/panel/pedidos/chofer', methods=['GET','POST'])
+@login_required
+def tablapedidos_eligechofer():
+    
+    if request.method == 'POST':
+        chofer = request.form['chofer']
+        indice = request.form['indice']
+        pedidos = Pedidos.query.filter_by(id=indice).first()
+        pedidos.chofer = chofer
+        db.session.commit()
+
+    return redirect(url_for('tablapedidos'))
+
+@app.route('/panel/pedidos/estadoenvio', methods=['GET','POST'])
+@login_required
+def tablapedidos_elige_estado_envio():
+    
+    if request.method == 'POST':
+        estado = request.form['estadoenvio']
+        indice = request.form['indice']
+        pedidos = Pedidos.query.filter_by(id=indice).first()
+        pedidos.estado = estado
+        db.session.commit()
+
+    return redirect(url_for('tablapedidos'))
+
+@app.route('/panel/pedidos/estadopago', methods=['GET','POST'])
+@login_required
+def tablapedidos_elige_estado_pago():
+    
+    if request.method == 'POST':
+        estado = request.form['estadopago']
+        indice = request.form['indice']
+        pedidos = Pedidos.query.filter_by(id=indice).first()
+        pedidos.estado = estado
+        db.session.commit()
+
+    return redirect(url_for('tablapedidos'))
+
+################################################################### FIN TABLA PEDIDOS
 
 @app.route('/panel/agregar', methods=['GET','POST'])
 @login_required

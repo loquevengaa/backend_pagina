@@ -1,6 +1,11 @@
 {% extends 'layout-admin.html' %}
 {% block content %}
 
+<details>
+      <summary>StudentResult</summary>
+      <p> The student result are just average...</p>
+     </details> 
+
 <div class="contenido">
 
 	<table id="pedidos" hidden="hidden" class="display" style="width:100%;">
@@ -13,8 +18,8 @@
                 <th>Estado</th>
                 <th>Pago</th>
                 <th>Chofer</th>
-                <th>Comentarios</th>
-                <th>Acción</i></th>
+                <th>Acción</th>
+                <th>Comentarios</th>   
             </tr>
         </thead>
         <tbody>
@@ -31,16 +36,39 @@
            		</div>
            	</td>
 
-           	<td>
+           	<td style="min-width: 200px;">
            		<div class="productos">
            			{%  for j in info[i.id] %}
            			<div>
-           			  {{ j.cantidad }}
-           			  {% if prod[j.id|int]!=None %}
-           			  	{{prod[(j.id | int)].nombre}}	
+           			  
+
+           			  {% if j.tipo=='combo' %}
+           			  	{% if comb[j.id|int]!=None %}
+           			  	<details>
+	           			  <summary style="display:flex; align-items: center;">{{ j.cantidad }} (C) {{comb[(j.id | int)].nombre}} <i class='bx bx-list-plus' style="font-size: 18px; color: red;"></i></summary>
+
+	           			  <div style="margin: 1px solid black;">
+	           			  {% for x in infocombos[j.id|int] %}
+
+	           			  <div style="padding-left: 10px; text-decoration: underline;">{{x.cantidad}} {{prod[(x.id | int)].nombre}}</div>
+
+	           			  {% endfor %}
+	           			  </div>
+	           			  	   		
+	           			</details>	  
+
+
+	           			{% else %}
+	           			<span>Combo Eliminado</span>
+	           			{% endif %}	
            			    
            			  {% else %}
-           			  <span>Producto Eliminado</span>
+
+           			  	{% if prod[j.id|int]!=None %}
+           			  		{{ j.cantidad }} {{prod[(j.id | int)].nombre}}	   			    
+           			  	{% else %}
+           			  	<span>Producto Eliminado</span>
+           			  	{% endif %}
            			  {% endif %}
            			  	 
            			 </div>
@@ -56,50 +84,72 @@
 
            	<td>
            		<span hidden="hidden">{{i.estado}}</span>
-           		<form>
-           		<select>
-           			<option type="text" value="{{i.estado}}">{{i.estado}}</option>
-           			<option>Enviando</option>
-           			<option>Entregado</option>
-           			<option>Cancelado</option>
-           		</select>
+           		<form method="POST" action="/panel/pedidos/estadoenvio">
+	           		<select name="estadoenvio" onchange="this.form.submit();">
+	           			<option type="text" value="{{i.estado}}">{{i.estado}}</option>
+	           			<option type="text" value="Enviado">Enviando</option>
+	           			<option type="text" value="Entregado">Entregado</option>
+	           			<option type="text" value="Cancelado">Cancelado</option>
+	           		</select>
+	           		<input type="hidden" name="indice" value="{{i.id}}">
            		</form>
            	</td>
 
            	<td class="datos-pago">
            		<div>Medio de Pago:</br> {{i.formaPago}}</div>
            		<div>
-           			<form>
-           			<select name="estado-pago">
-	           			<option>en espera</option>
-	           			<option>pagado</option>
-	           			<option>cancelado</option>
+           			<form method="POST" action="/panel/pedidos/estadopago">
+           			<select name="estadopago" onchange="this.form.submit();">
+           				<option type="text" value="{{i.formaPago}}">{{i.formaPago}}</option>
+	           			<option type="text" value="En espera">En espera</option>
+	           			<option type="text" value="Pagado">Pagado</option>
+	           			<option type="text" value="Cancelado">Cancelado</option>
            			</select>
+           			<input type="hidden" name="indice" value="{{i.id}}">
            		</form>
            		</div>
            		<div>Total: ${{i.costo}}</div>
            	</td>
 
            	<td>
-           		<form method="POST" action="">
-           			<select>
-	           			<option>{{i.chofer}}</option>
-	           			<option>chofer 1</option>
-	           			<option>chofer 2</option>
-	           			<option>chofer 3</option>
-	           			<option>chofer 4</option>
-	           			<option>chofer 5</option>
+           		<form method="POST" action="/panel/pedidos/chofer">
+           			<select name="chofer" onchange="this.form.submit();">
+           				{% if i.chofer != None %} <!-- si el chofer ya esta elegido, hay que mostrarlo como seleccionado -->
+	           				<!-- muestra el primer chofer como el chofer elegido -->
+		           			{% for j in choferes %}
+			           			{% if i.chofer == j.id %}
+			           				<option value="{{j.id}}" >{{j.nombre}}</option>
+			           			{% endif %}
+		           			{% endfor %}
+
+
+		           			<!-- muestra el resto de choferes -->
+		           			{% for j in choferes %}
+			           			{% if i.chofer != j.id %}
+			           				<option value="{{j.id}}">{{j.nombre}}</option>
+			           			{% endif %}
+		           			{% endfor %}
+
+		           		{% else %} <!-- si no hay chofer elegido, muestra "elegir" -->
+		           			<option value="None">Elegir</option>
+		           			{% for j in choferes %}
+			           			<option value="{{j.id}}">{{j.nombre}}</option>
+		           			{% endfor %}
+	           			{% endif %}
            			</select>
+           			<input type="hidden" name="indice" value="{{i.id}}">
            		</form>
            		
            	</td>
 
-           	<td>
-           		<div style="max-width: 200px; font-size: 13px; font-weight: normal;">{{i.descripcion}}</div>
-           	</td>
+           	
            	<td>
            		<a target="_blank" href="whatsapp://send?phone={{i.telefono}}&text=Hola%20{{i.nombre}}%20recibimos tu pedido ID: {{i.id}}."><button><i class="bi bi-check-circle-fill" style="color: green;"></i></button></a>
            		<a target="_blank" href="whatsapp://send?phone=5492235062720&text=Hola%20{{i.nombre}}%20por x razon no podemos concretar tu compra."><button><i class="bi bi-x-circle-fill" style="color: red;"></i></button></a>
+           	</td>
+
+           	<td>
+           		<div style="max-width: 200px; font-size: 13px; font-weight: normal;">{{i.descripcion}}</div>
            	</td>
            </tr>
            {% endfor %}
