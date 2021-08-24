@@ -1,11 +1,6 @@
 {% extends 'layout-admin.html' %}
 {% block content %}
 
-<details>
-      <summary>StudentResult</summary>
-      <p> The student result are just average...</p>
-     </details> 
-
 <div class="contenido">
 
 	<table id="pedidos" hidden="hidden" class="display" style="width:100%;">
@@ -45,7 +40,7 @@
            			  {% if j.tipo=='combo' %}
            			  	{% if comb[j.id|int]!=None %}
            			  	<details>
-	           			  <summary style="display:flex; align-items: center;">{{ j.cantidad }} (C) {{comb[(j.id | int)].nombre}} <i class='bx bx-list-plus' style="font-size: 18px; color: red;"></i></summary>
+	           			  <summary style="display:flex; align-items: center;">{{ j.cantidad }} {{comb[(j.id | int)].nombre}} <i class='bx bx-list-plus' style="font-size: 18px; color: red;"></i></summary>
 
 	           			  <div style="margin: 1px solid black;">
 	           			  {% for x in infocombos[j.id|int] %}

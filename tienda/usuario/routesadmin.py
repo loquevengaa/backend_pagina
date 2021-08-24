@@ -114,7 +114,7 @@ def tablapedidos():
     prod = [None]*1000 #aca van los datos del carrito
     comb = [None]*1000
     infocombos = [None]*1000
-    
+
     for items in pedidos:
         info[items.id] = json.loads(items.datos_pedido)
 
@@ -165,7 +165,7 @@ def tablapedidos_elige_estado_pago():
         estado = request.form['estadopago']
         indice = request.form['indice']
         pedidos = Pedidos.query.filter_by(id=indice).first()
-        pedidos.estado = estado
+        pedidos.formaPago = estado
         db.session.commit()
 
     return redirect(url_for('tablapedidos'))
