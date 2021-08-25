@@ -1,12 +1,141 @@
 {% extends 'layout-admin.html' %}
 {% block content %}
 
+<div class="contenido">
 
-{% for i in pedidos %}
+<table id="pedidos" hidden="hidden" class="display" style="width:100%;">
+        <thead>
+            <tr>
+            	<th>ID</th>
+                <th>Datos</th>
+                <th>Productos</th>
+                <th>Hora Pedido</th>
+                <th>Estado</th>
+                <th>Pago</th>
+                <th>Comentarios</th>   
+            </tr>
+        </thead>
+        <tbody>
+        	{%for i in data %}
+           <tr>
+           	<td>{{i.id}}</td>
 
-<div>{{i.costo}}</div>
+           	<td>
+           		<div class="datos">
+           			<span><i class='bx bxs-face'></i> {{i.nombre}}</span>
+           			<span><i class="bi bi-whatsapp"></i> {{i.telefono}}</span>
+           			<span><i class='bx bxs-envelope' ></i> {{i.email}}</span>
+           			<span><i class="bi bi-house-door-fill"></i> {{i.direccion}}</span>
+           		</div>
+           	</td>
 
-{% endfor %}
+           	<td style="min-width: 200px;">
+           		<div class="productos">
+           			{%  for j in info[i.id] %}
+           			<div>
+           			  
+
+           			  {% if j.tipo=='combo' %}
+           			  	{% if comb[j.id|int]!=None %}
+           			  	<details>
+	           			  <summary style="display:flex; align-items: center;">{{ j.cantidad }} {{comb[(j.id | int)].nombre}} <i class='bx bx-list-plus' style="font-size: 18px; color: red;"></i></summary>
+
+	           			  <div style="margin: 1px solid black;">
+	           			  {% for x in infocombos[j.id|int] %}
+
+	           			  <div style="padding-left: 10px; text-decoration: underline;">{{x.cantidad}} {{prod[(x.id | int)].nombre}}</div>
+
+	           			  {% endfor %}
+	           			  </div>
+	           			  	   		
+	           			</details>	  
+
+
+	           			{% else %}
+	           			<span>Combo Eliminado</span>
+	           			{% endif %}	
+           			    
+           			  {% else %}
+
+           			  	{% if prod[j.id|int]!=None %}
+           			  		{{ j.cantidad }} {{prod[(j.id | int)].nombre}}	   			    
+           			  	{% else %}
+           			  	<span>Producto Eliminado</span>
+           			  	{% endif %}
+           			  {% endif %}
+           			  	 
+           			 </div>
+           			  
+           			{% endfor %}
+           			
+           		</div>
+           	</td>
+
+           	<td>
+           		{{i.fechaHoraPedido[:16]}}
+           	</td>
+
+           	<td>
+           		<span>{{i.estado}}</span>
+           	</td>
+
+           	<td class="datos-pago">
+           		<div>Medio de Pago:</br> {{i.formaPago}}</div>
+           		<div>Total: ${{i.costo}}</div>
+           	</td>       	
+           	<td>
+           		<div style="max-width: 200px; font-size: 13px; font-weight: normal;">{{i.descripcion}}</div>
+           	</td>
+           </tr>
+           {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+<script src="//cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.js"></script>
+
+<script>
+    if ( window.history.replaceState ) {
+        window.history.replaceState( null, null, window.location.href );
+    }
+</script>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+    $('#pedidos').DataTable({
+    	responsive: true,
+		bProcessing: true,
+		stateSave: true,
+		stateDuration: 60,
+		order: [[3, 'desc']],
+		columnDefs: [
+		{orderable: false, targets: [0,1,2,3,4,5,6]}
+		],
+		language: {
+			search: 'Buscar:',
+			zeroRecords: 'No se encontraron registros.',
+			lengthMenu: "Mostrar _MENU_ registros",
+			infoEmpty: "Mostrando registros del 0 al 0 de un total de 0 registros",
+    		infoFiltered: "(filtrado de un total de _MAX_ registros)",
+    		info: "Mostrando de _START_ a _END_ de _TOTAL_ registros",
+			paginate: {
+		        first: "Primero",
+		        last: "Último",
+		        next: "Siguiente",
+		        previous: "Anterior"
+		    },
+		},
+
+		"initComplete": function(settings, json) {
+     $('#pedidos').show();
+     },
+  });
+
+} );
+</script>
 
 
 {% endblock content %}

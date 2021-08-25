@@ -341,6 +341,31 @@ def combos_modifica():
     return redirect(url_for('combos'))
 
 
+################################################################### INICIA CHOFERES
+@app.route('/panel/choferes', methods=['GET','POST'])
+@login_required
+def choferes():
+    if not current_user.is_admin():
+        abort(404)
+
+    choferes=Usuarios.query.filter(Usuarios.chofer==1)
+
+    return render_template('choferes.html',choferes=choferes)
+
+@app.route('/panel/choferes/eliminar', methods=['GET','POST'])
+@login_required
+def choferes_eliminar():
+    if not current_user.is_admin():
+        abort(404)
+
+    if request.method=='POST':
+        indice = request.form['idchofer']
+        chofer=Usuarios.query.filter_by(id=indice).first()
+        db.session.delete(chofer)
+        db.session.commit()
+
+    return redirect(url_for('choferes'))
+
 
 @app.route('/panel/choferes/agregar', methods=['GET','POST'])
 @login_required
@@ -369,18 +394,6 @@ def crear_chofer():
 
     return redirect(url_for('choferes'))
 
-
-@app.route('/panel/choferes', methods=['GET','POST'])
-@login_required
-def choferes():
-    if not current_user.is_admin():
-        abort(404)
-
-    choferes=Usuarios.query.filter(Usuarios.chofer==1)
-
-    return render_template('choferes.html',choferes=choferes)
-
-
 @app.route('/panel/choferes/perfil/<chofer_id>', methods=['GET','POST'])
 @login_required
 def choferes_perfil(chofer_id):
@@ -394,15 +407,28 @@ def choferes_perfil(chofer_id):
     chofer_id=int(chofer_id)
 
     pedidos=Pedidos.query.filter(Pedidos.chofer==chofer_id)
+    productos = Productos.query.all()
+    combos = Combos.query.all()
+    info = [None]*1000 #aca van los datos del carrito
+    prod = [None]*1000 #aca van los datos del carrito
+    comb = [None]*1000
+    infocombos = [None]*1000
 
-    print(pedidos)
+    for items in pedidos:
+        info[items.id] = json.loads(items.datos_pedido)
+
+    for items in  productos:
+        prod[items.id]=items
+
+    for items in  combos:
+        comb[items.id]=items
+        infocombos[items.id] = json.loads(items.datos_combo)
+
+    choferes=Usuarios.query.filter(Usuarios.chofer==1)
 
 
-
-
-    return render_template('choferes_perfil.html',pedidos=pedidos)    
-
-
+    return render_template('choferes_perfil.html',data=pedidos,info=info,productos=productos,prod=prod,choferes=choferes,combos=combos,comb=comb,infocombos=infocombos)
+ 
         
-    
+############################################################################# FIN CHOFERES
 
