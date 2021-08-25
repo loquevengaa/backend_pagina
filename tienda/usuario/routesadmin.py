@@ -140,6 +140,7 @@ def tablapedidos_eligechofer():
         indice = request.form['indice']
         pedidos = Pedidos.query.filter_by(id=indice).first()
         pedidos.chofer = chofer
+        pedidos.estado = 'Enviando'
         db.session.commit()
 
     return redirect(url_for('tablapedidos'))
@@ -165,7 +166,7 @@ def tablapedidos_elige_estado_pago():
         estado = request.form['estadopago']
         indice = request.form['indice']
         pedidos = Pedidos.query.filter_by(id=indice).first()
-        pedidos.formaPago = estado
+        pedidos.estadoPago = estado
         db.session.commit()
 
     return redirect(url_for('tablapedidos'))

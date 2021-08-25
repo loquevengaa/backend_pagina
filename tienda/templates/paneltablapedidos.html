@@ -79,15 +79,32 @@
 
            	<td>
            		<span hidden="hidden">{{i.estado}}</span>
+
+
+           		{% if i.estado != 'Cancelado' %}
            		<form method="POST" action="/panel/pedidos/estadoenvio">
 	           		<select name="estadoenvio" onchange="this.form.submit();">
+
 	           			<option type="text" value="{{i.estado}}">{{i.estado}}</option>
-	           			<option type="text" value="Enviado">Enviando</option>
-	           			<option type="text" value="Entregado">Entregado</option>
-	           			<option type="text" value="Cancelado">Cancelado</option>
+
+	           			{% if i.estado != 'Enviando' %}
+	           				<option type="text" value="Enviando">Enviando</option>
+	           			{% endif %}
+
+	           			{% if i.estado != 'Entregado' %}
+	           				<option type="text" value="Entregado">Entregado</option>
+	           			{% endif %}
+
+	           			{% if i.estado != 'Cancelado' %}
+	           				<option type="text" value="Cancelado">Cancelado</option>
+	           			{% endif %}   			
+	           			
 	           		</select>
 	           		<input type="hidden" name="indice" value="{{i.id}}">
            		</form>
+           		{% else %}
+           		<span>Cancelado</span>
+           		{% endif %}
            	</td>
 
            	<td class="datos-pago">
@@ -95,10 +112,21 @@
            		<div>
            			<form method="POST" action="/panel/pedidos/estadopago">
            			<select name="estadopago" onchange="this.form.submit();">
-           				<option type="text" value="{{i.formaPago}}">{{i.formaPago}}</option>
-	           			<option type="text" value="En espera">En espera</option>
+
+           				<option type="text" value="{{i.estadoPago}}">{{i.estadoPago}}</option>
+
+           				{% if i.estadoPago != 'En espera' %}
+	           				<option type="text" value="En espera">En espera</option>
+	           			{% endif %}
+
+						{% if i.estadoPago != 'Pagado' %}
 	           			<option type="text" value="Pagado">Pagado</option>
+						{% endif %}
+
+						{% if i.estadoPago != 'Cancelado' %}
 	           			<option type="text" value="Cancelado">Cancelado</option>
+	           			{% endif %}
+
            			</select>
            			<input type="hidden" name="indice" value="{{i.id}}">
            		</form>
