@@ -7,7 +7,7 @@
 <div class="productos-grid">
     {%for item in items %}
     <div class="producto {{item.categoria}}">
-      {% if item.stock == 0%}
+      {% if item.stock <= 0%}
       <div class="sin-stock">
         <div class="sin-stock-tag">Sin Stock</div>
       </div>

@@ -17,6 +17,9 @@
         </thead>
         <tbody>
         	{%for i in data %}
+
+        	{% if i.estado != 'Cancelado' %}
+
            <tr>
            	<td>{{i.id}}</td>
 
@@ -88,6 +91,7 @@
            		<div style="max-width: 200px; font-size: 13px; font-weight: normal;">{{i.descripcion}}</div>
            	</td>
            </tr>
+           {% endif %}
            {% endfor %}
         </tbody>
     </table>

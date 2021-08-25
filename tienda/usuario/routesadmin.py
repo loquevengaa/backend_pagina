@@ -214,6 +214,8 @@ def agregar():
 
 def combos():
 
+    meFijoStock()
+
     productos = Productos.query.all()
     combos= Combos.query.all()
 

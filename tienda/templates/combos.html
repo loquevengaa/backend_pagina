@@ -77,6 +77,12 @@
     {%for i in items %}
     <div class="producto">
 
+      {% if i.stock <= 0 %}
+      <div class="sin-stock">
+        <div class="sin-stock-tag">Sin Stock</div>
+      </div>
+      {% endif %}
+
       <div class="img-container">
         <img class="img" src="../static/media/productos/{{i.imagen}}">
         <form action="/carrito/add" method="POST" style="position: absolute; bottom: 0; padding: 5px;">

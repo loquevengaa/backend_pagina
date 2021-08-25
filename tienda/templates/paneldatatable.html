@@ -93,11 +93,11 @@
 
              <td>
              	<div class="numero">							
-					<div><b>{{i.stock}}</b></div>
+					<div><b>({{i.stock}})</b></div>
 					<div>+</div>
 					<form action="/panel" method="POST" name="cambiastock" style="text-align: center;">
 					
-					<input type="number" name="cantidad" placeholder="0" class="form">
+					<input type="number" name="cantidad"  class="form">
 					<input type="hidden" name="indice" value="{{i.id}}">
 					<input type="hidden" name="tipo" value="cambiastock">
 					

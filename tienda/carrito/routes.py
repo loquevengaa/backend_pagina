@@ -1,6 +1,6 @@
 from datetime import datetime
 from tienda import app,db
-from flask import render_template,redirect,request, make_response,url_for
+from flask import render_template,redirect,request, make_response,url_for,flash
 from tienda.models import Productos,Pedidos,Combos
 import json
 
@@ -101,6 +101,52 @@ def pedido():
 			return redirect(url_for("tienda_page"))
 		if len(datos)==0:
 			return redirect(url_for("tienda_page"))
+
+
+	##################################### CALCULA EL TOTAL / RETIRA STOCK
+
+
+
+		total=0
+
+		for articulo in datos:
+
+			if articulo['tipo'] == 'producto':         # si es un producto, retira stock del producto
+				producto = Productos.query.get(articulo["id"])
+				stock_futuro = producto.stock - articulo['cantidad']
+				total += producto.precioFinal*articulo["cantidad"]
+
+				if stock_futuro<0:
+					flash(f'No hay stock suficiente de "'+producto.nombre+'", por favor seleccione hasta '+str(producto.stock)+' unidades.')
+					return redirect(url_for("tienda_page"))
+				else:
+					producto.stock = stock_futuro
+
+			elif articulo['tipo'] == 'combo':   # SI ES UN COMBO, ITERA LOS PRODUCTOS QUE LO CONFORMAn Y LUEGO LOS RETIRA
+				combo = Combos.query.get(articulo['id'])
+				datos_combo = json.loads(combo.datos_combo)
+
+				for prod in datos_combo:
+					producto = Productos.query.get(prod["id"])
+
+					stock_futuro = producto.stock - articulo['cantidad']*prod['cantidad']		
+
+					if stock_futuro<0:
+						flash(f'No hay stock suficiente de "'+producto.nombre+'", por favor seleccione hasta '+str(producto.stock)+' unidades.')
+						return redirect(url_for("tienda_page"))
+					else:
+						producto.stock = stock_futuro
+				total += combo.precioFinal*articulo["cantidad"]
+
+				
+
+
+				
+
+		#####################################
+
+	
+
 		if request.method=='POST':	#finaliza la compra
 			nombre = request.form['nombre']
 			telefono=request.form['cod-int']+request.form['cod-area']+request.form['telefono']
@@ -108,14 +154,7 @@ def pedido():
 			direccion = request.form['direccion']
 			comentarios = request.form['comentarios']
 			mediopago = request.form['mediopago']
-			######################################
-			total=0
-			try:
-				for articulo in datos:
-					total += Productos.query.get(articulo["id"]).precioFinal*articulo["cantidad"]
-				#####################################
-			except:
-				pass
+
 			if cookies:	
 				nuevoPedido=Pedidos(direccion=direccion,
 									nombre=nombre,

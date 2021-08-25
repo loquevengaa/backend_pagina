@@ -94,7 +94,10 @@
                     </form>
 
                     <form method="POST" action="/panel/combos/modifica">
-                     <button type="submit" name="idproducto" value="{{ j.id }}"><i class="bi bi-x-circle-fill" style="color: red;"></i></button>
+                     {% if info[i.id][0] != info[i.id][-1] %}
+                        <button type="submit" name="idproducto" value="{{ j.id }}"><i class="bi bi-x-circle-fill" style="color: red;"></i></button>
+                     {% endif %}
+
                     <input type="hidden" name="indice" value="{{i.id}}">
                      <input type="hidden" name="tipo" value="eliminaproducto">
                     </form>
