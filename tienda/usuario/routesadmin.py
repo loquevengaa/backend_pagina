@@ -154,6 +154,25 @@ def tablapedidos_elige_estado_envio():
         indice = request.form['indice']
         pedidos = Pedidos.query.filter_by(id=indice).first()
         pedidos.estado = estado
+
+        if estado == 'Cancelado':
+
+            productos_pedido = json.loads(pedidos.datos_pedido)
+
+            for articulo in productos_pedido:
+
+                if articulo['tipo'] == 'producto':         # si es un producto, retira stock del producto
+                    producto = Productos.query.get(articulo["id"])
+                    producto.stock += articulo['cantidad']
+                    
+                elif articulo['tipo'] == 'combo':   # SI ES UN COMBO, ITERA LOS PRODUCTOS QUE LO CONFORMAn Y LUEGO LOS RETIRA
+                    combo = Combos.query.get(articulo['id'])
+                    datos_combo = json.loads(combo.datos_combo)
+
+                    for prod in datos_combo:
+                        producto = Productos.query.get(prod["id"])
+                        producto.stock += articulo['cantidad']*prod['cantidad']       
+
         db.session.commit()
 
     return redirect(url_for('tablapedidos'))
