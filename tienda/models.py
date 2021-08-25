@@ -80,6 +80,7 @@ class Pedidos(db.Model):
     chofer=db.Column(db.Integer(),db.ForeignKey('usuarios.id'))
     descripcion=db.Column(db.String(length=500),nullable=False)
     formaPago=db.Column(db.String(length=100),nullable=False)
+    estadoPago=db.Column(db.String(length=100),nullable=False)
     datos_pedido= db.Column(types.JSON(),nullable=False)
     costo=db.Column(db.Float(),nullable=False) 
     #costo=db.relationship('Costo_pedido',backref='pedido')

@@ -2,28 +2,134 @@
 {% block content %}
 
 {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            {% for category,messages in messages %}
-                <p>{{messages}}</p>
-            {% endfor %}
-        {% endif %}
-        {% endwith %}
+{% if messages %}
+    {% for category,messages in messages %}
+        <p>{{messages}}</p>
+    {% endfor %}
+{% endif %}
+{% endwith %}
 
-<form method="POST" action="/panel/choferes/agregar">
 
-	<input type="text" name="nombre">
-	<input type="email" name="email">
-	<input type="telefono" name="telefono" value="5492235">
-	<input type="text" name="contrasenia">
-	<button type="submit">Agregar</button>
+<style type="text/css">
 
-</form>
+	.fila-chofer {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		align-items: center;
+		max-width: 500px;
+		padding: 5px;
+		margin: 1px;
+		margin: auto;
+	}
+
+	.fila-chofer div {
+		display: flex;
+		align-items: center;
+		justify-content: flex-end;
+	}
+
+	.fila-chofer .wp {
+		font-size: 18px;
+		background-color: green;
+		border: none;
+		border-radius: 5px;
+		margin-right: 5px;
+	}
+
+	
+</style>
+
+
+<div class="contenido">
+
+<button id="show">Agregar Chofer</button>
+
+<div class="formulario-chofer n-chofer" hidden>
+
+	<form method="POST" action="/panel/choferes/agregar">
+
+		<label for="nombre">Nombre</label>
+		<input type="text" name="nombre" required><br></br>
+
+		<label for="email">Email</label>
+		<input type="email" name="email" required><br></br>
+
+		<label for="telefono">Telefono</label>
+		<input type="number" name="telefono" value="5492235" required min="11111111"> <span>(importante que este bien escrito).<br></br>
+
+		<label for="contrasenia">Contraseña</label>
+		<input type="text" name="contrasenia" required></span><br></br>
+
+		<button type="submit">Agregar</button>
+
+	</form>
+
+</div>
 
 {% for i in choferes %}
 
-<div><a href="/panel/choferes/perfil/{{i.id}}">{{i.nombre}}</a></div>
+<div class="fila-chofer">
+	<a href="/panel/choferes/perfil/{{i.id}}">{{i.nombre}}</a>
+	<div>
+		<a target="_blank" href="whatsapp://send?phone={{i.telefono}}"><button class="wp"><i class='bx bxl-whatsapp' style="color: white; font-size: 18px;"></i></button></a>
+	 	<button class="eliminar-chofer" data-id="{{i.id}}"><i class="bi bi-x-circle-fill" style="color: red;"></i></button>
+	</div>
+</div>
 
 {% endfor %}
+
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">¿Estas seguro?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+      <p>Si eliminas el chofer se perderan todos sus registros, estos no se podrán volver a recuperar.</p>
+        
+      </div>
+      <div class="modal-footer">
+
+      	<form method="POST" action="/panel/choferes/eliminar">
+      		<input type="hidden" name="idchofer" class="idchofer" value="">
+      		<button type="submit" class="btn btn-danger">Eliminar</button>
+      		<button type="button" class="btn btn-warning" data-dismiss="modal">Cerrar</button>   		
+      	</form>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+<script src="//cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.js"></script>
+
+<script>
+$(document).ready(function(){
+
+    $('#show').click(function() {
+      $('.n-chofer').toggle(200);  
+    });
+});
+</script>
+
+<script type="text/javascript">
+   $(".eliminar-chofer").click(function () {
+    var ids = $(this).attr('data-id');
+    $(".idchofer").val( ids );
+    $('#myModal').modal('show');
+});
+</script>
 
 
 {% endblock content %}
