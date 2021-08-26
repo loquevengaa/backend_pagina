@@ -16,7 +16,8 @@ def carrito_add():
 				return redirect(request.referrer) #No hay articulo
 			stock=art.stock
 		else:
-			stock=1 # esto hay que modificarlo cuando exista stock en combos		
+			art=Combos.query.get(indice)
+			stock=art.stock # esto hay que modificarlo cuando exista stock en combos		
 		try:
 			datos = json.loads(request.cookies.get("carrito"))	 #str(current_user.get_id()			
 		except:
