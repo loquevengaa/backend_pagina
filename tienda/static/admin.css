@@ -12,6 +12,15 @@ body {
 
 	/* --------- BARRA NAVEGACION ------------- */
 
+	a {
+		text-decoration: none !important;
+	}
+
+	a:hover {
+		color: white !important;
+		font-weight: bold;
+	}
+
  	.nav-admin {
  		display: grid;
  		grid-template-columns: repeat(5, 1fr);

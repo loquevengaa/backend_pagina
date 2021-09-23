@@ -102,7 +102,7 @@
   <main>{% block content %}{% endblock content %}</main>
 
 
-<div class="mostrar-carrito">
+<div class="mostrar-carrito" s>
   {% if d!=0 %}
   <div class="box-container">
     {% for articulo in articulos %}
@@ -131,6 +131,9 @@
   <div class="cerrar-precio">
     <div>PRECIO FINAL: ${{totalfinal}}</div>
     <div><a href="/pedido"><button>FINALIZAR COMPRA</button></a><button class="boton-carrito">CERRAR</button></div>
+    <div class="cartel-carrito" style="background-color: red; margin-top: 5px;">
+      <span>Atención! Demora Estimada: <b>30min</b> | ¡ Envio Gratis a partir de <b>$2000</b> !</span>
+    </div>
     
     {% else %}
     <div>SU CARRITO ESTA VACIOO</div>
@@ -204,5 +207,25 @@
 </script>
 
 </body>
-<footer>asd</footer>
+<footer> 
+  <div class="contacto">
+    <h3>Contactanos</h3>
+    <ul>
+      <li><i class='bx bxl-instagram'></i> &nbsp;@tiendaqueen</li>
+      <li><i class='bx bxl-whatsapp' ></i> &nbsp;+549 2235123456</li>
+      <li><i class='bx bx-envelope' ></i> &nbsp;info@tiendaqueen.com</li>
+    </ul>
+  </div>
+
+  <div>
+    <h4>Zona 1: $100</h4>
+    <img src="../static/media/lugarmdp.png" alt="">
+  </div>
+
+  <div>
+    <h4>Zona 2: $150</h4>
+    <img src="../static/media/lugarmdp.png" alt="">
+  </div>
+  
+</footer>
 </html>

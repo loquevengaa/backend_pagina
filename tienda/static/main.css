@@ -400,14 +400,51 @@ body,html {
     justify-content: center;
   }
 
+  .logo a {
+    text-decoration: none;
+    color: white !important;
+  }
+
   footer {
     background: #88304E;
-    height: 150px;
+    height: min-content;
     width: 100%;
     max-width: 1050px;
     margin: auto;
     border-top-right-radius: 5px;
     border-top-left-radius: 5px;
+    text-align: center;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    color: white;
+  }
+
+  footer img {
+    display: block;
+    margin: auto;
+    margin-bottom: 15px;
+    border-radius: 5px !important;
+  }
+
+  footer .contacto {
+    color: white;
+    justify-content: left;
+  }
+
+  .contacto ul {
+    list-style: none;
+    text-align: left;
+  }
+
+  .contacto i {
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+  }
+
+  .contacto li {
+    display: flex;
+    align-items: center;
   }
 
   @media (max-width: 550px) {
