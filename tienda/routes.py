@@ -121,8 +121,8 @@ def categorias(categoria):
 	d = len(imagen)	
 	articulos=zip(imagen,articulos,cantidades,total,pid,stock,tipo)
 
-	items= Productos.query.all()
-	
+	items= Productos.query.filter_by(categoria=categoria)
+	#producto=Productos.query.filter_by(id=indice).first()
 	return render_template('home.html',items=items,articulos=articulos,totalfinal=totalfinal,d=d)
 
 

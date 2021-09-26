@@ -40,6 +40,9 @@ patch_request_class(app)
 @app.route('/panel', methods = ['POST','GET'])
 @login_required
 def panel():
+    if current_user.is_chofer():
+        return redirect("/pedidos/choferes")
+       # redirect(url_for("/pedidos/choferes"))
     if not current_user.is_admin():
         abort(404)
     if request.method == 'POST':

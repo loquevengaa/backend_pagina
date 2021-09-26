@@ -124,29 +124,26 @@ def pedido():
 					producto.stock = stock_futuro
 
 			elif articulo['tipo'] == 'combo':   # SI ES UN COMBO, ITERA LOS PRODUCTOS QUE LO CONFORMAn Y LUEGO LOS RETIRA
-				combo = Combos.query.get(articulo['id'])
-				datos_combo = json.loads(combo.datos_combo)
+				try:
+					combo = Combos.query.get(articulo['id'])
+					datos_combo = json.loads(combo.datos_combo)
 
-				for prod in datos_combo:
-					producto = Productos.query.get(prod["id"])
+					for prod in datos_combo:
+						producto = Productos.query.get(prod["id"])
 
-					stock_futuro = producto.stock - articulo['cantidad']*prod['cantidad']		
+						stock_futuro = producto.stock - articulo['cantidad']*prod['cantidad']		
 
-					if stock_futuro<0:
-						flash(f'No hay stock suficiente de "'+producto.nombre+'", por favor seleccione hasta '+str(producto.stock)+' unidades.')
-						return redirect(url_for("tienda_page"))
-					else:
-						producto.stock = stock_futuro
-				total += combo.precioFinal*articulo["cantidad"]
-
-				
-
-
-				
+						if stock_futuro<0:
+							flash(f'No hay stock suficiente de "'+producto.nombre+'", por favor seleccione hasta '+str(producto.stock)+' unidades.')
+							return redirect(url_for("tienda_page"))
+						else:
+							producto.stock = stock_futuro
+					total += combo.precioFinal*articulo["cantidad"]
+				except:
+					pass
+						
 
 		#####################################
-
-	
 
 		if request.method=='POST':	#finaliza la compra
 			nombre = request.form['nombre']
